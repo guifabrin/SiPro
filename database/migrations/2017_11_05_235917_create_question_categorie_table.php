@@ -32,6 +32,6 @@ class QuestionCategorie extends Migration
      */
     public function down()
     {
-        Schema::drop('question_categories');
+        Schema::dropIfExists('question_categories');
     }
 }

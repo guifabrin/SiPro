@@ -30,6 +30,6 @@ class QuestionsInTests extends Migration
      */
     public function down()
     {
-        Schema::drop('questions_in_tests');
+        Schema::dropIfExists('questions_in_tests');
     }
 }

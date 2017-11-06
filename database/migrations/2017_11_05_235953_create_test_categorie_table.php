@@ -32,6 +32,6 @@ class TestCategorie extends Migration
      */
     public function down()
     {
-        Schema::drop('test_categories');
+        Schema::dropIfExists('test_categories');
     }
 }

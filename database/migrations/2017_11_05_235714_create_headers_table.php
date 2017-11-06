@@ -35,6 +35,6 @@ class Header extends Migration
      */
     public function down()
     {
-        Schema::drop('header');
+        Schema::dropIfExists('header');
     }
 }
