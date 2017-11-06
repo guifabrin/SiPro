@@ -19,6 +19,6 @@ class Question extends Model
      * @var array
      */
     protected $fillable = [
-        'json', 'categorie_id','user_id', 'soft_delete'
+        'description', 'imageb64', 'type', 'categorie_id', 'user_id', 'soft_delete'
     ];
 }

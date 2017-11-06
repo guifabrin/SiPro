@@ -13,7 +13,18 @@ class Question extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('questions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('categorie_id')->nullable()->unsigned();
+            $table->foreign('categorie_id')->references('id')->on('question_categories');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('description');
+            $table->text('imageb64');
+            $table->int('type');
+            $table->boolean('soft_delete');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +34,7 @@ class Question extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('questions');
     }
+}
 }
