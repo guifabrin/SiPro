@@ -13,7 +13,17 @@ class Header extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('header', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('school');
+            $table->string('title');
+            $table->string('subtitle');
+            $table->string('observation');
+            $table->boolean('teacher');
+            $table->boolean('date');
+            $table->double('value', 8, 2);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +33,6 @@ class Header extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('header');
     }
 }

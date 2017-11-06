@@ -19,6 +19,6 @@ class Header extends Model
      * @var array
      */
     protected $fillable = [
-        'json', 'soft_delete'
+        'school', 'title', 'subtitle', 'observation', 'teacher', 'date', 'value', 'imageb64', 'soft_delete'
     ];
 }
