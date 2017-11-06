@@ -13,7 +13,16 @@ class Test extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('tests', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('categorie_id')->nullable()->unsigned();
+            $table->foreign('categorie_id')->references('id')->on('test_categories');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('description');
+            $table->boolean('soft_delete');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +32,6 @@ class Test extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('tests');
     }
 }

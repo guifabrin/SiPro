@@ -19,6 +19,6 @@ class Test extends Model
      * @var array
      */
     protected $fillable = [
-        'json', 'categorie_id', 'user_id','soft_delete'
+        'categorie_id', 'user_id', 'description', 'soft_delete'
     ];
 }
