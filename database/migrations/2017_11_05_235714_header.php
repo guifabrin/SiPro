@@ -22,6 +22,7 @@ class Header extends Migration
             $table->boolean('teacher');
             $table->boolean('date');
             $table->double('value', 8, 2);
+            $table->text('imageb64');
             $table->timestamps();
         });
     }
