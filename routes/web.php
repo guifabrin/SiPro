@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('home.welcome');
+});
+
+Route::get('/policy', function () {
+    return view('home.policy');
 });
 
 Auth::routes();
