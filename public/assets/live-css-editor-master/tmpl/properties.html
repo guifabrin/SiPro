@@ -1,0 +1,150 @@
+
+<div id="propAccordion" style="padding: 25px;">
+    <% 
+    var selectorIndex = 0;
+    for (var selector in properties){    
+        var props = properties[selector].props;
+    %>
+    <div id="container">
+        <div class="row">
+            <div style="min-height: 25px;font-size: 18px; display: block;font-weight: bold;border-bottom: 1px solid rgba(86, 61, 124, 0.15);margin-bottom: 5px; margin-top: 10px; text-align:center;">
+                <%=properties[selector].name%>
+            </div>
+        </div>
+        <div class="row">
+            <% for (var propId in props){%>
+                    <% 
+                    switch(props[propId]){
+                        case "width":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-1" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Largura
+                            <%
+                        break;
+                        case "font-size":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-1" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Tamanho
+                            <%
+                        break;
+                        case "color":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-1" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Cor
+                            <%
+                        break;
+
+                        case "font-family":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-4" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Fonte
+                            <%
+                        break;
+                        case "display":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Mostrar em
+                            <%
+                        break;
+                        case "text-align":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-3" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Alinhamento
+                            <%
+                        break;
+
+                        case "max-width":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-1" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Largura Máxima
+                            <%
+                        break;
+                        case "position":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Posição
+                            <%
+                        break;
+                        case "float":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Flutuar como
+                            <%
+                        break;
+                        case "margin-bottom":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Distância abaixo
+                            <%
+                        break;
+                        case "margin-top":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Distância acima
+                            <%
+                        break;
+                        case "margin-left":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Distância à esquerda
+                            <%
+                        break;
+                        case "margin-right":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Distância à direita
+                            <%
+                        break;
+
+                        case "padding-bottom":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Preenchimento abaixo
+                            <%
+                        break;
+                        case "padding-top":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Preenchimento acima
+                            <%
+                        break;
+                        case "padding-left":
+                            %>
+                                Pree
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">nchimento à esquerda
+                            <%
+                        break;
+                        case "padding-right":
+                            %>
+                <div id="props<%=selectorIndex%>p<%=propId%>" class="col-md-2" data-prop="<%=props[propId]%>">
+                    <span style="display: block;">
+                                Preenchimento à direita
+                            <%
+                        break;
+                    }
+                    %></span>
+                    <div class="lcePropValue"></div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    <%
+        selectorIndex++;
+    } %>
+</div>
