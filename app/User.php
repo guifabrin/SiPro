@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\SocialAccount as SocialAccount;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -12,7 +13,7 @@ class User extends Authenticatable
       * @var array
       */
      protected $fillable = [
-         'name', 'email', 'password',
+         'name', 'email', 'password', 'avatar'
      ];
        /**
       * The attributes that should be hidden for arrays.
