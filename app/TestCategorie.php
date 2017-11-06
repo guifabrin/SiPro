@@ -12,14 +12,13 @@ class TestCategorie extends Model
      * @var string
      */
     protected $table = 'test_categories';
-	
-	
-	/**
+    
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'description', 'father_id', 'user_id'
+        'description', 'father_id', 'user_id', 'soft_delete'
     ];
 }
