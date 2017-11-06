@@ -12,14 +12,7 @@ class Header extends Model
      * @var string
      */
     protected $table = 'headers';
-	
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-	
+    
 	/**
      * The attributes that are mass assignable.
      *

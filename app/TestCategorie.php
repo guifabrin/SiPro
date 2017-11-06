@@ -13,12 +13,6 @@ class TestCategorie extends Model
      */
     protected $table = 'test_categories';
 	
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 	
 	/**
      * The attributes that are mass assignable.

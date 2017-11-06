@@ -13,13 +13,6 @@ class Test extends Model
      */
     protected $table = 'tests';
 	
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-	
 	/**
      * The attributes that are mass assignable.
      *
