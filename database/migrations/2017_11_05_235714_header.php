@@ -23,6 +23,7 @@ class Header extends Migration
             $table->boolean('date');
             $table->double('value', 8, 2);
             $table->text('imageb64');
+            $table->boolean('soft_delete');
             $table->timestamps();
         });
     }
