@@ -15,6 +15,12 @@ class CreateOptionsTable extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('question_id')->unsigned();
+            $table->foreign('question_id')->references('id')->on('question_categories');
+            $table->string('description');
+            $table->text('imageb64');
+            $table->boolean('correct');
+            $table->boolean('soft_delete');
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ class CreateOptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('options');
+        Schema::drop('options');
     }
 }
