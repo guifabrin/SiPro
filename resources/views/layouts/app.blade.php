@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta property="og:url" content="{{url('/')}}"/>
+  <meta property="og:url" content="{{ url('/') }}"/>
   <meta property="og:title" content="SiPRO - Sistema de Provas"/>
   <meta property="og:type" content="article" />
   <meta property="og:image" content="{{ url('/assets/images/facebookshare.png') }}">
@@ -17,13 +17,11 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{url('/assets/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css')}}">
   <link rel="stylesheet" href="{{ url('assets/css/app.css') }}">
   <link rel="icon" type="image/png" href="{{ url('/assets/images/logo.ico') }}" />    
 </head>
 <body id="app-layout">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="{{url('/assets/bootstrap-switch-master/dist/js/bootstrap-switch.min.js')}}"></script>
 
   <header>
     <h1>SiPRO - Sistema de Provas | @yield('header')</h1>
@@ -61,7 +59,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
           <div class="panel">
               <div class="panel-body">
-                  Desenvolvido por <a href="mailto:contato@ijuhy.com.br"> Guilherme Fabrin Franco</a> © - Direitos Reservados 2016.
+                  Desenvolvido por <a href="mailto:guilherme.fabrin@gmail.com"> Guilherme Fabrin Franco</a> © - Direitos Reservados 2016.
                   <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
 
                   <img alt="Licença Creative Commons" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>

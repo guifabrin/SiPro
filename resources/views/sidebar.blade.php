@@ -1,6 +1,10 @@
 <div class="profile-sidebar">
 	<div class="profile-userpic">
- 		<img src="{{ url('/home/user/avatar') }}" class="img-responsive" alt="{{Auth::user()->name}}">
+		@if (Auth::user()->avatar!=null)
+ 			<img src="{{ Auth::user()->avatar }}" class="img-responsive" alt="{{Auth::user()->name}}">	
+ 		@else
+ 			<img src="{{ url('/assets/images/no_image.png') }}" class="img-responsive" alt="{{Auth::user()->name}}">
+ 		@endif
 	</div>
 	<div class="profile-usertitle">
 		<div class="profile-usertitle-name">
@@ -20,31 +24,31 @@
 				</a>
 			</li>
 			<li class="@yield('categories_questions_active')">
-				<a href="{{url('/home/questions/categories/')}}">
+				<a href="{{url('/questions/categories/')}}">
 					<i class="glyphicon glyphicon-flag"></i>
 					Categorias de Questões 
 				</a>
 			</li>
 			<li class="@yield('questions_active')">
-				<a href="{{url('/home/questions/')}}">
+				<a href="{{url('/questions/')}}">
 					<i class="glyphicon glyphicon-ok"></i>
 					Questões 
 				</a>
 			</li>
 			<li class="@yield('categories_tests_active')">
-				<a href="{{url('/home/tests/categories/')}}">
+				<a href="{{url('/tests/categories/')}}">
 					<i class="glyphicon glyphicon-flag"></i>
 					Categorias de Provas 
 				</a>
 			</li>
 			<li class="@yield('tests_active')">
-				<a href="{{url('/home/tests/')}}">
+				<a href="{{url('/tests/')}}">
 					<i class="glyphicon glyphicon-ok"></i>
 					Provas 
 				</a>
 			</li>
 			<li class="@yield('my_account_active')">
-				<a href="{{url('/home/user/')}}">
+				<a href="{{url('/user/')}}">
 					<i class="glyphicon glyphicon-user"></i>
 					Minha Conta
 				</a>

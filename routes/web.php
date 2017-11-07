@@ -21,10 +21,15 @@ Route::get('/policy', function () {
 
 Auth::routes();
 
-Route::get('/redirect', 'SocialAuthController@redirect');
-Route::get('/callback', 'SocialAuthController@callback');
+Route::group(['middleware' => 'web'], function () {
+    Route::get('/redirect', 'SocialAuthController@redirect');
+    Route::get('/callback', 'SocialAuthController@callback');
 
+    Route::get('/user/', 'UserController@read');
+    Route::get('/user/password', 'UserController@passwordForm');
+    Route::post('/user/password', 'UserController@passwordUpdate');
+});
 Route::get('/logout', function(){
 	Auth::logout();
-    return view('home');
+    return view('home.welcome');
 });

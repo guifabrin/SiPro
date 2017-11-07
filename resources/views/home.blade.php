@@ -27,7 +27,7 @@
                 <div class="panel-body">
                 @if (Auth::check())
                     @if (!isset(Auth::user()->password) || Auth::user()->password=="")
-                        <div id="password_empty" class="alert alert-warning" role="alert"><p><b>Atenção:</b> como você registrou-se no sistema com uma conta do Facebook é necessário que você crie uma senha para o sistema.</p><center><a class="btn btn-sm btn-warning" href="{{ url('/home/user/password') }}" title="Criar senha">Criar senha</a></center></div>
+                        <div id="password_empty" class="alert alert-warning" role="alert"><p><b>Atenção:</b> como você registrou-se no sistema com uma conta do Facebook é necessário que você crie uma senha para o sistema.</p><center><a class="btn btn-sm btn-warning" href="{{ url('/user/password') }}" title="Criar senha">Criar senha</a></center></div>
                     @endif
                 @endif
                     @if (session('message')!==null && session('message')!="")
