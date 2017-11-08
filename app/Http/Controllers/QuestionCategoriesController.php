@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Question;
 use App\QuestionCategorie;
 use Illuminate\Http\Request;
 
@@ -70,7 +69,7 @@ class QuestionCategoriesController extends Controller {
 
 	/**
 	 * Função de retorno da visualização de categorias de questões;
-	 * @return view
+	 * @return Response
 	 */
 	public function index(Request $request) {
 		$message = null;
@@ -83,19 +82,18 @@ class QuestionCategoriesController extends Controller {
 
 	/**
 	 * Função de retorno de uma categoria
-	 *
-	 * @return view
+	 * @return Categorie
 	 */
-	private function getCategorie($id) {
+	public function getCategorie($id) {
 		$args = ['id' => $id, 'user_id' => \Auth::user()->id, 'soft_delete' => 0];
 		return QuestionCategorie::where($args)->first();
 	}
 
 	/**
 	 * Função de retorno de todas as categorias do usuário;
-	 * @return view
+	 * @return Array
 	 */
-	private function getCategories() {
+	public function getCategories() {
 		$args = ['user_id' => \Auth::user()->id, 'soft_delete' => 0];
 		return $this->sortRecursiveCategories(null, QuestionCategorie::where($args)->get());
 	}

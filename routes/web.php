@@ -31,6 +31,12 @@ Route::group(['middleware' => 'web'], function () {
 
 	Route::resource('questions/categories', 'QuestionCategoriesController');
 	Route::get('questions/categories/confirm/{id}', 'QuestionCategoriesController@confirm');
+
+	Route::resource('questions', 'QuestionsController');
+	Route::get('questions/confirm/{id}', 'QuestionsController@confirm');
+	Route::get('questions/categorie/{id}', 'QuestionsController@index_');
+	Route::get('questions/categorie/{id}/create', 'QuestionsController@create_');
+	Route::post('questions/categorie/{id}/store', 'QuestionsController@store_');
 });
 Route::get('/logout', function () {
 	Auth::logout();

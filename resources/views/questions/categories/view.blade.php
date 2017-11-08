@@ -20,6 +20,6 @@
 
 @section('body')
 	<ul class="list-group">
-		@include('questions.categories.partials.view', ['categories' => $categories, 'nivel' => 1 ])
+		@include('questions.categories.partials.view', ['categories' => $categories, 'nivel' => 1 , 'categorieManage' => true])
 	</ul>
 @endsection

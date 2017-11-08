@@ -43,9 +43,11 @@
     	    </div>
     	</fieldset>
 
-		<button type="submit" class="btn btn-sm btn-success">
-		    <i class="fa fa-floppy-o"></i> Salvar
-		</button>
+        <fieldset class="form-group">
+    		<button type="submit" class="btn btn-sm btn-success">
+    		    <i class="fa fa-floppy-o"></i> Salvar
+    		</button>
+        </fieldset>
 
 	{!! Form::close() !!}
 @endsection

@@ -2,205 +2,190 @@
 
 namespace App\Http\Controllers;
 
+use App\Question;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Question;
-use App\QuestionCategorie;
+class QuestionsController extends Controller {
 
-class QuestionsController extends Controller
-{
+	/**
+	 * Variáveis de caminho dos arquivos Blade
+	 */
+	private $questionsViewBlade = "questions.view";
+	private $questionsCreateEditBlade = "questions.form";
+	private $questionsConfirmBlade = 'questions.confirm';
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+	/**
+	 * Array de mensagens de retorno das ações executadas no QuestionsController
+	 */
+	private $messages = [
+		'no_one' => [
+			'status' => 'warning',
+			'message' => 'Não há nenhuma questão cadastrada.',
+		],
+		'no_user_question' => [
+			'status' => 'warning',
+			'message' => 'A questão não pertence a você.',
+		],
+		'question_created' => [
+			'status' => 'success',
+			'message' => 'Questão criada.',
+		],
+		'question_no_created' => [
+			'status' => 'danger',
+			'message' => 'Questão não criada.',
+		],
+		'question_updated' => [
+			'status' => 'success',
+			'message' => 'Questão atualizada.',
+		],
+		'question_no_updated' => [
+			'status' => 'danger',
+			'message' => 'Questão não atualizada.',
+		],
+		'question_deleted' => [
+			'status' => 'success',
+			'message' => 'Questão removida.',
+		],
+		'question_no_deleted' => [
+			'status' => 'danger',
+			'message' => 'Questão não removida.',
+		],
+	];
 
-    public function read(Request $request)
-    {
-        return $this->readWithMessage($request,null,null);
-    }
+	/**
+	 * Array de titulos do QuestionsController
+	 */
+	private $titles = [
+		'add' => 'Adicionar',
+		'edit' => 'Editar',
+	];
 
-    public function readWithMessage(Request $request, $message, $status)
-    {   
-        if ($request->isMethod('post')) {
-            \Session::put('message', $message);
-            \Session::put('status', $status);
-            return redirect()->to('/home/questions/');
-        } else {
-            $userId = \Auth::user()->id;
+	private $imageController = null;
+	private $questionCategoriesController = null;
 
-            $questions = null;
-            $questionCategories = QuestionCategorie::where([
-                'user_id' => $userId,
-                'soft_delete' => 0
-            ])->get();
+	/**
+	 * Construtor
+	 * @return void
+	 */
+	public function __construct() {
+		$this->middleware('auth');
+		$this->questionCategoriesController = new QuestionCategoriesController();
+		$this->imageController = new ImageController();
+	}
 
-            $max = 10;
-            $page = $request->page;
-            $selectedCategorie = $request->selectedCategorie;
+	/**
+	 * Função de retorno da visualização de todas as questões;
+	 * @return Resonse
+	 */
+	public function index(Request $request) {
+		return $this->index_(null);
+	}
 
-            if (!isset($page))
-                $page = 0;
-            if (!isset($selectedCategorie))
-                $selectedCategorie = 0;
+	/**
+	 * Função de retorno da visualização de questões da categoria selecionada;
+	 * @return Response
+	 */
+	public function index_($id) {
+		$message = null;
+		$questions = $this->getQuestions($id);
 
-            $prev = null;
-            $curr= null;
-            $next= null;
-            if ($selectedCategorie!=0){
-                $questions = Question::where([
-                    'user_id'=>$userId,
-                    'categorie_id'=>$request->selectedCategorie,
-                    'soft_delete'=>0
-                ])->paginate($max);
-            } else {
-                $questions = Question::where([
-                    'user_id' => $userId,
-                    'soft_delete' => 0
-                ])->paginate($max);
-            }
+		$categorie = null;
+		$categories = $this->questionCategoriesController->getCategories();
 
-            if (isset($questions)){
-                $prev = $questions->previousPageUrl();
-                $curr = $questions->currentPage();
-                $next = $questions->nextPageUrl();
-            } else {
-                $curr = 1;
-            }
-            return view('questions.view',['questionCategories'=>$questionCategories, 'questions'=>$questions, 'message'=> $message, 'status'=>$status, 'selectedCategorie'=>$selectedCategorie, 'prevPageUrl'=>$prev, 'currentPage'=> $curr, 'nextPageUrl'=>$next]);
-        }
-    }
+		if ($id != null) {
+			$categorie = $this->questionCategoriesController->getCategorie($id);
+		}
 
-    public function form(Request $request)
-    {
-        $id = $request->id;
-        $userId = \Auth::user()->id;
-        if (isset($id) &&  $id != ""){
-            $questionQuery = Question::where([
-                'user_id'=>$userId,
-                'id'=> $id
-            ]);
-            $question = $questionQuery->first();
-            if ($question){
-                $questionCategorie = QuestionCategorie::where([
-                    'id'=> $question->categorie_id, 
-                    'user_id'=>$userId
-                ])->first();
+		if (count($questions) == 0) {
+			$message = $this->messages['no_one'];
+		}
 
-                $questionCategories = $this->getAllQuestionCategories();
-                return view('questions.form', [
-                    'question'=> $question,
-                    'title'=> "Editar",
-                    'questionCategories'=> $questionCategories,
-                    'selectedCategorie'=> $request->selectedCategorie
-                    ]);
-            } else {
-                return $this->readWithMessage($request, "A questão não pertence a você", "warning");
-            }
-        } else {
-            $questionCategories = $this->getAllQuestionCategories();
-            return view('questions.form', [
-                    'title'=> "Adicionar",
-                    'questionCategories'=> $questionCategories,
-                    'selectedCategorie'=> $request->selectedCategorie
-                    ]);
-        }
-    }
+		return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $message]);
+	}
 
-    private function getAllQuestionCategories(){
-        $userId = \Auth::user()->id;
-        return QuestionCategorie::where([
-                'user_id'=>$userId,
-                'soft_delete'=>0
-            ])->get();
-    }
+	/**
+	 * Função de retorno de uma questão
+	 * @return Question
+	 */
+	private function getQuestion($id) {
+		$args = ['id' => $id, 'user_id' => \Auth::user()->id, 'soft_delete' => 0];
+		return Question::where($args)->first();
+	}
 
-    public function createOrUpdate(Request $request)
-    {
-        $input = $request->all();
-        $userId = \Auth::user()->id;
+	/**
+	 * Função de retorno de todas as questões do usuário;
+	 * @return Array
+	 */
+	private function getQuestions($categorieId) {
+		$args;
+		if ($categorieId == null) {
+			$args = ['user_id' => \Auth::user()->id, 'soft_delete' => 0];
+		} else {
+			$args = ['user_id' => \Auth::user()->id, 'soft_delete' => 0, 'categorie_id' => $categorieId];
+		}
+		return Question::where($args)->paginate(15);
+	}
 
-        if (isset($input['id']) &&  $input['id'] != ""){
-            $id = $input['id'];
-            unset($input['_token']);
-            unset($input['answer_type']);
-            unset($input['lines_number']);
-            unset($input['input_answer']);
+	/**
+	 * Função que retorna a 'view' de criação da categoria da questão;
+	 * @param Request $request;
+	 * @return Response;
+	 */
+	public function create(Request $request) {
+		return $this->create_(null);
+	}
 
-            $questionQuery = Question::where([
-                'user_id'=>$userId,
-                'id'=> $id
-            ]);
-            $question = $questionQuery->first();
+	/**
+	 * Função que retorna a 'view' de criação da categoria da questão;
+	 * @param Request $request;
+	 * @return Response;
+	 */
+	public function create_($id) {
+		$categorie = null;
+		$categories = null;
+		if (isset($id)) {
+			$categorie = $this->questionCategoriesController->getCategorie($id);
+		} else {
+			$categories = $this->questionCategoriesController->getCategories();
+		}
 
-            if ($question){
-                $questionCategorie = QuestionCategorie::where([
-                    'user_id'=>$userId,
-                    'id'=> $question->categorie_id
-                ])->first();
+		return view($this->questionsCreateEditBlade, ['title' => $this->titles['add'], 'categorie' => $categorie, 'categories' => $categories]);
+	}
 
-                if (!isset($input['soft_delete'])){
-                    $input['soft_delete']=0;
-                }
+	/**
+	 * Função que armazena uma categoria de questão;
+	 * @param Request $request
+	 * @return Response;
+	 */
+	public function store(Request $request) {
+		$this->validate($request, [
+			'description' => 'required',
+			'lines' => 'required',
+			'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+		]);
 
-                $question = $questionQuery->update($input);
-                if ($input['soft_delete'] == 1){
-                    if ($question){
-                        $message = "Questão removida.";
-                        $status = "success";
-                    } else {
-                        $message = "Questão não removida.";
-                        $status = "danger";
-                    }
-                } else {
-                    if ($question){
-                        $message = "Questão atualizada.";
-                        $status = "success";
-                    } else {
-                        $message = "Questão não atualizada.";
-                        $status = "danger";
-                    }
-                }
-            } else {
-                $message = "A questão não pertence a você.";
-                $status = "warning";
-            }
-        } else {
-            $input['user_id'] = $userId;
-            $input['soft_delete'] = 0;
-            $question = Question::create($input);
-            if ($question){
-                $message = "Questão criada.";
-                $status = "success";
-            } else {
-                $message = "Questão não criada.";
-                $status = "danger";
-            }
-        }
-        return $this->readWithMessage($request, $message, $status);
-    }
+		$input = $request->all();
+		if (!isset($input['categorie_id']) || $input['categorie_id'] == "null") {
+			$input['categorie_id'] = NULL;
+		}
+		$input['user_id'] = \Auth::user()->id;
+		$input['imageb64'] = $this->imageController->convert64($input['image']);
+		$this->imageController->makeThumb($input['image'], $input['image'] . ".tmp", 100);
+		$input['imageb64_thumb'] = $this->imageController->convert64($input['image'] . ".tmp");
+		unset($input['image']);
 
-    public function confirm(Request $request)
-    {
-        $id = $request->id;
-        $userId = \Auth::user()->id;
-        $questionQuery = Question::where([
-            'user_id'=>$userId, 
-            'id'=> $id
-        ]);
-        $question = $questionQuery->first();
-        if ($question){
-            return view('questions.confirm', [
-                'question'=> $question,
-                ]);
-        } else {
-            return $this->readWithMessage($request, "A questão não pertence a você.", "warning");
-        }
-    }
+		$input['soft_delete'] = false;
 
-    public function delete(Request $request)
-    {
-        return $this->createOrUpdate($request);
-    }
+		$question = Question::create($input);
+		$categorieId = $input['categorie_id'];
+		$categorie = $this->questionCategoriesController->getCategorie($categorieId);
+		$categories = $this->questionCategoriesController->getCategories();
+		$questions = $this->getQuestions($categorieId);
+
+		if ($question) {
+			return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $this->messages['question_created']]);
+		} else {
+			return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $this->messages['question_no_created']]);
+		}
+	}
 }
