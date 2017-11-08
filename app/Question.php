@@ -13,12 +13,19 @@ class Question extends Model
      */
     protected $table = 'questions';
 	
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+	
 	/**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'description', 'imageb64', 'type', 'categorie_id', 'user_id', 'soft_delete'
+        'json', 'categorie_id','user_id', 'soft_delete'
     ];
 }
