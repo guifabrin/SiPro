@@ -14,6 +14,6 @@ Minha Conta
 
 @section('body')
 <ul class="list-group">
-    <li class="list-group-item"><a href="{{ url('/home/user/password') }}"><i class="fa fa-key fa-btn"></i> Alterar senha de acesso</a></li>
+    <li class="list-group-item"><a href="{{ url('/user/password') }}"><i class="fa fa-key fa-btn"></i> Alterar senha de acesso</a></li>
 </ul>
 @endsection

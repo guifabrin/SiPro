@@ -27,7 +27,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/user/', 'UserController@read');
     Route::get('/user/password', 'UserController@passwordForm');
-    Route::post('/user/password', 'UserController@passwordUpdate');
+    Route::post('/user/password', 'UserController@updatePassword');
 });
 Route::get('/logout', function(){
 	Auth::logout();

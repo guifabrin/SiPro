@@ -22,7 +22,7 @@ Alterar senha de usuário
 	<fieldset class="form-group">
 	    <label class="col-md-4 control-label">Senha Atual:</label>
 	    <div class="col-md-6">
-	        <input type="password" class="form-control" name="old_password" required="">
+	        <input type="password" class="form-control" name="old-password" required="">
 	    </div>
 	</fieldset>
 @endif
@@ -37,7 +37,7 @@ Alterar senha de usuário
 <fieldset class="form-group">
     <label class="col-md-4 control-label">Repita Nova Senha:</label>
     <div class="col-md-6">
-        <input type="password" class="form-control" name="new_password" required="">
+        <input type="password" class="form-control" name="new-password" required="">
     </div>
 </fieldset>
 
