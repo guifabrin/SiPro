@@ -9,27 +9,30 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
-    return view('home.welcome');
+	return view('home.welcome');
 });
 
 Route::get('/policy', function () {
-    return view('home.policy');
+	return view('home.policy');
 });
 
 Auth::routes();
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/redirect', 'SocialAuthController@redirect');
-    Route::get('/callback', 'SocialAuthController@callback');
+	Route::get('/redirect', 'SocialAuthController@redirect');
+	Route::get('/callback', 'SocialAuthController@callback');
 
-    Route::get('/user/', 'UserController@read');
-    Route::get('/user/password', 'UserController@passwordForm');
-    Route::post('/user/password', 'UserController@updatePassword');
+	Route::get('/user/', 'UserController@read');
+	Route::get('/user/password', 'UserController@passwordForm');
+	Route::post('/user/password', 'UserController@updatePassword');
+
+	Route::resource('questions/categories', 'QuestionCategoriesController');
+	Route::get('questions/categories/confirm/{id}', 'QuestionCategoriesController@confirm');
 });
-Route::get('/logout', function(){
+Route::get('/logout', function () {
 	Auth::logout();
-    return view('home.welcome');
+	return view('home.welcome');
 });
