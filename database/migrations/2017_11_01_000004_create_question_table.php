@@ -18,8 +18,8 @@ class CreateQuestionTable extends Migration {
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->string('description');
-			$table->longText('imageb64');
-			$table->longText('imageb64_thumb');
+			$table->longText('imageb64')->nullable();
+			$table->longText('imageb64_thumb')->nullable();
 			$table->integer('type');
 			$table->integer('lines');
 			$table->boolean('soft_delete');

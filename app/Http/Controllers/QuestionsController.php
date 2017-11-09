@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Option;
 use App\Question;
+use DB;
 use Illuminate\Http\Request;
 
 class QuestionsController extends Controller {
@@ -27,6 +29,10 @@ class QuestionsController extends Controller {
 			'message' => 'A questão não pertence a você.',
 		],
 		'question_created' => [
+			'status' => 'success',
+			'message' => 'Questão criada.',
+		],
+		'options_no_created' => [
 			'status' => 'success',
 			'message' => 'Questão criada.',
 		],
@@ -113,6 +119,15 @@ class QuestionsController extends Controller {
 	}
 
 	/**
+	 * Função de retorno de opções de uma quetão
+	 * @return Array
+	 */
+	private function getOptions($id) {
+		$args = ['question_id' => $id];
+		return Option::where($args)->get();
+	}
+
+	/**
 	 * Função de retorno de todas as questões do usuário;
 	 * @return Array
 	 */
@@ -161,21 +176,57 @@ class QuestionsController extends Controller {
 		$this->validate($request, [
 			'description' => 'required',
 			'lines' => 'required',
-			'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+			'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024',
 		]);
 
 		$input = $request->all();
+		if ($input['type'] != 0) {
+			$rules = [];
+			for ($i = 0; $i < 5; $i++) {
+				$rules['option-description.' . $i] = 'required';
+			}
+			$rules['option-correct'] = 'required';
+			$this->validate($request, $rules);
+		}
+
 		if (!isset($input['categorie_id']) || $input['categorie_id'] == "null") {
 			$input['categorie_id'] = NULL;
 		}
+
 		$input['user_id'] = \Auth::user()->id;
-		$input['imageb64'] = $this->imageController->convert64($input['image']);
-		$this->imageController->makeThumb($input['image'], $input['image'] . ".tmp", 100);
-		$input['imageb64_thumb'] = $this->imageController->convert64($input['image'] . ".tmp");
-		unset($input['image']);
+		if (isset($input['image'])) {
+			$input['imageb64'] = $this->imageController->convert64($input['image']);
+			$this->imageController->makeThumb($input['image'], $input['image'] . ".tmp", 100);
+			$input['imageb64_thumb'] = $this->imageController->convert64($input['image'] . ".tmp");
+			unset($input['image']);
+		}
+
+		$options = [];
+		if (isset($input['option-description'])) {
+			$options['description'] = $input['option-description'];
+		}
+
+		if (isset($input['option-image'])) {
+			$options['image'] = $input['option-image'];
+		}
+
+		if (isset($input['option-correct'])) {
+			$options['correct'] = $input['option-correct'];
+		}
+
+		switch ($input['type']) {
+		case 1:
+		case 2:
+			$input['lines'] = -1;
+			break;
+		}
+		unset($input['option-description']);
+		unset($input['option-image']);
+		unset($input['option-correct']);
 
 		$input['soft_delete'] = false;
 
+		DB::beginTransaction();
 		$question = Question::create($input);
 		$categorieId = $input['categorie_id'];
 		$categorie = $this->questionCategoriesController->getCategorie($categorieId);
@@ -183,9 +234,56 @@ class QuestionsController extends Controller {
 		$questions = $this->getQuestions($categorieId);
 
 		if ($question) {
+			$allCreate = true;
+			if ($input['type'] != 0) {
+				for ($i = 0; $i < 5; $i++) {
+					$optionImageb64 = null;
+					$optionImageb64Thumb = null;
+					if (isset($options['image'][$i])) {
+						$optionImageb64 = $this->imageController->convert64($options['image'][$i]);
+						$this->imageController->makeThumb($options['image'][$i], $options['image'][$i] . ".tmp", 100);
+						$optionImageb64Thumb = $this->imageController->convert64($options['image'][$i] . ".tmp");
+						unset($input['image']);
+					}
+					$optionCorrect = false;
+					for ($j = 0; $j < count($options['correct']); $j++) {
+						if ($options['correct'][$j] == $i) {
+							$optionCorrect = true;
+							break;
+						}
+					}
+					$option = Option::create([
+						'question_id' => $question->id,
+						'description' => $options['description'][$i],
+						'imageb64' => $optionImageb64,
+						'imageb64_thumb' => $optionImageb64Thumb,
+						'correct' => $optionCorrect,
+					]);
+					if (!$option) {
+						DB::rollBack();
+						return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $this->messages['options_no_created']]);
+					}
+				}
+			}
+			DB::commit();
 			return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $this->messages['question_created']]);
 		} else {
+			DB::rollBack();
 			return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $this->messages['question_no_created']]);
 		}
+	}
+
+	/**
+	 * Função que mostra o formulário para edição da questão;
+	 * @param $id Identificador da questão;
+	 * @return Response;
+	 */
+	public function show($id) {
+		$message = null;
+		$question = $this->getQuestion($id);
+		$options = $this->getOptions($id);
+		$categorie = $this->questionCategoriesController->getCategorie($question->categorie_id);
+		$categories = $this->questionCategoriesController->getCategories();
+		return view($this->questionsCreateEditBlade, ['title' => $this->titles['edit'], 'question' => $question, 'options' => $options, 'categorie' => $categorie, 'categories' => $categories]);
 	}
 }

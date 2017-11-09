@@ -18,7 +18,6 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
   <link rel="stylesheet" href="{{ url('assets/css/app.css') }}">
-  <link rel="stylesheet" href="{{ url('assets/css/sipro.css') }}">
   <link rel="icon" type="image/png" href="{{ url('/assets/images/logo.ico') }}" />
 </head>
 <body id="app-layout">
@@ -83,5 +82,7 @@
     ga('send', 'pageview');
 
   </script>
+  <script src="{{ url('assets/js/app.js') }}"></script>
+
 </body>
 </html>

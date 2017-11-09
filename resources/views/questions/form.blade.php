@@ -16,62 +16,100 @@
 	{!! Form::open( array('url' => '/questions'. (isset($question) ? '/'.$question->id : '') , 'method' =>  (isset($question)) ? 'PATCH' : 'POST', 'enctype' => 'multipart/form-data') ) !!}
 
 		<fieldset class="form-group">
-    	    <label class="col-md-4 control-label">Código:</label>
-    	    <div class="col-md-8">
+    	    <label class="col-md-2 control-label">Código:</label>
+    	    <div class="col-md-10">
     	        <input type="text" class="form-control" readonly="true" value="{{ (isset($question)) ? $question->id : null }}">
     	    </div>
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-4 control-label">Categoria:</label>
-	    	    <div class="col-md-8">
+    	    <label class="col-md-2 control-label">Categoria:</label>
+	    	    <div class="col-md-10">
 		    	    @if (isset($categorie))
-			    	    	<input type="hidden" name="categorie_id" value="{{ $categorie->id }}"/>
-			    	    	<input type="text" readonly="true" class="form-control" value="{{ $categorie->id }} - {{ $categorie->description }}" />
+		    	    	<input type="hidden" name="categorie_id" value="{{ $categorie->id }}"/>
+		    	    	<input type="text" readonly="true" class="form-control" value="{{ $categorie->id }} - {{ $categorie->description }}" />
 		    	    @else
-			    	    	@if (count($categories) == 0)
-			    	    	<input type="hidden" name="categorie_id" value="null"/>
-								<div class="alert alert-warning">Nenhuma categoria de questão cadastrada.</div>
-			    	    	@else
-				    	        <select class="form-control" name="categorie_id">
-									@include('questions.categories.partials.option', ['id' => null , 'fatherId' => null, 'categories' => $categories, 'nivel' => 0 ])
-				    	        </select>
-			    	        @endif
+		    	    	@if (count($categories) == 0)
+		    	    	<input type="hidden" name="categorie_id" value="null"/>
+							<div class="alert alert-warning">Nenhuma categoria de questão cadastrada.</div>
+		    	    	@else
+			    	        <select class="form-control" name="categorie_id">
+								@include('questions.categories.partials.option', ['id' => null , 'fatherId' => null, 'categories' => $categories, 'nivel' => 0 ])
+			    	        </select>
+		    	        @endif
 		    	    @endif
 	    	    </div>
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-4 control-label">Descrição:</label>
-    	    <div class="col-md-8">
-				<textarea class='form-control' name="description"></textarea>
+    	    <label class="col-md-2 control-label">Descrição:</label>
+    	    <div class="col-md-10">
+				<textarea class='form-control' name="description">@if(isset($question)){{$question->description}}@endif</textarea>
     	    </div>
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-4 control-label">Categoria:</label>
-	    	    <div class="col-md-8">
+    	    <label class="col-md-2 control-label">Imagem:</label>
+    	    <div class="col-md-10" style="text-align: center;">
+    	        <img class="img-rounded" id="image" style="max-width: 100px; max-height: 100px; margin-bottom: 5px; display: {{!isset($question) || !isset($question->imageb64_thumb)?'none':''}};" src="{{isset($question) && isset($question->imageb64_thumb)?$question->imageb64_thumb:url('/assets/images/no_image.png')}}"/>
+  				<label class="btn btn-success btn-file">
+					<i class="fa fa-file"></i>
+					<input type="file" name="image" rendererOn="image" accept="image/x-png,image/gif,image/jpeg" />
+				</label>
+    	    </div>
+		</fieldset>
+
+		<fieldset class="form-group">
+    	    <label class="col-md-2 control-label">Categoria:</label>
+	    	    <div class="col-md-10">
 	    	        <select class="form-control" id="typeCategorie" name="type">
-						<option value="0">Descritiva</option>
-						<option value="1">Optativa</option>
-						<option value="2">Verdadeiro ou Falso</option>
+						<option value="0" {{isset($question) && $question->type == 0?'selected':''}}>Descritiva</option>
+						<option value="1" {{isset($question) && $question->type == 1?'selected':''}}>Optativa</option>
+						<option value="2" {{isset($question) && $question->type == 2?'selected':''}}>Verdadeiro ou Falso</option>
 	    	        </select>
 	    	    </div>
 		</fieldset>
 
 		<fieldset class="form-group" id="lines">
-    	    <label class="col-md-4 control-label">Linhas:</label>
-    	    <div class="col-md-8">
-    	        <input class="form-control" type="number" value="0" name="lines" />
+    	    <label class="col-md-2 control-label">Linhas:</label>
+    	    <div class="col-md-10">
+    	        <input class="form-control" type="number" value="{{isset($question) ? $question->lines : -1 }}" name="lines" />
     	    </div>
 		</fieldset>
 
-		<fieldset class="form-group">
-    	    <label class="col-md-4 control-label">Imagem:</label>
-    	    <div class="col-md-8">
-    	        <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg" />
+		<fieldset class="form-group" id="options" style="display: none;">
+    	    <label class="col-md-2 control-label">Opções:</label>
+    	    <div class="col-md-10">
+    	    	<table class="table">
+					<thead>
+					    <tr>
+					    	<th style="width:100px;">Correta</th>
+					    	<th style="width:100px;">Imagem</th>
+					    	<th>Descrição</th>
+					    </tr>
+					</thead>
+					<tbody>
+						@for ($i=0; $i<5; $i++)
+						    <tr>
+				      			<td>
+		    	       				<input class="form-control" type="checkbox" value="{{ $i }}" name="option-correct[]" {{ (isset($options) && isset($options[$i]) && $options[$i]->correct)?'checked':'' }}/>
+		    	       			</td>
+				      			<td style="text-align: center;">
+				      				<img class="img-rounded" id="option-image-{{ $i }}" style="max-width: 100px; max-height: 100px; margin-bottom: 5px; display: {{isset($options) && isset($options[$i]) && isset($options[$i]->imageb64_thumb)?'':'none'}};" src="{{isset($options) && isset($options[$i]) && isset($options[$i]->imageb64_thumb) ? $options[$i]->imageb64_thumb:url('/assets/images/no_image.png')}}""/>
+				      				<label class="btn btn-success btn-file">
+	    	       						<i class="fa fa-file"></i>
+	    	       						<input type="file" name="option-image[{{ $i }}]" rendererOn="option-image-{{ $i }}" accept="image/x-png,image/gif,image/jpeg" />
+									</label>
+		    	       			</td>
+				      			<td>
+									<textarea class='form-control' name="option-description[{{ $i }}]">@if(isset($options) && isset($options[$i])){{$options[$i]->description}}@endif</textarea>
+		    	       			</td>
+						    </tr>
+					    @endfor
+				    </tbody>
+				</table>
     	    </div>
-		</fieldset>
+        </fieldset>
 
 		<fieldset class="form-group">
     		<button type="submit" class="btn btn-sm btn-success">
@@ -85,13 +123,21 @@
 					switch ($(this).val()*1){
 						case 0:
 							$('#lines').css('display','');
+							$('#options').css('display','none');
 						break;
 						case 1:
+							$('#lines').css('display','none');
+							$('#options').css('display','');
+							$('#options').find('input[type=checkbox]').attr('type','radio');
+						break;
 						case 2:
 							$('#lines').css('display','none');
+							$('#options').css('display','');
+							$('#options').find('input[type=radio]').attr('type','checkbox');
 						break;
 					}
 				});
+				$('#typeCategorie').change();
 			});
 		</script>
 
