@@ -15,7 +15,6 @@ class CreateImagesTable extends Migration {
 			$table->increments('id');
 			$table->longText('imageb64');
 			$table->longText('imageb64_thumb');
-			$table->unique('imageb64');
 			$table->timestamps();
 		});
 	}

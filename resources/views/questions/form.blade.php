@@ -34,7 +34,8 @@
 							<div class="alert alert-warning">Nenhuma categoria de questão cadastrada.</div>
 		    	    	@else
 			    	        <select class="form-control" name="categorie_id">
-								@include('questions.categories.partials.option', ['id' => null , 'fatherId' => null, 'categories' => $categories, 'nivel' => 0 ])
+			    	        	<option value="null" {{ ($categorie==null)?'checked':'' }}>Nenhuma</option>
+								@include('questions.categories.partials.option', ['id' => ($categorie==null) ? null : $categorie->id, 'fatherId' => null, 'categories' => $categories, 'nivel' => 0 ])
 			    	        </select>
 		    	        @endif
 		    	    @endif

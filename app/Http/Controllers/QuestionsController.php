@@ -228,7 +228,11 @@ class QuestionsController extends Controller {
 			$imageInput['imageb64'] = $this->imageController->convert64($input['image']);
 			$this->imageController->makeThumb($input['image'], $input['image'] . ".tmp", 100);
 			$imageInput['imageb64_thumb'] = $this->imageController->convert64($input['image'] . ".tmp");
-			$image = Image::create($imageInput);
+			$image = Image::where($imageInput)->first();
+			if (!$image) {
+				$image = Image::create($imageInput);
+			}
+
 			unset($input['image']);
 			if ($image) {
 				$input['image_id'] = $image->id;
@@ -273,7 +277,10 @@ class QuestionsController extends Controller {
 						$imageOptionInput['imageb64'] = $this->imageController->convert64($options['image'][$i]);
 						$this->imageController->makeThumb($options['image'][$i], $options['image'][$i] . ".tmp", 100);
 						$imageOptionInput['imageb64_thumb'] = $this->imageController->convert64($options['image'][$i] . ".tmp");
-						$imageOption = Image::create($imageOptionInput);
+						$imageOption = Image::where($imageOptionInput)->first();
+						if (!$image) {
+							$imageOption = Image::create($imageOptionInput);
+						}
 						if ($imageOption) {
 							$imageOptionId = $imageOption->id;
 						} else {
