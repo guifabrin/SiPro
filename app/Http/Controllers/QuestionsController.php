@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use App\Option;
 use App\Question;
 use DB;
@@ -39,6 +40,10 @@ class QuestionsController extends Controller {
 		'question_no_created' => [
 			'status' => 'danger',
 			'message' => 'Questão não criada.',
+		],
+		'image_no_created' => [
+			'status' => 'danger',
+			'message' => 'Imagem não criada.',
 		],
 		'question_updated' => [
 			'status' => 'success',
@@ -115,7 +120,9 @@ class QuestionsController extends Controller {
 	 */
 	private function getQuestion($id) {
 		$args = ['id' => $id, 'user_id' => \Auth::user()->id, 'soft_delete' => 0];
-		return Question::where($args)->first();
+		$question = Question::where($args)->first();
+		$question['image'] = Image::where(['id' => $question->image_id])->first();
+		return $question;
 	}
 
 	/**
@@ -124,7 +131,11 @@ class QuestionsController extends Controller {
 	 */
 	private function getOptions($id) {
 		$args = ['question_id' => $id];
-		return Option::where($args)->get();
+		$options = Option::where($args)->get();
+		foreach ($options as $option) {
+			$option['image'] = Image::where(['id' => $option->image_id])->first();
+		}
+		return $options;
 	}
 
 	/**
@@ -138,7 +149,11 @@ class QuestionsController extends Controller {
 		} else {
 			$args = ['user_id' => \Auth::user()->id, 'soft_delete' => 0, 'categorie_id' => $categorieId];
 		}
-		return Question::where($args)->paginate(15);
+		$questions = Question::where($args)->paginate(15);
+		foreach ($questions as $question) {
+			$question['image'] = Image::where(['id' => $question->image_id])->first();
+		}
+		return $questions;
 	}
 
 	/**
@@ -167,6 +182,16 @@ class QuestionsController extends Controller {
 		return view($this->questionsCreateEditBlade, ['title' => $this->titles['add'], 'categorie' => $categorie, 'categories' => $categories]);
 	}
 
+	private function endDB($commit, $message, $categorie) {
+		if ($commit) {
+			DB::commit();
+		} else {
+			DB::rollBack();
+		}
+		$questions = $this->getQuestions(($categorie == null) ? null : $categorie->id);
+		$categories = $this->questionCategoriesController->getCategories();
+		return view($this->questionsViewBlade, ['categorie' => ($categorie == null) ? null : $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $message]);
+	}
 	/**
 	 * Função que armazena uma categoria de questão;
 	 * @param Request $request
@@ -194,11 +219,22 @@ class QuestionsController extends Controller {
 		}
 
 		$input['user_id'] = \Auth::user()->id;
+
+		DB::beginTransaction();
+		$image = null;
+		$categorie = $this->questionCategoriesController->getCategorie($input['categorie_id']);
 		if (isset($input['image'])) {
-			$input['imageb64'] = $this->imageController->convert64($input['image']);
+			$imageInput = [];
+			$imageInput['imageb64'] = $this->imageController->convert64($input['image']);
 			$this->imageController->makeThumb($input['image'], $input['image'] . ".tmp", 100);
-			$input['imageb64_thumb'] = $this->imageController->convert64($input['image'] . ".tmp");
+			$imageInput['imageb64_thumb'] = $this->imageController->convert64($input['image'] . ".tmp");
+			$image = Image::create($imageInput);
 			unset($input['image']);
+			if ($image) {
+				$input['image_id'] = $image->id;
+			} else {
+				return $this->endDB(false, $this->messages['image_not_created'], $categorie);
+			}
 		}
 
 		$options = [];
@@ -225,25 +261,24 @@ class QuestionsController extends Controller {
 		unset($input['option-correct']);
 
 		$input['soft_delete'] = false;
-
-		DB::beginTransaction();
 		$question = Question::create($input);
-		$categorieId = $input['categorie_id'];
-		$categorie = $this->questionCategoriesController->getCategorie($categorieId);
-		$categories = $this->questionCategoriesController->getCategories();
-		$questions = $this->getQuestions($categorieId);
 
 		if ($question) {
 			$allCreate = true;
 			if ($input['type'] != 0) {
 				for ($i = 0; $i < 5; $i++) {
-					$optionImageb64 = null;
-					$optionImageb64Thumb = null;
+					$imageOptionId = null;
 					if (isset($options['image'][$i])) {
-						$optionImageb64 = $this->imageController->convert64($options['image'][$i]);
+						$imageOptionInput = [];
+						$imageOptionInput['imageb64'] = $this->imageController->convert64($options['image'][$i]);
 						$this->imageController->makeThumb($options['image'][$i], $options['image'][$i] . ".tmp", 100);
-						$optionImageb64Thumb = $this->imageController->convert64($options['image'][$i] . ".tmp");
-						unset($input['image']);
+						$imageOptionInput['imageb64_thumb'] = $this->imageController->convert64($options['image'][$i] . ".tmp");
+						$imageOption = Image::create($imageOptionInput);
+						if ($imageOption) {
+							$imageOptionId = $imageOption->id;
+						} else {
+							return $this->endDB(false, $this->messages['image_not_created'], $categorie);
+						}
 					}
 					$optionCorrect = false;
 					for ($j = 0; $j < count($options['correct']); $j++) {
@@ -255,21 +290,17 @@ class QuestionsController extends Controller {
 					$option = Option::create([
 						'question_id' => $question->id,
 						'description' => $options['description'][$i],
-						'imageb64' => $optionImageb64,
-						'imageb64_thumb' => $optionImageb64Thumb,
+						'image_id' => $imageOptionId,
 						'correct' => $optionCorrect,
 					]);
 					if (!$option) {
-						DB::rollBack();
-						return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $this->messages['options_no_created']]);
+						return $this->endDB(false, $this->messages['options_no_created'], $categorie);
 					}
 				}
 			}
-			DB::commit();
-			return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $this->messages['question_created']]);
+			return $this->endDB(true, $this->messages['question_created'], $categorie);
 		} else {
-			DB::rollBack();
-			return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $this->messages['question_no_created']]);
+			return $this->endDB(false, $this->messages['question_no_created'], $categorie);
 		}
 	}
 

@@ -43,7 +43,11 @@
         @foreach ($questions as $question)
             <tr>
               <td>{{ $question->id }}</td>
-              <td><img src="{{ $question->imageb64_thumb }}" style="max-width:100px; max-height:100px;"/></td>
+              <td>
+                @if (isset($question->image))
+                  <img src="{{ $question->image->imageb64_thumb }}" style="max-width:100px; max-height:100px;"/>
+                @endif
+              </td>
               <td>{{ $question->description }}</td>
               <td></td>
             </tr>

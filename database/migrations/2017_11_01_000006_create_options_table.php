@@ -16,8 +16,8 @@ class CreateOptionsTable extends Migration {
 			$table->integer('question_id')->unsigned();
 			$table->foreign('question_id')->references('id')->on('questions');
 			$table->string('description');
-			$table->longText('imageb64')->nullable();
-			$table->longText('imageb64_thumb')->nullable();
+			$table->integer('image_id')->nullable()->unsigned();
+			$table->foreign('image_id')->references('id')->on('images');
 			$table->boolean('correct');
 			$table->timestamps();
 		});

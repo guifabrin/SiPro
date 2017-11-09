@@ -51,7 +51,8 @@
 		<fieldset class="form-group">
     	    <label class="col-md-2 control-label">Imagem:</label>
     	    <div class="col-md-10" style="text-align: center;">
-    	        <img class="img-rounded" id="image" style="max-width: 100px; max-height: 100px; margin-bottom: 5px; display: {{!isset($question) || !isset($question->imageb64_thumb)?'none':''}};" src="{{isset($question) && isset($question->imageb64_thumb)?$question->imageb64_thumb:url('/assets/images/no_image.png')}}"/>
+    	    	<?php $settedImage = isset($question) && isset($question->image) && isset($question->image->imageb64_thumb);?>
+    	        <img class="img-rounded" id="image" style="max-width: 100px; max-height: 100px; margin-bottom: 5px; display: {{$settedImage?'':'none'}};" src="{{$settedImage?$question->image->imageb64_thumb:url('/assets/images/no_image.png')}}"/>
   				<label class="btn btn-success btn-file">
 					<i class="fa fa-file"></i>
 					<input type="file" name="image" rendererOn="image" accept="image/x-png,image/gif,image/jpeg" />
@@ -90,12 +91,13 @@
 					</thead>
 					<tbody>
 						@for ($i=0; $i<5; $i++)
+    	    				<?php $settedOptionImage = isset($options[$i]) && isset($options[$i]->image) && isset($options[$i]->image->imageb64_thumb);?>
 						    <tr>
 				      			<td>
 		    	       				<input class="form-control" type="checkbox" value="{{ $i }}" name="option-correct[]" {{ (isset($options) && isset($options[$i]) && $options[$i]->correct)?'checked':'' }}/>
 		    	       			</td>
 				      			<td style="text-align: center;">
-				      				<img class="img-rounded" id="option-image-{{ $i }}" style="max-width: 100px; max-height: 100px; margin-bottom: 5px; display: {{isset($options) && isset($options[$i]) && isset($options[$i]->imageb64_thumb)?'':'none'}};" src="{{isset($options) && isset($options[$i]) && isset($options[$i]->imageb64_thumb) ? $options[$i]->imageb64_thumb:url('/assets/images/no_image.png')}}""/>
+				      				<img class="img-rounded" id="option-image-{{ $i }}" style="max-width: 100px; max-height: 100px; margin-bottom: 5px; display: {{$settedOptionImage?'':'none'}};" src="{{ $settedOptionImage ? $options[$i]->image->imageb64_thumb : url('/assets/images/no_image.png')}}""/>
 				      				<label class="btn btn-success btn-file">
 	    	       						<i class="fa fa-file"></i>
 	    	       						<input type="file" name="option-image[{{ $i }}]" rendererOn="option-image-{{ $i }}" accept="image/x-png,image/gif,image/jpeg" />
