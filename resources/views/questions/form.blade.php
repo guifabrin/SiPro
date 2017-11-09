@@ -95,6 +95,7 @@
     	    				<?php $settedOptionImage = isset($options[$i]) && isset($options[$i]->image) && isset($options[$i]->image->imageb64_thumb);?>
 						    <tr>
 				      			<td>
+		    	       				<input type="hidden" value="{{isset($options) && isset($options[$i]) ? $options[$i]->id : 0 }}" name="option-id[{{$i}}]" />
 		    	       				<input class="form-control" type="checkbox" value="{{ $i }}" name="option-correct[]" {{ (isset($options) && isset($options[$i]) && $options[$i]->correct)?'checked':'' }}/>
 		    	       			</td>
 				      			<td style="text-align: center;">
@@ -115,9 +116,11 @@
         </fieldset>
 
 		<fieldset class="form-group">
-    		<button type="submit" class="btn btn-sm btn-success">
-    		    <i class="fa fa-floppy-o"></i> Salvar
-    		</button>
+    	    <div class="col-md-12">
+	    		<button type="submit" class="btn btn-sm btn-success">
+	    		    <i class="fa fa-floppy-o"></i> Salvar
+	    		</button>
+	    	</div>
         </fieldset>
 
 		<script>

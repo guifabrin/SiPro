@@ -49,7 +49,14 @@
                 @endif
               </td>
               <td>{{ $question->description }}</td>
-              <td></td>
+              <td>
+                <a class="btn btn-danger" href="{{ url('/questions/confirm/'.$question->id) }}">
+                    <i class='fa fa-times'></i> Excluir
+                </a>
+                <a class="btn btn-warning" href="{{ url('/questions/'.$question->id) }}">
+                  <i class='fa fa-pencil'></i> Alterar
+                </a>
+              </td>
             </tr>
         @endforeach
       </tbody>
