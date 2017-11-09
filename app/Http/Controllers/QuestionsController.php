@@ -469,4 +469,31 @@ class QuestionsController extends Controller {
 		$categories = $this->questionCategoriesController->getCategories();
 		return view($this->questionsCreateEditBlade, ['title' => $this->titles['edit'], 'question' => $question, 'options' => $options, 'categorie' => $categorie, 'categories' => $categories]);
 	}
+
+	/**
+	 * Função que retorna a 'view' da confirmação para remoção da questão;
+	 * @param $id Identificador da questão;
+	 * @return Response;
+	 */
+	public function confirm($id) {
+		return view($this->questionsConfirmBlade, [
+			'question' => $this->getQuestion($id),
+		]);
+	}
+
+	/**
+	 * Função de remoção da questão através de 'soft delete';
+	 * @param $id Identificador da categoria de questão;
+	 * @return Response;
+	 */
+	public function destroy($id) {
+		$question = Question::where(['id' => $id, 'user_id' => \Auth::user()->id])->first()->update(['soft_delete' => true]);
+
+		DB::beginTransaction();
+		if ($question) {
+			return $this->endDB(true, $this->messages['question_deleted'], null);
+		} else {
+			return $this->endDB(false, $this->messages['question_no_deleted'], null);
+		}
+	}
 }

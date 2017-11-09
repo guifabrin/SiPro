@@ -18,9 +18,6 @@
 			Removendo a categoria de questão, você também remove as questões. Caso você tenha algum teste com questões dessa categoria de questão a questão irá ser removida. Tem certeza que deseja remover a categoria de questão '{{$categorie->description}}'?
 		</div>
 
-		{{ Form::hidden('father_id', $categorie->father_id, ['class' => 'form-control', 'readonly' => 'true']) }}
-		{{ Form::hidden('soft_delete', 1 , ['class' => 'form-control', 'readonly' => 'true']) }}
-
 		<p class="yes-no-buttons">
 			<button type="submit" class="btn btn-sm btn-info">
 			    <i class="fa fa-thumbs-up"></i> Sim
