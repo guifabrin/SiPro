@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TestCategorie extends Model {
+class QuestionCategorie extends Model {
 	/**
 	 * The table associated with the model.
 	 *
