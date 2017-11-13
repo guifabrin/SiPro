@@ -25,20 +25,15 @@
 		<fieldset class="form-group">
     	    <label class="col-md-2 control-label">Categoria:</label>
 	    	    <div class="col-md-10">
-		    	    @if (isset($categorie))
-		    	    	<input type="hidden" name="categorie_id" value="{{ $categorie->id }}"/>
-		    	    	<input type="text" readonly="true" class="form-control" value="{{ $categorie->id }} - {{ $categorie->description }}" />
-		    	    @else
-		    	    	@if (count($categories) == 0)
-		    	    	<input type="hidden" name="categorie_id" value="null"/>
-							<div class="alert alert-warning">Nenhuma categoria de teste cadastrada.</div>
-		    	    	@else
-			    	        <select class="form-control" name="categorie_id">
-			    	        	<option value="null" {{ ($categorie==null)?'checked':'' }}>Nenhuma</option>
-								@include('tests.categories.partials.option', ['id' => ($categorie==null) ? null : $categorie->id, 'fatherId' => null, 'categories' => $categories, 'nivel' => 0 ])
-			    	        </select>
-		    	        @endif
-		    	    @endif
+	    	    	@if (count($categories) == 0)
+	    	    		<input type="hidden" name="categorie_id" value="null"/>
+						<div class="alert alert-warning">Nenhuma categoria de teste cadastrada.</div>
+	    	    	@else
+		    	        <select class="form-control" name="categorie_id">
+		    	        	<option value="null" {{ ($categorie==null)?'checked':'' }}>Nenhuma</option>
+							@include('tests.categories.partials.option', ['id' => ($categorie==null) ? null : $categorie->id, 'fatherId' => null, 'categories' => $categories, 'nivel' => 0 ])
+		    	        </select>
+	    	        @endif
 	    	    </div>
 		</fieldset>
 
@@ -57,4 +52,84 @@
 	    	</div>
         </fieldset>
 	{!! Form::close() !!}
+	@if (isset($test))
+	        <ul class="list-group">
+	            @include('questions.categories.partials.view', ['categories' => $questionCategories, 'nivel' => 1, 'categorieManage' => false])
+	        </ul>
+	    <table class="table">
+	      <thead>
+	        <tr>
+	          <th>Código</th>
+	          <th>Imagem</th>
+	          <th>Descrição</th>
+	          <th>Ações</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	      	<?php
+$buttonAddHtml = "<i class='fa fa-plus'></i> Adicionar";
+$buttonRemoveHtml = "<i class='fa fa-close'></i> Remover";
+?>
+	        @foreach ($questions as $question)
+	            <tr>
+	              <td>{{ $question->id }}</td>
+	              <td>
+	                @if (isset($question->image))
+	                  <img src="{{ $question->image->imageb64_thumb }}" style="max-width:100px; max-height:100px;"/>
+	                @endif
+	              </td>
+	              <td>{{ $question->description }}</td>
+	              <td>
+	              	@if ($question->inTest)
+		                <button type="button" class="btn btn-danger" onclick="post('{{ url('/questions_in_tests/destroy/') }}', {{ $test->id }}, {{ $question->id }}, this, 0);">
+		                  {!! $buttonRemoveHtml !!}
+	              	@else
+		                <button type="button" class="btn btn-success" onclick="post('{{ url('/questions_in_tests/store/') }}', {{ $test->id }}, {{ $question->id }}, this, 1);">
+		                  {!! $buttonAddHtml !!}
+		                </button>
+	                @endif
+	              </td>
+	            </tr>
+	        @endforeach
+	      </tbody>
+	      <tfoot>
+	      	<tr>
+	      		<td colspan="4">
+	      			{{ $questions->links() }}
+	      		</td>
+	      	</tr>
+	      </tfoot>
+	    </table>
+	    <script>
+	    	function post(url, idTest, idQuestion, btn, act){
+	    		$.post(url,
+				    {
+				        '_token': $('meta[name=csrf-token]').attr('content'),
+				        test_id: idTest,
+				        question_id: idQuestion
+				    })
+				    .error(
+				    	function(){
+				        	console.log('err');
+						}
+				    )
+				    .success(
+				    	function(){
+					    	var button = $(btn);
+					    	if (act==1){
+					    		button.removeClass('btn-success');
+					    		button.addClass('btn-danger');
+					    		button.attr("onclick", "post('{{ url('/questions_in_tests/destroy/') }}', "+idTest+ ", "+idQuestion + ", this, 0);");
+					    		button.html("{!! $buttonRemoveHtml !!}");
+					    	} else {
+					    		button.removeClass('btn-danger');
+					    		button.addClass('btn-success');
+					    		button.attr("onclick", "post('{{ url('/questions_in_tests/store/') }}', "+idTest+ ", "+idQuestion + ", this, 1);");
+					    		button.html("{!! $buttonAddHtml !!}");
+					    	}
+				    	}
+				    );
+	    	}
+	    </script>
+    @endif
 @endsection

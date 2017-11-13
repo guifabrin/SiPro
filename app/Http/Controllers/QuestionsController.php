@@ -142,7 +142,8 @@ class QuestionsController extends Controller {
 	 * Função de retorno de todas as questões do usuário;
 	 * @return Array
 	 */
-	private function getQuestions($categorieId) {
+	public function getQuestions($categorieId) {
+
 		$args;
 		if ($categorieId == null) {
 			$args = ['user_id' => \Auth::user()->id, 'soft_delete' => 0];

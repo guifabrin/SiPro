@@ -12,6 +12,8 @@
   <meta property="og:image" content="{{ url('/assets/images/facebookshare.png') }}">
   <meta property="fb:app_id" content="1168613666495068" />
 
+  <meta name="csrf-token" content="{{ Session::token() }}">
+
   <title>SiPRO</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
