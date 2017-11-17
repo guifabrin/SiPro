@@ -1,20 +1,18 @@
 @extends('home')
 
-@section('tests_active') active @endsection
-
-@section('headerbtnl')
-    <a class="btn btn-sm btn-primary" href="{{ url('tests') }}">
-        <i class="fa fa-btn fa-arrow-circle-left"></i> Voltar
+@section('btn-left')
+    <a class="btn btn-primary" href="{{ url('tests') }}">
+        <i class="fa fa-btn fa-arrow-circle-left"></i> {{ __('lang.back') }}
     </a>
 @endsection
 
 @section('header')
-    Minhas Provas
+    {{ __('lang.mines_gender_b') }} {{ __('lang.tests') }} {{ isset($categorie) ? '[ '.$categorie->description.' ]' : ''}}
 @endsection
 
-@section('headerbtnr')
-    <a class="btn btn-sm btn-success-outline" href="{{ url('tests/create/') }}">
-        <i class="fa fa-plus"></i> Adicionar
+@section('btn-right')
+    <a class="btn   btn-success" href="{{ isset($categorie) ? url('tests/categorie/'.$categorie->id.'/create/') : url('tests/create/')  }}">
+        <i class="fa fa-plus"></i> {{ __('lang.add') }}
     </a>
 @endsection
 
@@ -29,22 +27,24 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Código</th>
-          <th>Descrição</th>
-          <th>Ações</th>
+          <th>{{ __('lang.code') }}</th>
+          <th>{{ __('lang.test_categorie') }}</th>
+          <th>{{ __('lang.description') }}</th>
+          <th>{{ __('lang.actions') }}</th>
         </tr>
       </thead>
       <tbody>
         @foreach ($tests as $test)
             <tr>
               <td>{{ $test->id }}</td>
+              <td><a href="{{ url('/tests/categorie/'.$test->categorie->id) }}">{{ $test->categorie->id }}/{{ $test->categorie->description }}</a></td>
               <td>{{ $test->description }}</td>
-              <td>
+              <td style="width: 250px;">
                 <a class="btn btn-danger" href="{{ url('/tests/confirm/'.$test->id) }}">
-                    <i class='fa fa-times'></i> Excluir
+                    <i class='fa fa-times'></i> {{ __('lang.remove') }}
                 </a>
                 <a class="btn btn-warning" href="{{ url('/tests/'.$test->id) }}">
-                  <i class='fa fa-pencil'></i> Alterar
+                  <i class='fa fa-pencil'></i> {{ __('lang.edit') }}
                 </a>
               </td>
             </tr>

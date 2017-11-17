@@ -1,29 +1,27 @@
 @extends('home')
 
-@section('questions_active') active @endsection
-
-@section('headerbtnl')
-	<a class="btn btn-sm btn-primary" href="{{ url('questions') }}">
-		<i class="fa fa-btn fa-arrow-circle-left"></i> Voltar
+@section('btn-left')
+	<a class="btn btn-primary" href="{{ url('questions') }}">
+		<i class="fa fa-btn fa-arrow-circle-left"></i> {{ __('lang.back') }}
 	</a>
 @endsection
 
 @section('header')
-	{{ $title }} Questão  {{ isset($categorie) ? '[ Categoria: '.$categorie->description.' ]' : ''}}
+	{{ $title }} Questão  {{ isset($categorie) ? '[ '.$categorie->description.' ]' : ''}}
 @endsection
 
 @section('body')
 	{!! Form::open( array('url' => '/questions'. (isset($question) ? '/'.$question->id : '') , 'method' =>  (isset($question)) ? 'PATCH' : 'POST', 'enctype' => 'multipart/form-data') ) !!}
 
 		<fieldset class="form-group">
-    	    <label class="col-md-2 control-label">Código:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.code') }}:</label>
     	    <div class="col-md-10">
     	        <input type="text" class="form-control" readonly="true" value="{{ (isset($question)) ? $question->id : null }}">
     	    </div>
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-2 control-label">Categoria:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.test_categorie') }}:</label>
 	    	    <div class="col-md-10">
 		    	    @if (isset($categorie))
 		    	    	<input type="hidden" name="categorie_id" value="{{ $categorie->id }}"/>
@@ -31,7 +29,7 @@
 		    	    @else
 		    	    	@if (count($categories) == 0)
 		    	    	<input type="hidden" name="categorie_id" value="null"/>
-							<div class="alert alert-warning">Nenhuma categoria de questão cadastrada.</div>
+							<div class="alert alert-warning">{{ __('lang.no_one_categorie') }}</div>
 		    	    	@else
 			    	        <select class="form-control" name="categorie_id">
 			    	        	<option value="null" {{ ($categorie==null)?'checked':'' }}>Nenhuma</option>
@@ -43,14 +41,14 @@
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-2 control-label">Descrição:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.description') }}:</label>
     	    <div class="col-md-10">
 				<textarea class='form-control' name="description">@if(isset($question)){{$question->description}}@endif</textarea>
     	    </div>
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-2 control-label">Imagem:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.image') }}:</label>
     	    <div class="col-md-10" style="text-align: center;">
     	    	<?php $settedImage = isset($question) && isset($question->image) && isset($question->image->imageb64_thumb);?>
     	        <img class="img-rounded" id="image" style="max-width: 100px; max-height: 100px; margin-bottom: 5px; display: {{$settedImage?'':'none'}};" src="{{$settedImage?$question->image->imageb64_thumb:url('/assets/images/no_image.png')}}"/>
@@ -62,31 +60,31 @@
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-2 control-label">Categoria:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.type_test') }}:</label>
 	    	    <div class="col-md-10">
 	    	        <select class="form-control" id="typeCategorie" name="type">
-						<option value="0" {{isset($question) && $question->type == 0?'selected':''}}>Descritiva</option>
-						<option value="1" {{isset($question) && $question->type == 1?'selected':''}}>Optativa</option>
-						<option value="2" {{isset($question) && $question->type == 2?'selected':''}}>Verdadeiro ou Falso</option>
+						<option value="0" {{isset($question) && $question->type == 0?'selected':''}}>{{ __('lang.descriptive') }}</option>
+						<option value="1" {{isset($question) && $question->type == 1?'selected':''}}>{{ __('lang.optative') }}</option>
+						<option value="2" {{isset($question) && $question->type == 2?'selected':''}}>{{ __('lang.true_false') }}</option>
 	    	        </select>
 	    	    </div>
 		</fieldset>
 
 		<fieldset class="form-group" id="lines">
-    	    <label class="col-md-2 control-label">Linhas:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.lines') }}:</label>
     	    <div class="col-md-10">
     	        <input class="form-control" type="number" value="{{isset($question) ? $question->lines : -1 }}" name="lines" />
     	    </div>
 		</fieldset>
 
 		<fieldset class="form-group" id="options" style="display: none;">
-    	    <label class="col-md-2 control-label">Opções:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.options') }}:</label>
     	    <div class="col-md-10">
     	    	<table class="table">
 					<thead>
 					    <tr>
-					    	<th style="width:100px;">Correta</th>
-					    	<th style="width:100px;">Imagem</th>
+					    	<th style="width:100px;">{{ __('lang.right') }}</th>
+					    	<th style="width:100px;">{{ __('lang.image') }}</th>
 					    	<th>Descrição</th>
 					    </tr>
 					</thead>
@@ -117,8 +115,8 @@
 
 		<fieldset class="form-group">
     	    <div class="col-md-12">
-	    		<button type="submit" class="btn btn-sm btn-success">
-	    		    <i class="fa fa-floppy-o"></i> Salvar
+	    		<button type="submit" class="btn btn-success">
+	    		    <i class="fa fa-floppy-o"></i> {{ __('lang.save') }}
 	    		</button>
 	    	</div>
         </fieldset>

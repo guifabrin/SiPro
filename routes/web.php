@@ -29,23 +29,22 @@ Route::group(['middleware' => 'web'], function () {
 	Route::get('/user/password', 'UserController@passwordForm');
 	Route::post('/user/password', 'UserController@updatePassword');
 
-	Route::resource('questions/categories', 'QuestionCategoriesController');
-	Route::get('questions/categories/confirm/{id}', 'QuestionCategoriesController@confirm');
+	Route::resource('/questions/categories', 'QuestionCategoriesController');
+	Route::get('/questions/categories/confirm/{id}', 'QuestionCategoriesController@confirm');
 
-	Route::resource('questions', 'QuestionsController');
-	Route::get('questions/confirm/{id}', 'QuestionsController@confirm');
-	Route::get('questions/categorie/{id}', 'QuestionsController@index_');
-	Route::get('questions/categorie/{id}/create', 'QuestionsController@create_');
-	Route::post('questions/categorie/{id}/store', 'QuestionsController@store_');
+	Route::resource('/questions', 'QuestionsController');
+	Route::get('/questions/confirm/{id}', 'QuestionsController@confirm');
+	Route::get('/questions/categorie/{id}', 'QuestionsController@index_');
+	Route::get('/questions/categorie/{id}/create', 'QuestionsController@create_');
+	Route::post('/questions/categorie/{id}/store', 'QuestionsController@store_');
 
-	Route::resource('tests/categories', 'TestCategoriesController');
-	Route::get('tests/categories/confirm/{id}', 'TestCategoriesController@confirm');
+	Route::resource('/tests/categories', 'TestCategoriesController');
+	Route::get('/tests/categories/confirm/{id}', 'TestCategoriesController@confirm');
 
-	Route::resource('tests', 'TestsController');
-	Route::get('tests/confirm/{id}', 'TestsController@confirm');
-	Route::get('tests/categorie/{id}', 'TestsController@index_');
-	Route::get('tests/categorie/{id}/create', 'TestsController@create_');
-	Route::post('tests/categorie/{id}/store', 'TestsController@store_');
+	Route::resource('/tests', 'TestsController');
+	Route::get('/tests/confirm/{id}', 'TestsController@confirm');
+	Route::get('/tests/categorie/{id}', 'TestsController@index_');
+	Route::get('/tests/categorie/{id}/create', 'TestsController@create_');
 
 	Route::post('/questions_in_tests/store', 'QuestionsInTestsController@store');
 	Route::post('/questions_in_tests/destroy', 'QuestionsInTestsController@destroy');

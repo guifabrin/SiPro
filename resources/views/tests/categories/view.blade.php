@@ -1,20 +1,18 @@
 @extends('home')
 
-@section('categories_tests_active') active @endsection
-
-@section('headerbtnl')
-	<a class="btn btn-sm btn-primary" href="{{ url('/') }}">
-		<i class="fa fa-btn fa-arrow-circle-left"></i> Voltar
+@section('btn-left')
+	<a class="btn   btn-primary" href="{{ url('/') }}">
+		<i class="fa fa-btn fa-arrow-circle-left"></i> {{ __('lang.back') }}
 	</a>
 @endsection
 
 @section('header')
-	Minhas Categorias de Teste
+	{{ __('lang.mines_gender_a') }} {{ __('lang.categorie') }}s de {{ __('lang.test') }}
 @endsection
 
-@section('headerbtnr')
-	<a class="btn btn-sm btn-success-outline" href="{{ url('/tests/categories/create/') }}">
-		<i class="fa fa-plus"></i> Adicionar
+@section('btn-right')
+	<a class="btn   btn-success-outline" href="{{ url('/tests/categories/create/') }}">
+		<i class="fa fa-plus"></i> {{ __('lang.add') }}
 	</a>
 @endsection
 

@@ -2,35 +2,35 @@
 
 @section('tests_active') active @endsection
 
-@section('headerbtnl')
-	<a class="btn btn-sm btn-primary" href="{{ url('tests') }}">
-		<i class="fa fa-arrow-circle-left"></i> Voltar
+@section('btn-left')
+	<a class="btn   btn-primary" href="{{ url('tests') }}">
+		<i class="fa fa-arrow-circle-left"></i> {{ __('lang.back') }}
 	</a>
 @endsection
 
 @section('header')
-	{{ $title }} Prova
+	{{ $title }} {{ __('lang.test') }}
 @endsection
 
 @section('body')
 {!! Form::open( array('url' => '/tests'. (isset($test) ? '/'.$test->id : '') , 'method' =>  (isset($test)) ? 'PATCH' : 'POST', 'enctype' => 'multipart/form-data') ) !!}
 
 		<fieldset class="form-group">
-    	    <label class="col-md-2 control-label">Código:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.code') }}: {{ __('lang.test') }}</label>
     	    <div class="col-md-10">
     	        <input type="text" class="form-control" readonly="true" value="{{ (isset($test)) ? $test->id : null }}">
     	    </div>
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-2 control-label">Categoria:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.test_categorie') }}:</label>
 	    	    <div class="col-md-10">
 	    	    	@if (count($categories) == 0)
 	    	    		<input type="hidden" name="categorie_id" value="null"/>
-						<div class="alert alert-warning">Nenhuma categoria de teste cadastrada.</div>
+						<div class="alert alert-warning">{{ __('lang.no_one_categorie') }}</div>
 	    	    	@else
 		    	        <select class="form-control" name="categorie_id">
-		    	        	<option value="null" {{ ($categorie==null)?'checked':'' }}>Nenhuma</option>
+		    	        	<option value="null" {{ ($categorie==null)?'checked':'' }}>{{ __('lang.no_one') }}</option>
 							@include('tests.categories.partials.option', ['id' => ($categorie==null) ? null : $categorie->id, 'fatherId' => null, 'categories' => $categories, 'nivel' => 0 ])
 		    	        </select>
 	    	        @endif
@@ -38,7 +38,7 @@
 		</fieldset>
 
 		<fieldset class="form-group">
-    	    <label class="col-md-2 control-label">Descrição:</label>
+    	    <label class="col-md-2 control-label">{{ __('lang.description') }}:</label>
     	    <div class="col-md-10">
 				<textarea class='form-control' name="description">@if(isset($test)){{$test->description}}@endif</textarea>
     	    </div>
@@ -46,7 +46,7 @@
 
 		<fieldset class="form-group">
     	    <div class="col-md-12">
-	    		<button type="submit" class="btn btn-sm btn-success">
+	    		<button type="submit" class="btn   btn-success">
 	    		    <i class="fa fa-floppy-o"></i> Salvar
 	    		</button>
 	    	</div>
@@ -59,15 +59,15 @@
 	    <table class="table">
 	      <thead>
 	        <tr>
-	          <th>Código</th>
+	          <th>{{ __('lang.code') }}</th>
 	          <th>Imagem</th>
-	          <th>Descrição</th>
-	          <th>Ações</th>
+	          <th>{{ __('lang.description') }}</th>
+	          <th>{{ __('lang.actions') }}</th>
 	        </tr>
 	      </thead>
 	      <tbody>
 	      	<?php
-$buttonAddHtml = "<i class='fa fa-plus'></i> Adicionar";
+$buttonAddHtml = "<i class='fa fa-plus'></i> {{ __('lang.add') }}";
 $buttonRemoveHtml = "<i class='fa fa-close'></i> Remover";
 ?>
 	        @foreach ($questions as $question)

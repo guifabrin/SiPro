@@ -1,20 +1,18 @@
 @extends('home')
 
-@section('categories_questions_active') active @endsection
-
-@section('headerbtnl')
-	<a class="btn btn-sm btn-primary" href="{{ url('/') }}">
-		<i class="fa fa-btn fa-arrow-circle-left"></i> Voltar
+@section('btn-left')
+	<a class="btn   btn-primary" href="{{ url('/') }}">
+		<i class="fa fa-btn fa-arrow-circle-left"></i> {{ __('lang.back') }}
 	</a>
 @endsection
 
 @section('header')
-	Minhas Categorias de Questão
+	{{ __('lang.mines_gender_a') }} {{ __('lang.question_categories') }}
 @endsection
 
-@section('headerbtnr')
-	<a class="btn btn-sm btn-success-outline" href="{{ url('/questions/categories/create/') }}">
-		<i class="fa fa-plus"></i> Adicionar
+@section('btn-right')
+	<a class="btn btn-success" href="{{ url('/questions/categories/create/') }}">
+		<i class="fa fa-plus"></i> {{ __('lang.add') }}
 	</a>
 @endsection
 

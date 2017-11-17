@@ -1,27 +1,19 @@
 @extends('home')
 
-@section('questions_active') active @endsection
-
-@section('headerbtnl')
-    <a class="btn btn-sm btn-primary" href="{{ url('questions') }}">
-        <i class="fa fa-btn fa-arrow-circle-left"></i> Voltar
+@section('btn-left')
+    <a class="btn   btn-primary" href="{{ url('questions') }}">
+        <i class="fa fa-btn fa-arrow-circle-left"></i> {{ __('lang.back') }}
     </a>
 @endsection
 
 @section('header')
-    Minhas Questões {{ isset($categorie) ? '[ Categoria: '.$categorie->description.' ]' : ''}}
+    {{ __('lang.mines_gender_a') }} {{ __('lang.questions') }} {{ isset($categorie) ? '[ '.$categorie->description.' ]' : ''}}
 @endsection
 
-@section('headerbtnr')
-    @if (isset($categorie))
-        <a class="btn btn-sm btn-success-outline" href="{{ url('/questions/categorie/'.$categorie->id.'/create/') }}">
-            <i class="fa fa-plus"></i> Adicionar
-        </a>
-    @else
-        <a class="btn btn-sm btn-success-outline" href="{{ url('/questions/create/') }}">
-            <i class="fa fa-plus"></i> Adicionar
-        </a>
-    @endif
+@section('btn-right')
+  <a class="btn btn-success" href="{{ isset($categorie) ? url('/questions/categorie/'.$categorie->id.'/create/'):url('/questions/create/')}}">
+      <i class="fa fa-plus"></i> {{ __('lang.add') }}
+  </a>
 @endsection
 
 @section('body')
@@ -33,10 +25,10 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Código</th>
-          <th>Imagem</th>
-          <th>Descrição</th>
-          <th>Ações</th>
+          <th>{{ __('lang.code') }}</th>
+          <th>{{ __('lang.image') }}</th>
+          <th>{{ __('lang.description') }}</th>
+          <th>{{ __('lang.actions') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -49,16 +41,18 @@
                 @endif
               </td>
               <td>{{ $question->description }}</td>
-              <td>
+              <td style="width: 250px;">
                 <a class="btn btn-danger" href="{{ url('/questions/confirm/'.$question->id) }}">
-                    <i class='fa fa-times'></i> Excluir
+                    <i class='fa fa-times'></i> {{ __('lang.remove') }}
                 </a>
                 <a class="btn btn-warning" href="{{ url('/questions/'.$question->id) }}">
-                  <i class='fa fa-pencil'></i> Alterar
+                  <i class='fa fa-pencil'></i> {{ __('lang.edit') }}
                 </a>
               </td>
             </tr>
         @endforeach
       </tbody>
     </table>
+
+    {{ $questions->links() }}
 @endsection

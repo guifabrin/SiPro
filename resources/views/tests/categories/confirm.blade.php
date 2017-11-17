@@ -2,14 +2,14 @@
 
 @section('categories_tests_active') active @endsection
 
-@section('headerbtnl')
-	<a class="btn btn-sm btn-primary" href="{{ url('/tests/categories/') }}">
-		<i class="fa fa-arrow-circle-left"></i> Voltar
+@section('btn-left')
+	<a class="btn   btn-primary" href="{{ url('/tests/categories/') }}">
+		<i class="fa fa-arrow-circle-left"></i> {{ __('lang.back') }}
 	</a>
 @endsection
 
 @section('header')
-	Confirmar remoção de Categoria de teste
+	Confirmar remoção de {{ __('lang.categorie') }} de teste
 @endsection
 @section('body')
 	{!! Form::open( array('url' => '/tests/categories/'.$categorie->id, 'method' => 'DELETE' )) !!}
@@ -19,10 +19,10 @@
 		</div>
 
 		<p class="yes-no-buttons">
-			<button type="submit" class="btn btn-sm btn-info">
+			<button type="submit" class="btn   btn-info">
 			    <i class="fa fa-thumbs-up"></i> Sim
 			</button>
-			<a class="btn btn-sm btn-info" href="{{ url('/tests/categories') }}">
+			<a class="btn   btn-info" href="{{ url('/tests/categories') }}">
 			    <i class="fa fa-thumbs-down"></i> Não
 			</a>
 		</p>

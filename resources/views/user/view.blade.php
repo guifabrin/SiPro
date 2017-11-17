@@ -1,22 +1,20 @@
 @extends('home')
 
-@section('my_account_active') active @endsection
-
-@section('headerbtnl')
-	<a class="btn btn-sm btn-primary" href="{{ url('/') }}">
-		<i class="fa fa-btn fa-arrow-circle-left"></i> Voltar
+@section('btn-left')
+	<a class="btn btn-primary" href="{{ url('/') }}">
+		<i class="fa fa-btn fa-arrow-circle-left"></i> {{ __('lang.back') }}
 	</a>
 @endsection
 
 @section('header')
-	Minha Conta
+	{{ __('lang.my_account') }}
 @endsection
 
 @section('body')
 	<ul class="list-group">
 	    <li class="list-group-item">
 	    	<a href="{{ url('/user/password') }}">
-	    		<i class="fa fa-key fa-btn"></i> Alterar senha de acesso
+	    		<i class="fa fa-key fa-btn"></i> {{ __('lang.edit_password') }}
 	    	</a>
 		</li>
 	</ul>

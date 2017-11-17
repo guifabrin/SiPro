@@ -105,11 +105,9 @@ class TestsController extends Controller {
 		if ($id != null) {
 			$categorie = $this->testCategoriesController->getCategorie($id);
 		}
-
 		if (count($tests) == 0) {
 			$message = $this->messages['no_one'];
 		}
-
 		return view($this->testsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'tests' => $tests, 'message' => $message]);
 	}
 
@@ -133,7 +131,11 @@ class TestsController extends Controller {
 		} else {
 			$args = ['user_id' => \Auth::user()->id, 'soft_delete' => 0, 'categorie_id' => $categorieId];
 		}
-		return Test::where($args)->paginate(15);
+		$tests = Test::where($args)->paginate(15);
+		foreach ($tests as $test) {
+			$test['categorie'] = $this->testCategoriesController->getCategorie($test->categorie_id);
+		}
+		return $tests;
 	}
 
 	/**
@@ -152,13 +154,11 @@ class TestsController extends Controller {
 	 */
 	public function create_($id) {
 		$categorie = null;
-		$categories = null;
 		if (isset($id)) {
 			$categorie = $this->testCategoriesController->getCategorie($id);
-		} else {
-			$categories = $this->testCategoriesController->getCategories();
 		}
 
+		$categories = $this->testCategoriesController->getCategories();
 		return view($this->testsCreateEditBlade, ['title' => $this->titles['add'], 'categorie' => $categorie, 'categories' => $categories]);
 	}
 
