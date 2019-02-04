@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Image;
 use App\Option;
 use App\Question;
+use App\QuestionCategorie;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use App\Helpers\Boostrap\Alert;
 
 class QuestionController extends Controller {
 
+    const DESCRIPTIVE = 0;
 
     public function questionsAll(){
         return Auth::user()->questions()->notRemoved()->get();
@@ -39,6 +41,15 @@ class QuestionController extends Controller {
             'questionCategories' => $questionCategories
         ]);
     }
+
+    public function store(Request $request){
+        $stored = QuestionStoreController::store($request);
+        Alert::clear();
+        ($stored) ? Alert::build(_v('stored')) : Alert::build(_v('no_stored'));
+        return redirect()->to('question');
+    }
+
+    //OLD
 
 	/**
 	 * Função de retorno de uma questão
@@ -80,136 +91,6 @@ class QuestionController extends Controller {
 			$question['image'] = Image::where(['id' => $question->image_id])->first();
 		}
 		return $questions;
-	}
-
-	private function endDB($commit, $message, $categorie) {
-		if ($commit) {
-			DB::commit();
-		} else {
-			DB::rollBack();
-		}
-		$questions = $this->getQuestions(($categorie == null) ? null : $categorie->id);
-		$categories = $this->questionCategoriesController->getCategories();
-		return view($this->questionsViewBlade, ['categorie' => ($categorie == null) ? null : $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $message]);
-	}
-	/**
-	 * Função que armazena uma categoria de questão;
-	 * @param Request $request
-	 * @return Response;
-	 */
-	public function store(Request $request) {
-		$this->validate($request, [
-			'description' => 'required',
-			'lines' => 'required',
-			'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-		]);
-
-		$input = $request->all();
-		if ($input['type'] != 0) {
-			$rules = [];
-			for ($i = 0; $i < 5; $i++) {
-				$rules['option-description.' . $i] = 'required';
-			}
-			$rules['option-correct'] = 'required';
-			$this->validate($request, $rules);
-		}
-
-		if (!isset($input['categorie_id']) || $input['categorie_id'] == "null") {
-			$input['categorie_id'] = NULL;
-		}
-
-		$input['user_id'] = \Auth::user()->id;
-
-		DB::beginTransaction();
-		$image = null;
-		$categorie = $this->questionCategoriesController->getCategorie($input['categorie_id']);
-		if (isset($input['image'])) {
-			$imageInput = [];
-			$imageInput['imageb64'] = $this->imageController->convert64($input['image']);
-			$this->imageController->makeThumb($input['image'], $input['image'] . ".tmp", 100);
-			$imageInput['imageb64_thumb'] = $this->imageController->convert64($input['image'] . ".tmp");
-			$image = Image::where($imageInput)->first();
-			if (!$image) {
-				$image = Image::create($imageInput);
-			}
-
-			unset($input['image']);
-			if ($image) {
-				$input['image_id'] = $image->id;
-			} else {
-				return $this->endDB(false, $this->messages['image_not_created'], $categorie);
-			}
-		}
-
-		$options = [];
-		if (isset($input['option-description'])) {
-			$options['description'] = $input['option-description'];
-		}
-
-		if (isset($input['option-image'])) {
-			$options['image'] = $input['option-image'];
-		}
-
-		if (isset($input['option-correct'])) {
-			$options['correct'] = $input['option-correct'];
-		}
-
-		switch ($input['type']) {
-		case 1:
-		case 2:
-			$input['lines'] = -1;
-			break;
-		}
-		unset($input['option-description']);
-		unset($input['option-image']);
-		unset($input['option-correct']);
-		unset($input['option-id']);
-
-		$input['soft_delete'] = false;
-		$question = Question::create($input);
-
-		if ($question) {
-			$allCreate = true;
-			if ($input['type'] != 0) {
-				for ($i = 0; $i < 5; $i++) {
-					$imageOptionId = null;
-					if (isset($options['image'][$i])) {
-						$imageOptionInput = [];
-						$imageOptionInput['imageb64'] = $this->imageController->convert64($options['image'][$i]);
-						$this->imageController->makeThumb($options['image'][$i], $options['image'][$i] . ".tmp", 100);
-						$imageOptionInput['imageb64_thumb'] = $this->imageController->convert64($options['image'][$i] . ".tmp");
-						$imageOption = Image::where($imageOptionInput)->first();
-						if (!$image) {
-							$imageOption = Image::create($imageOptionInput);
-						}
-						if ($imageOption) {
-							$imageOptionId = $imageOption->id;
-						} else {
-							return $this->endDB(false, $this->messages['image_not_created'], $categorie);
-						}
-					}
-					$optionCorrect = false;
-					for ($j = 0; $j < count($options['correct']); $j++) {
-						if ($options['correct'][$j] == $i) {
-							$optionCorrect = true;
-							break;
-						}
-					}
-					$option = Option::create([
-						'question_id' => $question->id,
-						'description' => $options['description'][$i],
-						'image_id' => $imageOptionId,
-						'correct' => $optionCorrect,
-					]);
-					if (!$option) {
-						return $this->endDB(false, $this->messages['options_no_created'], $categorie);
-					}
-				}
-			}
-			return $this->endDB(true, $this->messages['question_created'], $categorie);
-		} else {
-			return $this->endDB(false, $this->messages['question_no_created'], $categorie);
-		}
 	}
 
 	/**

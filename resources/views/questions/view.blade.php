@@ -57,9 +57,7 @@
             <tr>
                 <td>{{ $question->id }}</td>
                 <td>
-                    @if (isset($question->image))
-                        <img src="{{ $question->image->imageb64_thumb }}" style="max-width:100px; max-height:100px;"/>
-                    @endif
+                    <img src="{{ $question->thumbImage() }}" onerror="this.style.display='none'" style="max-width:100px; max-height:100px;"/>
                 </td>
                 <td>{{ $question->description }}</td>
                 <td style="width: 250px;">

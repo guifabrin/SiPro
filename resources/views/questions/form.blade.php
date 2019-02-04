@@ -13,7 +13,7 @@
 			{{  _v('in').' [ '.$questionCategorie->description.' ]' }}
 		@endif
 	</h3>
-	<form action="{{ url('/questions/'.$question->id) }}" method="POST" enctype="multipart/form-data">
+	<form action="{{ url('/question/'.$question->id) }}" method="POST" enctype="multipart/form-data">
 		@csrf
 		@if (isset($question->id))
 			@method("PUT")

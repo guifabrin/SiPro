@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 class ImageController extends Controller {
 
-	public function convert64($path) {
-		$type = pathinfo($path, PATHINFO_EXTENSION);
-		$data = file_get_contents($path);
-		return $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+	public static function convertBase64($uploadedFile) {
+	    $data = base64_encode(file_get_contents($uploadedFile));
+        $type = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_EXTENSION);
+		return $base64 = 'data:image/' . $type . ';base64,' . $data;
 	}
 
-	//https://davidwalsh.name/create-image-thumbnail-php
-	public function makeThumb($src, $dest, $desired_width) {
-
-		/* read the source image */
-		$source_image = imagecreatefromjpeg($src);
+	public static function makeThumb($uploadedFile, $desired_width) {
+        $type = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_EXTENSION);
+        if ($type == 'jpg' || $type == 'jpeg' || $type == 'JPG' || $type == 'JPEG') {
+            $source_image = imagecreatefromjpeg($uploadedFile);
+        } elseif ($type == 'png' || $type == "PNG"){
+            $source_image = imagecreatefrompng($uploadedFile);
+        }else{
+            return null;
+        }
 		$width = imagesx($source_image);
 		$height = imagesy($source_image);
 
@@ -26,9 +30,16 @@ class ImageController extends Controller {
 
 		/* copy source image at a resized size */
 		imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
-
+        while (true) {
+            $dest = uniqid('sipro', true) . '.'.$type;
+            if (!file_exists(sys_get_temp_dir() . $dest)) break;
+        }if ($type == 'jpg' || $type == 'jpeg' || $type == 'JPG' || $type == 'JPEG') {
+            imagejpeg($virtual_image, $dest);
+        } elseif ($type == 'png' || $type == "PNG"){
+            imagepng($virtual_image, $dest);
+        }
 		/* create the physical thumbnail image to its destination */
-		imagejpeg($virtual_image, $dest);
+        return self::convertBase64($uploadedFile);
 	}
 
 }

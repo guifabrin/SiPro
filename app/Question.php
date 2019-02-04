@@ -41,4 +41,23 @@ class Question extends BaseModel {
             return $query->where('categorie_id', null);
         }
     }
+
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function image()
+    {
+        return $this->hasOne('App\Image', 'id', 'image_id');
+    }
+
+    public function thumbImage(){
+        try{
+            return $this->image()->first()->imageb64_thumb;
+        } catch (\Exception $e){
+            return null;
+        }
+
+    }
+
 }
