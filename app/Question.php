@@ -27,4 +27,9 @@ class Question extends Model {
 	protected $fillable = [
 		'description', 'categorie_id', 'user_id', 'soft_delete', 'lines', 'image_id', 'type',
 	];
+
+    public function scopeWithoutCategorie($query)
+    {
+        return $query->where('categorie_id', null);
+    }
 }

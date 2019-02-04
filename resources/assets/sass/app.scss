@@ -1,117 +1,44 @@
-header{
-	display: none;
-}
-nav.navbar{
-	a.navbar-brand{
-		img{
-			height: 40px;
-		}
-	}
-}
-div.panel{
-	background-color: #f7f7f7;
-    padding: .5rem 1rem;
-        margin-top: 20px;
-        div.head{
-        	text-align:center;
-        	div.btn-left{
-        		float: left;
-        	}
-        	div.btn-right{
-        		float: right;
-        	}
-        	h2{
-        		display: inline-block;
-        	}
-        }
-        div.body{
-            ul.list-group{
-                li.list-group-item{
-                    .btn{
-                        float: right;
-                        margin-left: 5px;
-                    }
-                }
-            }
-        }
-        div.sidebar{
-        	div{
-        		margin-bottom: 20px;
-        	}
-        	div.avatar{
-        		text-align: center;
-        	}
-        	div.name{
-        		text-align: center;
-				color: #800000;
-				font-weight: bold;
-				font-size: 20px;
-        	}
-        	ul.menu{
-        		list-style: none;
-        		padding: 0px;
-        		li{
-					padding: 0.5rem 1rem;
-					a {
-    					color: #800000;
-						text-decoration: none;
-					}
-					&.active{
-						background-color: #800000;
-						a {
-    						color: white;
-						}
-					}
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
-        			&:hover{
-						background-color: #900000;
-						a {
-    						color: white;
-						}
-        			}
-        		}
-        	}
-        }
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+@import "~font-awesome/scss/font-awesome.scss";
+
+@import "welcome";
+@import "tree";
+
+body{
+  padding-top: $base-padding;
 }
 
-ul.pagination{
-    li {
-        padding: .5rem 1rem;
-        a {
-            color: #900000;
-            text-decoration: none;
-        }
-        &.active{
-            background-color: #800000;
-            span {
-                color: white;
-            }
-        }
-        &:hover{
-            background-color: #900000;
-            a {
-                color: white;
-            }
-        }
-    }
+footer{
+  padding: $base-padding 0 $base-padding 0;
 }
 
-.btn-file {
-    position: relative;
-    overflow: hidden;
+header, nav.sipro-navbar-user, div.buttons{
+  margin-bottom: $base-margin;
 }
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
+
+.base-color{
+  color: $base-color;
+}
+
+img.sipro-navbar-logo-img, img.sipro-navbar-avatar-img{
+  height: 20pt;
+}
+img.sipro-navbar-logo-img, div.sipro-navbar-title{
+  display: inline-block;
+}
+
+button[type=submit]{
+  margin: $base-margin;
+}
+
+.sipro-image-file-select{
+  max-height: 200px;
+  max-width: 200px;
 }

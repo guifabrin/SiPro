@@ -1,0 +1,44 @@
+.tree {
+  min-height:1.25rem;
+  padding:1.188rem;
+  margin-bottom:1.25rem;
+}
+.tree li {
+  list-style-type:none;
+  margin:0;
+  padding:0.625rem 0.3125rem 0 0.3125rem;
+  position:relative
+}
+.tree li::before, .tree li::after {
+  content:'';
+  left: -14pt;
+  position:absolute;
+  right:auto
+}
+.tree li::before {
+  border-left:0.0625rem solid #999;
+  bottom:3.125rem;
+  height:100%;
+  top:0;
+  width:0.0625rem
+}
+.tree li::after {
+  border-top:0.0625rem solid #999;
+  height:1.25rem;
+  top: 1.875rem;
+  width:1.563rem
+}
+.tree li.parent_li>span {
+  cursor:pointer
+}
+.tree>ul>li::before, .tree>ul>li::after {
+  border:0
+}
+.tree li:last-child::before {
+  height:1.875rem
+}
+.tree li.parent_li>span:hover, .tree li.parent_li>span:hover+ul li span {
+  background:#eee;
+  border:0.0625rem solid #94a0b4;
+  color:#000
+}

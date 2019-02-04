@@ -157,7 +157,7 @@ class TestCategoriesController extends Controller {
 		]);
 		$input = $request->input();
 		$input['user_id'] = \Auth::user()->id;
-		if (!isset($input['father_id']) || $input['father_id'] == null) {
+		if (!isset($input['father_id']) || $input['father_id'] == null || $input['father_id'] == 'null') {
 			$input['father_id'] = NULL;
 		}
 		$input['soft_delete'] = false;

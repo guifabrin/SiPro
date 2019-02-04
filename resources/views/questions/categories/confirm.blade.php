@@ -2,29 +2,28 @@
 
 @section('btn-left')
 	<a class="btn   btn-primary" href="{{ url('/questions/categories/') }}">
-		<i class="fa fa-arrow-circle-left"></i> {{ __('lang.back') }}
+		<i class="fa fa-arrow-circle-left"></i> {{ _v('back') }}
 	</a>
 @endsection
 
 @section('header')
-	{{ __('lang.confirm_remove') }} {{ __('lang.question_categorie') }} 
+	{{ _v('confirm_remove') }} {{ _v('question_categorie') }}
 @endsection
 
 @section('body')
-	{!! Form::open( array('url' => '/questions/categories/'.$categorie->id, 'method' => 'DELETE' )) !!}
-
+	<form action="{{url('/questions/categories/'.$categorie->id) }}" method="DELETE">
 		<div class="alert alert-warning">
-			{{ __('lang.remove_categorie_question_message') }} '{{$categorie->description}}'?
+			{{ _v('remove_categorie_question_message') }} '{{$categorie->description}}'?
 		</div>
 
 		<p class="yes-no-buttons">
 			<button type="submit" class="btn btn-info">
-			    <i class="fa fa-thumbs-up"></i> {{ __('lang.yes') }}
+			    <i class="fa fa-thumbs-up"></i> {{ _v('yes') }}
 			</button>
 			<a class="btn   btn-info" href="{{ url('/question/categories') }}">
-			    <i class="fa fa-thumbs-down"></i> {{ __('lang.no') }}
+			    <i class="fa fa-thumbs-down"></i> {{ _v('no') }}
 			</a>
 		</p>
 
-	{!! Form::close() !!}
+	</form>
 @endsection

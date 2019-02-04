@@ -27,4 +27,28 @@ class QuestionCategorie extends Model {
 	protected $fillable = [
 		'description', 'father_id', 'user_id', 'soft_delete',
 	];
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function questions()
+    {
+        return $this->hasMany('App\Question', 'categorie_id');
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function categories()
+    {
+        return $this->hasMany('App\QuestionCategorie', 'father_id')->get();
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function father()
+    {
+        return $this->hasOne('App\QuestionCategorie', 'id', 'father_id')->first();
+    }
 }

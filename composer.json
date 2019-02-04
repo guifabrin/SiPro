@@ -6,11 +6,10 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "fideloper/proxy": "~3.3",
-        "laravel/framework": "5.5.*",
+        "fideloper/proxy": "~4.0",
+        "laravel/framework": "5.7.*",
         "laravel/socialite": "^3.0",
-        "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.5.0"
+        "laravel/tinker": "~1.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -19,6 +18,9 @@
         "phpunit/phpunit": "~6.0"
     },
     "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
         "classmap": [
             "database/seeds",
             "database/factories"

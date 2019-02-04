@@ -5,7 +5,7 @@
 			{{ $c->id }} - {{ $c->description }}
 		</option>
 		@if(count($c->childrens) != 0)
-			@include('questions.categories.partials.option', ['categories' => $c->childrens, 'nivel' => $nivel+1]);
+			@include('questions.categories.partials.option', ['categories' => $c->childrens]);
 		@endif
 	@endif
 @endforeach

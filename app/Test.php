@@ -21,4 +21,9 @@ class Test extends Model
     protected $fillable = [
         'categorie_id', 'user_id', 'description', 'soft_delete'
     ];
+
+    public function scopeWithoutCategorie($query)
+    {
+        return $query->where('categorie_id', null);
+    }
 }

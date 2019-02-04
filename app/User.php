@@ -2,27 +2,49 @@
 
 namespace App;
 
-use App\SocialAccount as SocialAccount;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable as Notifiable;
 
 class User extends Authenticatable
 {
-  use Notifiable;
+    use Notifiable;
     /**
-      * The attributes that are mass assignable.
-      *
-      * @var array
-      */
-     protected $fillable = [
-         'name', 'email', 'password', 'avatar'
-     ];
-       /**
-      * The attributes that should be hidden for arrays.
-      *
-      * @var array
-      */
-     protected $hidden = [
-         'remember_token',
-     ];
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password', 'avatar'
+    ];
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'remember_token',
+    ];
+
+    public function avatar(){
+        if ($this->avatar!=null) {
+            return Auth::user()->avatar;
+        }
+        return url('/images/no_image.png');
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function questions()
+    {
+        return $this->hasMany('App\Question', 'user_id');
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function tests()
+    {
+        return $this->hasMany('App\Test', 'user_id');
+    }
 }

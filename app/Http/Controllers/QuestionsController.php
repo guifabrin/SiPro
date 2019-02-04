@@ -176,10 +176,8 @@ class QuestionsController extends Controller {
 		$categories = null;
 		if (isset($id)) {
 			$categorie = $this->questionCategoriesController->getCategorie($id);
-		} else {
-			$categories = $this->questionCategoriesController->getCategories();
 		}
-
+        $categories = $this->questionCategoriesController->getCategories();
 		return view($this->questionsCreateEditBlade, ['title' => $this->titles['add'], 'categorie' => $categorie, 'categories' => $categories]);
 	}
 
