@@ -31,7 +31,7 @@ class TestCategorie extends Model {
     /**
      * Get the comments for the blog post.
      */
-    public function tests()
+    public function itens()
     {
         return $this->hasMany('App\Test', 'categorie_id');
     }
@@ -39,9 +39,9 @@ class TestCategorie extends Model {
     /**
      * Get the comments for the blog post.
      */
-    public function categories()
+    public function children()
     {
-        return $this->hasMany('App\TestCategorie', 'father_id')->get();
+        return $this->hasMany('App\TestCategorie', 'father_id');
     }
 
     /**
@@ -49,6 +49,16 @@ class TestCategorie extends Model {
      */
     public function father()
     {
-        return $this->hasOne('App\TestCategorie', 'id', 'father_id')->first();
+        return $this->hasOne('App\TestCategorie', 'id', 'father_id');
+    }
+
+    public function scopeWithoutFather($query)
+    {
+        return $query->where('father_id', null);
+    }
+
+    public function scopeNotRemoved($query)
+    {
+        return $query->where('soft_delete', false);
     }
 }

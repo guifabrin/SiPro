@@ -6,9 +6,9 @@
 
 	<div class="collapse navbar-collapse" id="siproNavbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-			@php(BootstrapHelper::navItem('/questions/categories/', 'bar.question_categories', 'fa fa-list'))
+			@php(BootstrapHelper::navItem('/questionCategory/', 'bar.question_categories', 'fa fa-list'))
 			@php(BootstrapHelper::navItem('/questions/', 'bar.questions', 'fa fa-question'))
-			@php(BootstrapHelper::navItem('/tests/categories/', 'bar.test_categories', 'fa fa-list'))
+			@php(BootstrapHelper::navItem('/testCategory/', 'bar.test_categories', 'fa fa-list'))
 			@php(BootstrapHelper::navItem('/tests/', 'bar.tests', 'fa fa-file-text'))
 			@php(BootstrapHelper::navItem('/user/', 'bar.my_account', 'fa fa-user'))
 		</ul>

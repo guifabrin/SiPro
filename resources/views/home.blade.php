@@ -25,11 +25,7 @@
                         {{ __('lang.create_password') }}
                     </a>
                 @endif
-                @if (isset($message) && count($message)>0)
-                    <div class="alert alert-{{$message['status']}}">
-                        {{$message['message']}}
-                    </div>
-                @endif
+                @php(App\Helpers\Boostrap\Alert::echo())
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>

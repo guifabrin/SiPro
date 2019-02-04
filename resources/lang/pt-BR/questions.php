@@ -1,35 +1,6 @@
 <?php
 
 $arrQuestionsLang = [
-    'categories' => [
-        'view' => [
-            'back' => 'Voltar',
-            'add' => 'Adicionar',
-            'categorie' => [
-                'none' => 'Nenhum'
-            ],
-            'see' => 'Ver',
-            'remove' => 'Remover',
-            'edit' => 'Editar'
-        ],
-        'confirm' => [
-            'back' => 'Voltar',
-            'remove_categorie_question_message' => 'Removendo a categoria de questão, você também remove as questões. Caso você tenha algum teste com questões dessa categoria de questão a questão irá ser removida. Tem certeza que deseja remover a categoria de questão',
-            'yes' => 'Sim',
-            'no' => 'Não    ',
-        ],
-        'form' => [
-            'id' => 'Código',
-            'id_placeholder' => 'Código gerado automaticamente',
-            'categorie' => [
-                'none' => 'Nenhum'
-            ],
-            'description' => 'Descrição',
-            'description_placeholder' => 'Coloque aqui a descrição da sua categoria',
-            'back' => 'Voltar',
-            'submit' => 'Salvar'
-        ]
-    ],
     'view' =>[
         'title' => 'Minhas questões',
         'back' => 'Voltar',
@@ -38,7 +9,10 @@ $arrQuestionsLang = [
         'image' => 'Imagem',
         'description' => 'Descrição',
         'actions' => 'Ações',
-        'see' => 'Ver'
+        'see' => 'Ver',
+        'categorie' => [
+            'none' => 'Nenhum'
+        ],
     ],
     'form' => [
         'id' => 'Código',

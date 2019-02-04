@@ -80,7 +80,7 @@ class QuestionsController extends Controller {
 	 */
 	public function __construct() {
 		$this->middleware('auth');
-		$this->questionCategoriesController = new QuestionCategoriesController();
+		$this->questionCategoriesController = new QuestionCategoryController();
 		$this->imageController = new ImageController();
 	}
 

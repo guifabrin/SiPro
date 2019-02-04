@@ -35,6 +35,18 @@ class User extends Authenticatable
     /**
      * Get the comments for the blog post.
      */
+    public function itens($type)
+    {
+        if ($type=="question"){
+            return $this->questions();
+        } elseif($type=="test"){
+            return $this->tests();
+        }
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
     public function questions()
     {
         return $this->hasMany('App\Question', 'user_id');
@@ -43,8 +55,24 @@ class User extends Authenticatable
     /**
      * Get the comments for the blog post.
      */
+    public function questionCategories()
+    {
+        return $this->hasMany('App\QuestionCategorie', 'user_id');
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
     public function tests()
     {
         return $this->hasMany('App\Test', 'user_id');
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function testCategories()
+    {
+        return $this->hasMany('App\TestCategorie', 'user_id');
     }
 }

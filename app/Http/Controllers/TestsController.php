@@ -78,7 +78,7 @@ class TestsController extends Controller {
 	public function __construct() {
 		$this->middleware('auth');
 		$this->testCategoriesController = new TestCategoriesController();
-		$this->questionCategoriesController = new QuestionCategoriesController();
+		$this->questionCategoriesController = new QuestionCategoryController();
 		$this->questionsController = new QuestionsController();
 		$this->questionsInTestsController = new QuestionsInTestsController();
 	}
