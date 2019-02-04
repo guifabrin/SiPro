@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model {
+class Question extends BaseModel {
 	/**
 	 * The table associated with the model.
 	 *
@@ -31,5 +31,14 @@ class Question extends Model {
     public function scopeWithoutCategorie($query)
     {
         return $query->where('categorie_id', null);
+    }
+
+    public function scopeFromCategory($query, $questionCategory = null)
+    {
+        if (isset($questionCategory) && isset($questionCategory->id)){
+            return $query->where('categorie_id', $questionCategory->id);
+        } else {
+            return $query->where('categorie_id', null);
+        }
     }
 }

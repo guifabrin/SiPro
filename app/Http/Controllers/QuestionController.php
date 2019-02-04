@@ -7,112 +7,29 @@ use App\Option;
 use App\Question;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers\Boostrap\Alert;
 
-class QuestionsController extends Controller {
+class QuestionController extends Controller {
 
-	/**
-	 * Variáveis de caminho dos arquivos Blade
-	 */
-	private $questionsViewBlade = "questions.view";
-	private $questionsCreateEditBlade = "questions.form";
-	private $questionsConfirmBlade = 'questions.confirm';
 
-	/**
-	 * Array de mensagens de retorno das ações executadas no QuestionsController
-	 */
-	private $messages = [
-		'no_one' => [
-			'status' => 'warning',
-			'message' => 'Não há nenhuma questão cadastrada.',
-		],
-		'no_user_question' => [
-			'status' => 'warning',
-			'message' => 'A questão não pertence a você.',
-		],
-		'question_created' => [
-			'status' => 'success',
-			'message' => 'Questão criada.',
-		],
-		'options_no_created' => [
-			'status' => 'success',
-			'message' => 'Questão criada.',
-		],
-		'question_no_created' => [
-			'status' => 'danger',
-			'message' => 'Questão não criada.',
-		],
-		'image_no_created' => [
-			'status' => 'danger',
-			'message' => 'Imagem não criada.',
-		],
-		'question_updated' => [
-			'status' => 'success',
-			'message' => 'Questão atualizada.',
-		],
-		'question_no_updated' => [
-			'status' => 'danger',
-			'message' => 'Questão não atualizada.',
-		],
-		'question_deleted' => [
-			'status' => 'success',
-			'message' => 'Questão removida.',
-		],
-		'question_no_deleted' => [
-			'status' => 'danger',
-			'message' => 'Questão não removida.',
-		],
-	];
+    public function questionsAll(){
+        return Auth::user()->questions()->notRemoved()->get();
+    }
 
-	/**
-	 * Array de titulos do QuestionsController
-	 */
-	private $titles = [
-		'add' => 'Adicionar',
-		'edit' => 'Editar',
-	];
+    public function index() {
+        $questions = $this->questionsAll();
+        $questionCategories = QuestionCategoryController::getUserCategories();
+        if ($questions->count() == 0) {
+            Alert::build(_v('none_message'), 'info');
+        }
+        return view('questions.view', [
+            'questions' => $questions,
+            'questionCategory' => true,
+            'questionCategories' => $questionCategories
+        ]);
+    }
 
-	private $imageController = null;
-	private $questionCategoriesController = null;
-
-	/**
-	 * Construtor
-	 * @return void
-	 */
-	public function __construct() {
-		$this->middleware('auth');
-		$this->questionCategoriesController = new QuestionCategoryController();
-		$this->imageController = new ImageController();
-	}
-
-	/**
-	 * Função de retorno da visualização de todas as questões;
-	 * @return Resonse
-	 */
-	public function index(Request $request) {
-		return $this->index_(null);
-	}
-
-	/**
-	 * Função de retorno da visualização de questões da categoria selecionada;
-	 * @return Response
-	 */
-	public function index_($id) {
-		$message = null;
-		$questions = $this->getQuestions($id);
-
-		$categorie = null;
-		$categories = $this->questionCategoriesController->getCategories();
-
-		if ($id != null) {
-			$categorie = $this->questionCategoriesController->getCategorie($id);
-		}
-
-		if (count($questions) == 0) {
-			$message = $this->messages['no_one'];
-		}
-
-		return view($this->questionsViewBlade, ['categorie' => $categorie, 'categories' => $categories, 'questions' => $questions, 'message' => $message]);
-	}
 
 	/**
 	 * Função de retorno de uma questão
@@ -144,7 +61,6 @@ class QuestionsController extends Controller {
 	 */
 	public function getQuestions($categorieId) {
 
-		$args;
 		if ($categorieId == null) {
 			$args = ['user_id' => \Auth::user()->id, 'soft_delete' => 0];
 		} else {

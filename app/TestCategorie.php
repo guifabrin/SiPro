@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class TestCategorie extends Model {
+class TestCategorie extends BaseModel {
 	/**
 	 * The table associated with the model.
 	 *
@@ -55,10 +53,5 @@ class TestCategorie extends Model {
     public function scopeWithoutFather($query)
     {
         return $query->where('father_id', null);
-    }
-
-    public function scopeNotRemoved($query)
-    {
-        return $query->where('soft_delete', false);
     }
 }

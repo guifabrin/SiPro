@@ -53,4 +53,8 @@ Route::get('/logout', function () {
 Route::group(['middleware' => ['web','auth']], function () {
     Route::resource('questionCategory', 'QuestionCategoryController');
     Route::resource('testCategory', 'TestCategoryController');
+    Route::resource('question', 'QuestionController');
+    Route::get('questions/itens/{questionCategory}', 'QuestionFromCategoryController@index');
+    Route::get('questions/itens/{questionCategory}/create', 'QuestionFromCategoryController@create');
+    Route::get('questions/itensWithoutCategory', 'QuestionWithoutCategoryController@index');
 });

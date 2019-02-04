@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\QuestionCategorie;
 use Illuminate\Support\Facades\Auth;
 
 class QuestionCategoryController extends CategoryController
@@ -11,13 +10,18 @@ class QuestionCategoryController extends CategoryController
         return 'question';
     }
 
-    protected function typeBasicObj(){
-        return new QuestionCategorie();
+    protected function typeBasicClass(){
+        return 'App\QuestionCategorie';
     }
 
-    protected function getUserCategories()
+    protected function _getUserCategories()
     {
         return Auth::user()->questionCategories()->withoutFather()->notRemoved()->get();
+    }
+
+    public static function getUserCategories()
+    {
+        return (new self())->_getUserCategories();
     }
 
 }

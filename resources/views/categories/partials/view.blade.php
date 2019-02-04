@@ -20,10 +20,10 @@
                 <span class="badge badge-light">{{ $categoryL->itens()->count() }}</span>
             </button>
             <div class="dropdown-menu" aria-labelledby="siproDrodownMenu{{$categoryL->id}}">
-                <a class="dropdown-item" href="{{ url("/".$type."Categorie/".$categoryL->id) }}">
+                <a class="dropdown-item" href="{{ url("/".$type."s/itens/".$categoryL->id) }}">
                     <i class="fa fa-eye"></i> {{ _v("see") }}
                 </a>
-                <a class="dropdown-item" href="{{ url("/".$type."Categorie/".$categoryL->id."/create") }}">
+                <a class="dropdown-item" href="{{ url("/".$type."s/itens/".$categoryL->id."/create") }}">
                     <i class="fa fa-plus"></i> {{ _v("add") }}
                 </a>
                 @if ($manage)

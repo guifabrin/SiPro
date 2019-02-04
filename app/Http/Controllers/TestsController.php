@@ -79,7 +79,7 @@ class TestsController extends Controller {
 		$this->middleware('auth');
 		$this->testCategoriesController = new TestCategoriesController();
 		$this->questionCategoriesController = new QuestionCategoryController();
-		$this->questionsController = new QuestionsController();
+		$this->questionsController = new QuestionController();
 		$this->questionsInTestsController = new QuestionsInTestsController();
 	}
 
