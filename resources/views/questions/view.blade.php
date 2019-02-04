@@ -29,7 +29,7 @@
                     <a class="dropdown-item" href="{{ url('/questions/itensWithoutCategory') }}">
                         <i class='fa fa-eye'></i> {{ _v('see') }}
                     </a>
-                    <a class="dropdown-item" href="{{ url('/questions/itensWithoutCategory/create') }}">
+                    <a class="dropdown-item" href="{{ url('/question/create') }}">
                         <i class='fa fa-plus'></i> {{ _v('add') }}
                     </a>
                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\QuestionCategorie;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Boostrap\Alert;
+use App\Question;
 
 class QuestionFromCategoryController extends Controller {
 
@@ -28,6 +29,12 @@ class QuestionFromCategoryController extends Controller {
 
     public function create(QuestionCategorie $questionCategory)
     {
-
+        $questionCategories = QuestionCategoryController::getUserCategories();
+        return view('questions.form', [
+            'titleKey' => 'add',
+            'question' => new Question(),
+            'questionCategory' => $questionCategory,
+            'questionCategories' => $questionCategories
+        ]);
     }
 }

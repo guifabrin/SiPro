@@ -6,31 +6,35 @@
 	</a>
 @endsection
 
-@section('header')
-	{{ $title }} Questão  {{ isset($categorie) ? '[ '.$categorie->description.' ]' : ''}}
-@endsection
-
 @section('body')
-	<form action="{{ url('/questions'. (isset($question) ? '/'.$question->id : '')) }}"
-		  method="{{(isset($question)) ? 'PATCH' : 'POST'}}"
-		  enctype="multipart/form-data">
+	<h3>
+		{{ _v($titleKey) }} {{_v('question')}}
+		@if (isset($questionCategorie))
+			{{  _v('in').' [ '.$questionCategorie->description.' ]' }}
+		@endif
+	</h3>
+	<form action="{{ url('/questions/'.$question->id) }}" method="POST" enctype="multipart/form-data">
 		@csrf
+		@if (isset($question->id))
+			@method("PUT")
+		@endif
 		@php(Field::build('id', 'text', isset($question) ? $question->id : null, false, true))
 		<div class="form-group">
 			<label for="categorie_id">{{ _v('categorie_id') }}:</label>
 			<ul class="tree">
 				<li>
-					<input type="radio" name="father_id" style="margin-top: 11pt;"
-						   @if (!isset($question ) || (isset($question) && $question->categorie_id == null))
-						   checked
+					<input type="radio" name="categorie_id" style="margin-top: 11pt;"
+						   @if ($question->categorie_id == null)
+						   	checked
 						   @endif
 						   value="null"/> {{ _v('categorie.none') }}
 				</li>
-				@include('questions.categories.partials.view', [
-                    'selected' => isset($question) ? $question->categorie : null,
-                    'categories' => $categories,
+				@include('categories.partials.view', [
                     'select' => true,
-                    'radioKey' => 'categorie_id'
+                    'selectFather' => false,
+                    'radioKey' => 'categorie_id',
+                    'category' => $questionCategory,
+                    'categories' => $questionCategories
                 ])
 			</ul>
 		</div>

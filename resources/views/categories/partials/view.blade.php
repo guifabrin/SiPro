@@ -2,15 +2,18 @@
 @php($category = isset($category) ? $category : null)
 @php($manage = isset($manage) ? $manage : false)
 @foreach ($categories as $categoryL)
-    @if ($select && isset($category) && $categoryL->id==$category->id)
+    @if ($select && $selectFather && isset($category) && $categoryL->id==$category->id)
         @continue
     @endif
 	<li>
         @if ($select)
             <input type="radio" name="{{$radioKey}}" style="margin-top: 11pt" value="{{$categoryL->id}}"
-                @if (isset($category) && $categoryL->id == $category->father_id)
-                    checked
-                @endif
+                   @if ($selectFather && isset($category) && $categoryL->id == $category->father_id)
+                   checked
+                    @endif
+                   @if (!$selectFather && isset($category) && $categoryL->id == $category->id)
+                   checked
+                    @endif
             />
             {{ $categoryL->description }}
         @else

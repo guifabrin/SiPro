@@ -27,10 +27,10 @@
 					<span class="badge badge-light">{{ Auth::user()->itens($type)->withoutCategorie()->count() }}</span>
 				</button>
 				<div class="dropdown-menu" aria-labelledby="siproDrodownMenu0">
-					<a class="dropdown-item" href="{{ url("/".$type."Category/") }}">
+					<a class="dropdown-item" href="{{ url("/".$type."/itensWithoutCategory") }}">
 						<i class="fa fa-eye"></i> {{ _v("see") }}
 					</a>
-					<a class="dropdown-item" href="{{ url("/".$type."Category/null/create") }}">
+					<a class="dropdown-item" href="{{ url("/".$type."/create") }}">
 						<i class="fa fa-plus"></i> {{ _v("add") }}
 					</a>
 				</div>

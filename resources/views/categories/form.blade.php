@@ -1,7 +1,7 @@
 @extends("home")
 
 @section("btn-left")
-	<a class="btn btn-primary" href="{{ url("/".$type."category") }}">
+	<a class="btn btn-primary" href="{{ url("/".$type."Category") }}">
 		<i class="fa fa-arrow-circle-left"></i> {{ _v("back") }}
 	</a>
 @endsection
@@ -24,6 +24,7 @@
 			</li>
 			@include("categories.partials.view", [
 				"select" => true,
+				"selectFather" => true,
 				"radioKey" => "father_id",
 				"categories" => $categories,
 				"category" => $category

@@ -30,6 +30,15 @@ class QuestionController extends Controller {
         ]);
     }
 
+    public function create() {
+        $questionCategories = QuestionCategoryController::getUserCategories();
+        return view('questions.form', [
+            'titleKey' => 'add',
+            'questionCategory' => null,
+            'question' => new Question(),
+            'questionCategories' => $questionCategories
+        ]);
+    }
 
 	/**
 	 * Função de retorno de uma questão
@@ -71,30 +80,6 @@ class QuestionController extends Controller {
 			$question['image'] = Image::where(['id' => $question->image_id])->first();
 		}
 		return $questions;
-	}
-
-	/**
-	 * Função que retorna a 'view' de criação da categoria da questão;
-	 * @param Request $request;
-	 * @return Response;
-	 */
-	public function create(Request $request) {
-		return $this->create_(null);
-	}
-
-	/**
-	 * Função que retorna a 'view' de criação da categoria da questão;
-	 * @param Request $request;
-	 * @return Response;
-	 */
-	public function create_($id) {
-		$categorie = null;
-		$categories = null;
-		if (isset($id)) {
-			$categorie = $this->questionCategoriesController->getCategorie($id);
-		}
-        $categories = $this->questionCategoriesController->getCategories();
-		return view($this->questionsCreateEditBlade, ['title' => $this->titles['add'], 'categorie' => $categorie, 'categories' => $categories]);
 	}
 
 	private function endDB($commit, $message, $categorie) {
