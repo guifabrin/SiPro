@@ -58,13 +58,6 @@ class CategoryController extends Controller
         ]);
     }
 
-    private function message(string $key, $object = null)
-    {
-        $status = ($object) ? "success" : "danger";
-        $message = ($object) ? _v($key) : _v("not_" . $key);
-        Alert::build($message, $status);
-    }
-
     private function save(array $input = [], $category = null)
     {
         $input['user_id'] = Auth::user()->id;

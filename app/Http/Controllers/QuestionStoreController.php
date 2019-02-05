@@ -16,21 +16,24 @@ class QuestionStoreController extends Controller
     private $question;
     private $options;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, Question $question = null)
     {
         $this->request = $request;
         $this->input = $request->all();
-        $this->options = [];
+        if ($question) {
+            $this->question = $question;
+            $this->options = $question->options()->get();
+        }
     }
 
-    public static function store($request){
-        return (new QuestionStoreController($request))->_store();
+    public static function store(Request $request, Question $question = null){
+        return (new QuestionStoreController($request, $question))->_store();
     }
 
     public function _store()
     {
         $this->validate($this->request);
-        if (!$this->createQuestion()) return false;
+        if (!$this->processQuestion()) return false;
         if ($this->input['type'] != QuestionController::DESCRIPTIVE) {
             foreach ($this->createOptions() as $option) {
                 if (!$option) {
@@ -61,24 +64,26 @@ class QuestionStoreController extends Controller
                 $rules['option-description.' . $i] = 'required';
             }
             $rules['option-correct'] = 'required';
-            $this->validate($this->request, $rules);
+            $this->request->validate($rules);
         }
     }
 
-    private function createQuestion()
+    private function processQuestion()
     {
-        try {
-            $this->question = Question::create([
-                "categorie_id" => $this->getQuestionCategoryId(),
-                "user_id" => Auth::user()->id,
-                "description" => $this->input['description'],
-                "image_id" => $this->getImageId($this->input['image']),
-                "type" => $this->input['type'],
-                "lines" => $this->getLines(),
-                "soft_delete" => false
-            ]);
-        } catch (\Exception $e) {
-            dd($e);
+        $uploadedFile = isset($this->input['image'])?$this->input['image']:null;
+        $args = [
+            "categorie_id" => $this->getQuestionCategoryId(),
+            "user_id" => Auth::user()->id,
+            "description" => $this->input['description'],
+            "image_id" => $this->getImageId($uploadedFile),
+            "type" => $this->input['type'],
+            "lines" => $this->getLines(),
+            "soft_delete" => false
+        ];
+        if ($this->question){
+            $this->question->update($args);
+        } else {
+            $this->question = Question::create($args);
         }
         return $this->question;
     }
@@ -93,12 +98,20 @@ class QuestionStoreController extends Controller
 
     private function getImageId($image = null)
     {
-        if (!isset($image)) return null;
-        $imageObj = Image::firstOrCreate([
-            "imageb64" => ImageController::convertBase64($image),
-            "imageb64_thumb" => ImageController::makeThumb($image, 100)
-        ]);
-        return ($imageObj) ? $imageObj->id : null;
+        if ($image) {
+            $imageObj = Image::firstOrCreate([
+                "imageb64" => ImageController::convertBase64($image),
+                "imageb64_thumb" => ImageController::makeThumb($image, 100)
+            ]);
+        } else {
+            $imageObj = null;
+        }
+        if ($imageObj) {
+            $imageId = $imageObj->id;
+        } else {
+            $imageId = isset($this->input['image_id'])?$this->input['image_id']:null;
+        }
+        return $imageId;
     }
 
     private function getLines()
@@ -114,28 +127,30 @@ class QuestionStoreController extends Controller
 
     private function createOptions()
     {
+        if ($this->options->count()>0){
+            $this->destroyOptions();
+        }
         $optionsValues = $this->getOptionsValues();
         for ($i = 0; $i < 5; $i++) {
-            try {
-                $imageOption = $optionsValues['image'][$i];
-                $imageOptionId = isset($imageOption) ? $this->getImageId($imageOption) : null;
-                $optionCorrect = false;
+            $imageOption = isset($optionsValues['image']) && isset($optionsValues['image'][$i]) ? $optionsValues['image'][$i] : null;
+            $imageOptionId = isset($imageOption) ? $this->getImageId($imageOption) : null;
+            $optionCorrect = false;
+            if (isset($optionsValues['correct'])) {
                 for ($j = 0; $j < count($optionsValues['correct']); $j++) {
                     if ($optionsValues['correct'][$j] == $i) {
                         $optionCorrect = true;
                         break;
                     }
                 }
-                $this->options[] = Option::create([
-                    'question_id' => $this->question->id,
-                    'description' => $optionsValues['description'][$i],
-                    'image_id' => $imageOptionId,
-                    'correct' => $optionCorrect,
-                ]);
-            } catch (\Exception $e) {
-                \Log::error($e->getMessage());
             }
+            Option::create([
+                'question_id' => $this->question->id,
+                'description' => $optionsValues['description'][$i],
+                'image_id' => $imageOptionId,
+                'correct' => $optionCorrect,
+            ]);
         }
+        $this->options = $this->question->options()->get();
         return $this->options;
     }
 
@@ -144,23 +159,25 @@ class QuestionStoreController extends Controller
         $options = [];
         $keys = ["description", "image", "correct"];
         foreach ($keys as $key) {
-            $value = $this->input["option-" . $key];
-            if (isset($value)) {
-                $options["description"] = $value;
+            if (isset($this->input["option-" . $key])) {
+                $options[$key] = $this->input["option-" . $key];
             }
         }
         return $options;
     }
+    private function destroyOptions(){
+        foreach ($this->options as $option) {
+            if ($option) {
+                $option->forceDelete();
+            };
+        }
+    }
 
     private function destroy()
     {
-        foreach ($this->options as $option) {
-            if ($option) {
-                $option->delete();
-            };
-        }
+        $this->destroyOptions();
         if ($this->question) {
-            $this->question->delete();
+            $this->question->forceDelete();
         }
     }
 }

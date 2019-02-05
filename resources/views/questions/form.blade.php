@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('btn-left')
-	<a class="btn btn-primary" href="{{ url('questions') }}">
+	<a class="btn btn-primary" href="{{ url('question') }}">
 		<i class="fa fa-btn fa-arrow-circle-left"></i> {{ _v('back') }}
 	</a>
 @endsection
@@ -39,6 +39,9 @@
 			</ul>
 		</div>
 		@php(Field::build('description', 'textarea', isset($question) ? $question->description : null))
+		@if(isset($question))
+			@php(Field::build('image_id', 'hidden', isset($question) && isset($question->image) && isset($question->image->id) ? $question->image->id : null))
+		@endif
 		@php(Field::build('image', 'image', isset($question) && isset($question->image) && isset($question->image->imageb64_thumb) ? $question->image->imageb64_thumb : null))
 		@php(Field::build('type', 'select', isset($question) ? $question->type : 0,  true, false, [
 	 	0 => _v('descriptive'), 1 => _v('optative'), 2 => _v('true_false')	]))
@@ -55,18 +58,22 @@
 				</tr>
 				</thead>
 				<tbody>
+				@php($options = $question->options()->get())
 				@for ($i=0; $i<5; $i++)
 					@php($settedOptionImage = isset($options[$i]) && isset($options[$i]->image) && isset($options[$i]->image->imageb64_thumb))
 					<tr>
 						<td>
 							@php(Field::build("option-id[".$i."]", "hidden"))
-							@php(Field::build("option-correct[]", "checkbox",  $i, false, false,  isset($options) && isset($options[$i]) && $options[$i]->correct))
+							@php(Field::build("option-correct[]", "checkbox",
+							$i, false, false,  isset($options) && isset($options[$i]) && $options[$i]->correct))
 						</td>
 						<td>
-							@php(Field::build("option-image[". $i ."]", "image",  $settedOptionImage ? $options[$i]->image->imageb64_thumb : null))
+							@php(Field::build("option-image[". $i ."]", "image",
+							$settedOptionImage ? $options[$i]->image->imageb64_thumb : null))
 						</td>
 						<td>
-							@php(Field::build("option-description[". $i ."]", "textarea",  isset($options) && isset($options[$i])) ? $options[$i]->description : "")
+							@php(Field::build("option-description[". $i ."]", "textarea",
+							 isset($options) && isset($options[$i]) ? $options[$i]->description : ""))
 						</td>
 					</tr>
 				@endfor

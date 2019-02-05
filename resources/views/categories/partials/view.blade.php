@@ -20,7 +20,7 @@
             <button class="btn btn-sm {{ isset($category) && $category->id == $categoryL->id ? "btn-primary" : "btn-secondary" }} dropdown-toggle" id="siproDrodownMenu{{$categoryL->id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-folder-open"></i>
                 {{ $categoryL->description }}
-                <span class="badge badge-light">{{ $categoryL->itens()->count() }}</span>
+                <span class="badge badge-light">{{ $categoryL->itens()->notRemoved()->count() }}</span>
             </button>
             <div class="dropdown-menu" aria-labelledby="siproDrodownMenu{{$categoryL->id}}">
                 <a class="dropdown-item" href="{{ url("/".$type."s/itens/".$categoryL->id) }}">

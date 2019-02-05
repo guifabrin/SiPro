@@ -12,9 +12,7 @@
         <?php } ?>
         <?php if ($this->readonly) { ?>
             readonly="true"
-        <?php } ?>>
-        <?php echo $this->value() ?>
-    </textarea>
+        <?php } ?>><?php echo $this->value() ?></textarea>
     <?php if ($this->hasHelper()) { ?>
         <small id="<?php echo $this->helpId(); ?>" class="form-text text-muted">
             <?php echo $this->helperText(); ?>

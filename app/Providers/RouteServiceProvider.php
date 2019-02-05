@@ -32,6 +32,9 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('testCategory', function ($value) {
             return \Auth::user()->testCategories()->where('id', $value)->first();
         });
+        Route::bind('question', function ($value) {
+            return \Auth::user()->questions()->where('id', $value)->first();
+        });
     }
 
     /**

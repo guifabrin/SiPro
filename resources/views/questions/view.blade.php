@@ -57,14 +57,15 @@
             <tr>
                 <td>{{ $question->id }}</td>
                 <td>
-                    <img src="{{ $question->thumbImage() }}" onerror="this.style.display='none'" style="max-width:100px; max-height:100px;"/>
+                    <img src="{{ $question->thumbImage() }}" onerror="this.style.display='none'"
+                         style="max-width:100px; max-height:100px;"/>
                 </td>
                 <td>{{ $question->description }}</td>
                 <td style="width: 250px;">
-                    <a class="btn btn-danger" href="{{ url('/questions/confirm/'.$question->id) }}">
+                    <a class="btn btn-danger" href="{{ url('/question/'.$question->id) }}">
                         <i class='fa fa-times'></i> {{ _v('remove') }}
                     </a>
-                    <a class="btn btn-warning" href="{{ url('/questions/'.$question->id) }}">
+                    <a class="btn btn-warning" href="{{ url('/question/'.$question->id."/edit") }}">
                         <i class='fa fa-pencil'></i> {{ _v('edit') }}
                     </a>
                 </td>

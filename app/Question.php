@@ -60,4 +60,12 @@ class Question extends BaseModel {
 
     }
 
+    /**
+     * Get the comments for the blog post.
+     */
+    public function options()
+    {
+        return $this->hasMany('App\Option');
+    }
+
 }
