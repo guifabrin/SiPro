@@ -40,8 +40,8 @@
 
         <div class="form-group" id="options" style="display: none;">
             <label>{{ _v('options') }}:</label>
-            <table class="table">
-                <thead>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
                 <tr>
                     <th>{{ _v('right') }}</th>
                     <th>{{ _v('image') }}</th>

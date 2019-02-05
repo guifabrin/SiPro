@@ -22,29 +22,28 @@
         'category'=> $questionCategory,
         'categories' => $questionCategories
     ])
-    <table class="table">
-        <thead>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
         <tr>
-            <th>{{ _v('code') }}</th>
-            <th>{{ _v('image') }}</th>
+            <th style="width: 100pt;">{{ _v('image') }}</th>
             <th>{{ _v('description') }}</th>
-            <th>{{ _v('actions') }}</th>
+            <th style="width: 100pt;">{{ _v('actions') }}</th>
         </tr>
         </thead>
         <tbody>
         @foreach ($questions as $question)
             <tr>
-                <td>{{ $question->id }}</td>
                 <td>
                     <img src="{{ $question->thumbImage() }}" class="sipro-image-file-select"
                          onerror="this.style.display='none'" alt="{{ $question->description }}"/>
                 </td>
                 <td>{{ $question->description }}</td>
-                <td style="width: 250px;">
-                    <a class="btn btn-danger" href="{{ url('/question/'.$question->id) }}">
+                <td>
+                    <a class="btn btn-danger w-100" href="{{ url('/question/'.$question->id) }}">
                         <i class='fa fa-times'></i> {{ _v('remove') }}
                     </a>
-                    <a class="btn btn-warning" href="{{ url('/question/'.$question->id."/edit") }}">
+                    <hr>
+                    <a class="btn btn-warning w-100" href="{{ url('/question/'.$question->id."/edit") }}">
                         <i class='fa fa-pencil'></i> {{ _v('edit') }}
                     </a>
                 </td>

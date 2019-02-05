@@ -56,7 +56,7 @@
         <ul class="list-group">
             @include('questions.categories.partials.view', ['categories' => $questionCategories, 'nivel' => 1, 'categorieManage' => false])
         </ul>
-        <table class="table">
+        <table class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>{{ __('lang.code') }}</th>

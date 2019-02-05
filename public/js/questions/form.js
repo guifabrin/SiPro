@@ -10477,7 +10477,7 @@ __webpack_require__.r(__webpack_exports__);
 window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   var typeSelect = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#typeSelect');
-  var linesNumber = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber');
+  var linesNumber = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber').parent();
   var options = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#options');
   typeSelect.change(function () {
     switch (typeSelect.val() * 1) {

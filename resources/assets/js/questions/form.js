@@ -4,7 +4,7 @@ window.$ = window.jQuery = $;
 
 $(function () {
     let typeSelect = $('#typeSelect');
-    let linesNumber = $('#linesNumber');
+    let linesNumber = $('#linesNumber').parent();
     let options = $('#options');
     typeSelect.change(function () {
         switch (typeSelect.val() * 1) {

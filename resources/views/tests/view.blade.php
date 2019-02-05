@@ -25,7 +25,7 @@
     @endif
     @if(isset($tests) && count($tests)>0)
 
-        <table class="table">
+        <table class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>{{ __('lang.code') }}</th>
