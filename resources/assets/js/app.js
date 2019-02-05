@@ -24,3 +24,12 @@ var siPro = {
     }
 };
 window.siPro = siPro;
+
+$(function () {
+    function resizeIframe() {
+        $('iframe').each(function(index, el){
+           $(el).height($(el).contents().find('html').height() + 'px')
+        });
+    }
+    setInterval(resizeIframe, 100)
+});

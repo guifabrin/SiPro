@@ -9,7 +9,7 @@
             @php(App\Helpers\Boostrap\NavItem::build('question_categories', url('/questionCategory/'), 'fa fa-list'))
             @php(App\Helpers\Boostrap\NavItem::build('questions', url('/question/'), 'fa fa-question'))
             @php(App\Helpers\Boostrap\NavItem::build('test_categories', url('/testCategory/'), 'fa fa-list'))
-            @php(App\Helpers\Boostrap\NavItem::build('tests', url('/tests/'), 'fa fa-file-text'))
+            @php(App\Helpers\Boostrap\NavItem::build('tests', url('/test/'), 'fa fa-file-text'))
             @php(App\Helpers\Boostrap\NavItem::build('my_account', url('/user/'), 'fa fa-user'))
         </ul>
     </div>

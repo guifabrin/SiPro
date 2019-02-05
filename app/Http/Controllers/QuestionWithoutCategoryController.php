@@ -11,10 +11,10 @@ class QuestionWithoutCategoryController extends Controller
 
     public function index()
     {
-        return QuestionController::_index($this->questionsWithoutCategory());
+        return QuestionController::_index(self::questionsWithoutCategory());
     }
 
-    public function questionsWithoutCategory()
+    public static function questionsWithoutCategory()
     {
         return Auth::user()->questions()->fromCategory(null)->notRemoved()->get();
     }

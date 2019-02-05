@@ -12,10 +12,10 @@ class QuestionFromCategoryController extends Controller
 
     public function index(QuestionCategorie $questionCategory)
     {
-        return QuestionController::_index($this->questionsFromCategory($questionCategory), $questionCategory);
+        return QuestionController::_index(self::questionsFromCategory($questionCategory), $questionCategory);
     }
 
-    public function questionsFromCategory($questionCategory)
+    public static function questionsFromCategory(QuestionCategorie $questionCategory)
     {
         return Auth::user()->questions()->fromCategory($questionCategory)->notRemoved()->get();
     }

@@ -16,3 +16,4 @@ mix.js('resources/assets/js/app.js', 'public/js')
 
 
 mix.js('resources/assets/js/questions/form.js', 'public/js/questions');
+mix.js('resources/assets/js/questions_in_tests/form.js', 'public/js/questions_in_tests');

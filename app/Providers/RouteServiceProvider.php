@@ -35,6 +35,9 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('question', function ($value) {
             return \Auth::user()->questions()->where('id', $value)->first();
         });
+        Route::bind('test', function ($value) {
+            return \Auth::user()->tests()->where('id', $value)->first();
+        });
     }
 
     /**

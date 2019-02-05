@@ -73,4 +73,12 @@ class Question extends BaseModel
         return $this->hasOne('App\QuestionCategorie', 'id', 'categorie_id');
     }
 
+    /**
+     * Get the comments for the blog post.
+     */
+    public function inTest(Test $test)
+    {
+        return QuestionsInTests::where('question_id', $this->id)->where('test_id', $test->id)->first() != null;
+    }
+
 }

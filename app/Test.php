@@ -24,4 +24,13 @@ class Test extends BaseModel
     {
         return $query->where('categorie_id', null);
     }
+
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function category()
+    {
+        return $this->hasOne('App\TestCategorie', 'id', 'categorie_id');
+    }
 }

@@ -2,35 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Question;
+use App\QuestionCategorie;
 use App\QuestionsInTests;
+use App\Test;
 use Illuminate\Http\Request;
 
 class QuestionsInTestsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
+    public function index(Test $test, QuestionCategorie $questionCategory){
+        $questionCategories = QuestionCategoryController::getUserCategories();
+        if (!isset($questionCategory)){
+            $questions = QuestionWithoutCategoryController::questionsWithoutCategory();
+        } else {
+            $questions = QuestionFromCategoryController::questionsFromCategory($questionCategory);
+        }
+        return view('question_in_test.form', [
+            'test' => $test,
+            'questionCategory' => $questionCategory,
+            'questionCategories' => $questionCategories,
+            'questions' => $questions
+        ]);
     }
 
-    public function inTest($idTest, $idQuestion)
+
+    public function store(Test $test, Question $question)
     {
-        return QuestionsInTests::where(['test_id' => $idTest, 'question_id' => $idQuestion])->first() != null;
+        $qt = QuestionsInTests::create([
+            'question_id' => $question->id,
+            'test_id' => $test->id
+        ]);
+        return response('', $qt ? 200 : 500);
     }
 
-    public function store(Request $request)
+    public function destroy(Test $test, Question $question)
     {
-        $input = $request->all();
-        $qt = QuestionsInTests::create($input);
-        die(($qt) ? true : false);
-    }
-
-    public function destroy(Request $request)
-    {
-        $input = $request->all();
         $qt = QuestionsInTests::where([
-            "question_id" => $request->question_id,
-            "test_id" => $request->test_id,
-        ])->delete();
-        die(($qt) ? true : false);
+            'question_id' => $question->id,
+            'test_id' => $test->id
+        ]);
+        $delete = $qt->delete();
+        return response($delete?'ok':'err', $delete ? 200 : 500);
     }
 }

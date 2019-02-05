@@ -15,7 +15,7 @@
 @endsection
 
 @section('body')
-    <h3>{{ _v('mines_gender_a') }} {{ _v('questions') }} {{ isset($categorie) ? '[ '.$categorie->description.' ]' : ''}}</h3>
+    <h3>{{ _v('mines_gender_a') }} {{ _v('questions') }} {{ isset($questionCategory) ? '[ '.$questionCategory->description.' ]' : ''}}</h3>
     @include('categories.tree.view', [
         'manage' => false,
         'type'=>'question',
