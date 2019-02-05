@@ -31,8 +31,8 @@ class ImageController extends Controller {
 		/* copy source image at a resized size */
 		imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
         while (true) {
-            $dest = uniqid('sipro', true) . '.'.$type;
-            if (!file_exists(sys_get_temp_dir() . $dest)) break;
+            $dest = sys_get_temp_dir()."/".uniqid('sipro', true) . '.'.$type;
+            if (!file_exists( $dest )) break;
         }if ($type == 'jpg' || $type == 'jpeg' || $type == 'JPG' || $type == 'JPEG') {
             imagejpeg($virtual_image, $dest);
         } elseif ($type == 'png' || $type == "PNG"){
