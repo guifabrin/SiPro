@@ -12,8 +12,8 @@ class Header extends Model
      * @var string
      */
     protected $table = 'headers';
-    
-	/**
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

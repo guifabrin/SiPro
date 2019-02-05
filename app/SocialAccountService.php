@@ -17,12 +17,12 @@ class SocialAccountService
             $user = User::create([
                 'email' => $providerUser->getEmail(),
                 'name' => $providerUser->getName(),
-                'avatar'=>$providerUser->avatar,
+                'avatar' => $providerUser->avatar,
             ]);
         }
-        if ($account) { 
-            $user->update(['avatar'=>$providerUser->avatar]);
-            return  $user;
+        if ($account) {
+            $user->update(['avatar' => $providerUser->avatar]);
+            return $user;
         } else {
             $account = new SocialAccount([
                 'provider_user_id' => $providerUser->getId(),

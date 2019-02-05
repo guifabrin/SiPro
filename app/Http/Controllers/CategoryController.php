@@ -8,14 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    protected function type(){
-        throw new \Exception(_v('need_implement_type'));
-    }
-
-    protected function typeBasicClass(){
-        throw new \Exception(_v('need_implement_typeBasicClass'));
-    }
-
     public function create()
     {
         $categories = $this->_getUserCategories();
@@ -30,6 +22,16 @@ class CategoryController extends Controller
     protected function _getUserCategories()
     {
         throw new \Exception(_v('need_implement__getUserCategories'));
+    }
+
+    protected function typeBasicClass()
+    {
+        throw new \Exception(_v('need_implement_typeBasicClass'));
+    }
+
+    protected function type()
+    {
+        throw new \Exception(_v('need_implement_type'));
     }
 
     public function edit($category)
@@ -48,7 +50,7 @@ class CategoryController extends Controller
         $this->validate($request);
         $categoryObj = $this->save($request->input());
         $this->message('created', $categoryObj);
-        return redirect()->to($this->type().'Category');
+        return redirect()->to($this->type() . 'Category');
     }
 
     public function validate(Request $request, array $rules = [], array $messages = [], array $customAttributes = [])
@@ -95,7 +97,7 @@ class CategoryController extends Controller
     {
         $categoryObj = $this->save(['soft_delete' => true], $category);
         $this->message('removed', $categoryObj);
-        return redirect()->to($this->type().'Category');
+        return redirect()->to($this->type() . 'Category');
     }
 
     public function update(Request $request, $category)
@@ -104,6 +106,6 @@ class CategoryController extends Controller
         $this->validate($request);
         $categoryObj = $this->save($request->input(), $category);
         $this->message('updated', $categoryObj);
-        return redirect()->to($this->type().'Category');
+        return redirect()->to($this->type() . 'Category');
     }
 }

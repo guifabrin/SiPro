@@ -4,15 +4,15 @@ return [
     'view' => [
         'back' => 'Voltar',
         'add' => 'Adicionar',
-        'categorie' => [
-            'none' => 'Nenhum'
-        ],
+        'none' => 'Nenhum',
         'see' => 'Ver',
         'remove' => 'Remover',
         'edit' => 'Editar',
         'title' => 'Categorias',
         'test' => 'Categoria de Testes',
-        'question' => 'Categoria de Questões'
+        'question' => 'Categoria de Questões',
+        'mines_gender_a' => 'Minhas',
+        'question_categories' => 'Categoria de Questões'
     ],
     'confirm' => [
         'back' => 'Voltar',
@@ -23,9 +23,7 @@ return [
     'form' => [
         'id' => 'Código',
         'id_placeholder' => 'Código gerado automaticamente',
-        'categorie' => [
-            'none' => 'Nenhum'
-        ],
+        'none' => 'Nenhum',
         'description' => 'Descrição',
         'description_placeholder' => 'Coloque aqui a descrição da sua categoria',
         'back' => 'Voltar',

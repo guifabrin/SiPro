@@ -4,11 +4,8 @@ namespace App\Helpers\Boostrap;
 
 use Illuminate\Support\ViewErrorBag;
 
-class Field {
-
-    public static function build($name, $type, $value = null, $required = true, $readonly = false, $others = null){
-        (new self($name, $type,  $value,$required, $readonly, $others))->__build();
-    }
+class Field
+{
 
     private $name;
     private $type;
@@ -24,45 +21,58 @@ class Field {
         $this->value = $value;
         $this->others = $others;
         $this->readonly = $readonly;
-        $this->required  = $required;
+        $this->required = $required;
     }
 
-    public function __build(){
-        include "partials/".$this->type.".php";
+    public static function build($name, $type, $value = null, $required = true, $readonly = false, $others = null)
+    {
+        (new self($name, $type, $value, $required, $readonly, $others))->__build();
     }
 
-    private function hasError(){
-       return session()->get('errors', app(ViewErrorBag::class))->has($this->name);
+    public function __build()
+    {
+        include "partials/" . $this->type . ".php";
     }
 
-    private function helperKey(){
-        return _v().$this->name."_helper";
+    private function hasError()
+    {
+        return session()->get('errors', app(ViewErrorBag::class))->has($this->name);
     }
 
-    private function helperText(){
-        return __($this->helperKey());
-    }
-
-    private function hasHelper(){
+    private function hasHelper()
+    {
         return $this->helperText() != $this->helperKey();
     }
 
-    private function id(){
-        $string = $this->name.ucwords($this->type);
+    private function helperText()
+    {
+        return __($this->helperKey());
+    }
+
+    private function helperKey()
+    {
+        return _v() . $this->name . "_helper";
+    }
+
+    private function id()
+    {
+        $string = $this->name . ucwords($this->type);
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
         return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
     }
 
-    private function helpId(){
-        return $this->name."Help";
+    private function helpId()
+    {
+        return $this->name . "Help";
     }
 
-    private function value(){
-        if (isset($this->value)){
+    private function value()
+    {
+        if (isset($this->value)) {
             return $this->value;
         }
         $old = old($this->name);
-        if (is_array($old) && !empty($old)){
+        if (is_array($old) && !empty($old)) {
             return $old[0];
         } else {
             return '';

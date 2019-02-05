@@ -25,8 +25,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function avatar(){
-        if ($this->avatar!=null) {
+    public function avatar()
+    {
+        if ($this->avatar != null) {
             return Auth::user()->avatar;
         }
         return url('/images/no_image.png');
@@ -37,11 +38,12 @@ class User extends Authenticatable
      */
     public function itens($type)
     {
-        if ($type=="question"){
+        if ($type == "question") {
             return $this->questions();
-        } elseif($type=="test"){
+        } elseif ($type == "test") {
             return $this->tests();
         }
+        return null;
     }
 
     /**
@@ -55,17 +57,17 @@ class User extends Authenticatable
     /**
      * Get the comments for the blog post.
      */
-    public function questionCategories()
+    public function tests()
     {
-        return $this->hasMany('App\QuestionCategorie', 'user_id');
+        return $this->hasMany('App\Test', 'user_id');
     }
 
     /**
      * Get the comments for the blog post.
      */
-    public function tests()
+    public function questionCategories()
     {
-        return $this->hasMany('App\Test', 'user_id');
+        return $this->hasMany('App\QuestionCategorie', 'user_id');
     }
 
     /**

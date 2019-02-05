@@ -7,12 +7,9 @@ use Illuminate\Support\Facades\Auth;
 class TestCategoryController extends CategoryController
 {
 
-    protected function type(){
-       return 'test';
-    }
-
-    protected function typeBasicClass(){
-        return 'App\TestCategorie';
+    public static function getUserCategories()
+    {
+        return (new self())->_getUserCategories();
     }
 
     protected function _getUserCategories()
@@ -20,9 +17,14 @@ class TestCategoryController extends CategoryController
         return Auth::user()->testCategories()->withoutFather()->notRemoved()->get();
     }
 
-    public static function getUserCategories()
+    protected function type()
     {
-        return (new self())->_getUserCategories();
+        return 'test';
+    }
+
+    protected function typeBasicClass()
+    {
+        return 'App\TestCategorie';
     }
 
 }

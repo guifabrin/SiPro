@@ -10,9 +10,9 @@
         <?php if ($this->readonly) { ?>
             readonly
         <?php } ?>
-    <?php if ($this->others) { ?>
-        checked
-    <?php } ?>>
+        <?php if ($this->others) { ?>
+            checked
+        <?php } ?>>
     <label class="form-check-label" for="<?php echo $this->id(); ?>"><?php echo _v($this->name); ?></label>
     <?php if ($this->hasHelper()) { ?>
         <small id="<?php echo $this->helpId(); ?>" class="form-text text-muted">

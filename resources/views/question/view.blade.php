@@ -7,7 +7,7 @@
 @endsection
 
 @section('btn-right')
-    @php( $url = (is_bool($questionCategory)) ? '/question/create' : '/questions/itens/'.$questionCategory->id.'/create')
+    @php( $url = isset($questionCategory) ? '/questions/itens/'.$questionCategory->id.'/create' : '/question/create')
     <a class="btn btn-success"
        href="{{ $url }}">
         <i class="fa fa-plus"></i> {{ _v('add') }}
@@ -16,33 +16,12 @@
 
 @section('body')
     <h3>{{ _v('mines_gender_a') }} {{ _v('questions') }} {{ isset($categorie) ? '[ '.$categorie->description.' ]' : ''}}</h3>
-    <ul class="tree">
-        <li>
-            <div class="dropdown">
-                <button class="btn btn-sm btn-secondary dropdown-toggle" id="siproDrodownMenu0" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-folder-open"></i>
-                    {{ _v('categorie.none') }}
-                    <span class="badge badge-light">{{ Auth::user()->questions()->withoutCategorie()->count() }}</span>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="siproDrodownMenu0">
-                    <a class="dropdown-item" href="{{ url('/questions/itensWithoutCategory') }}">
-                        <i class='fa fa-eye'></i> {{ _v('see') }}
-                    </a>
-                    <a class="dropdown-item" href="{{ url('/question/create') }}">
-                        <i class='fa fa-plus'></i> {{ _v('add') }}
-                    </a>
-                </div>
-            </div>
-        </li>
-        @include('categories.partials.view', [
-            'type'=>'question',
-            'categories' => $questionCategories,
-            'selected'=>null,
-            'manage' => false,
-            'select' => false
-        ])
-    </ul>
+    @include('categories.tree.view', [
+        'manage' => false,
+        'type'=>'question',
+        'category'=> $questionCategory,
+        'categories' => $questionCategories
+    ])
     <table class="table">
         <thead>
         <tr>
@@ -58,7 +37,7 @@
                 <td>{{ $question->id }}</td>
                 <td>
                     <img src="{{ $question->thumbImage() }}" onerror="this.style.display='none'"
-                         style="max-width:100px; max-height:100px;"/>
+                         style="max-width:100px; max-height:100px;" alt="{{ $question->description }}"/>
                 </td>
                 <td>{{ $question->description }}</td>
                 <td style="width: 250px;">
@@ -74,5 +53,5 @@
         </tbody>
     </table>
 
-{{--    {{ $questions->links() }}--}}
+    {{--    {{ $questions->links() }}--}}
 @endsection

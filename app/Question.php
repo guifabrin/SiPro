@@ -2,31 +2,28 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Question extends BaseModel {
-	/**
-	 * The table associated with the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'questions';
-
-	/**
-	 * Indicates if the model should be timestamped.
-	 *
-	 * @var bool
-	 */
-	public $timestamps = false;
-
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-		'description', 'categorie_id', 'user_id', 'soft_delete', 'lines', 'image_id', 'type',
-	];
+class Question extends BaseModel
+{
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'questions';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'description', 'categorie_id', 'user_id', 'soft_delete', 'lines', 'image_id', 'type',
+    ];
 
     public function scopeWithoutCategorie($query)
     {
@@ -35,13 +32,22 @@ class Question extends BaseModel {
 
     public function scopeFromCategory($query, $questionCategory = null)
     {
-        if (isset($questionCategory) && isset($questionCategory->id)){
+        if (isset($questionCategory) && isset($questionCategory->id)) {
             return $query->where('categorie_id', $questionCategory->id);
         } else {
             return $query->where('categorie_id', null);
         }
     }
 
+    public function thumbImage()
+    {
+        try {
+            return $this->image()->first()->imageb64_thumb;
+        } catch (\Exception $e) {
+            return null;
+        }
+
+    }
 
     /**
      * Get the comments for the blog post.
@@ -51,21 +57,20 @@ class Question extends BaseModel {
         return $this->hasOne('App\Image', 'id', 'image_id');
     }
 
-    public function thumbImage(){
-        try{
-            return $this->image()->first()->imageb64_thumb;
-        } catch (\Exception $e){
-            return null;
-        }
-
-    }
-
     /**
      * Get the comments for the blog post.
      */
     public function options()
     {
         return $this->hasMany('App\Option');
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function category()
+    {
+        return $this->hasOne('App\QuestionCategorie', 'id', 'categorie_id');
     }
 
 }

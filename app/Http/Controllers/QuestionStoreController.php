@@ -26,7 +26,8 @@ class QuestionStoreController extends Controller
         }
     }
 
-    public static function store(Request $request, Question $question = null){
+    public static function store(Request $request, Question $question = null)
+    {
         return (new QuestionStoreController($request, $question))->_store();
     }
 
@@ -70,7 +71,7 @@ class QuestionStoreController extends Controller
 
     private function processQuestion()
     {
-        $uploadedFile = isset($this->input['image'])?$this->input['image']:null;
+        $uploadedFile = isset($this->input['image']) ? $this->input['image'] : null;
         $args = [
             "categorie_id" => $this->getQuestionCategoryId(),
             "user_id" => Auth::user()->id,
@@ -80,7 +81,7 @@ class QuestionStoreController extends Controller
             "lines" => $this->getLines(),
             "soft_delete" => false
         ];
-        if ($this->question){
+        if ($this->question) {
             $this->question->update($args);
         } else {
             $this->question = Question::create($args);
@@ -92,7 +93,7 @@ class QuestionStoreController extends Controller
     {
         $questionCategoryId = $this->input['categorie_id'];
         processIfNull($questionCategoryId);
-        $questionCategory =  Auth::user()->questionCategories()->where('id', $questionCategoryId)->first();
+        $questionCategory = Auth::user()->questionCategories()->where('id', $questionCategoryId)->first();
         return isset($questionCategory) ? $questionCategory->id : null;
     }
 
@@ -109,7 +110,7 @@ class QuestionStoreController extends Controller
         if ($imageObj) {
             $imageId = $imageObj->id;
         } else {
-            $imageId = isset($this->input['image_id'])?$this->input['image_id']:null;
+            $imageId = isset($this->input['image_id']) ? $this->input['image_id'] : null;
         }
         return $imageId;
     }
@@ -127,7 +128,7 @@ class QuestionStoreController extends Controller
 
     private function createOptions()
     {
-        if ($this->options->count()>0){
+        if ($this->options->count() > 0) {
             $this->destroyOptions();
         }
         $optionsValues = $this->getOptionsValues();
@@ -154,6 +155,15 @@ class QuestionStoreController extends Controller
         return $this->options;
     }
 
+    private function destroyOptions()
+    {
+        foreach ($this->options as $option) {
+            if ($option) {
+                $option->forceDelete();
+            };
+        }
+    }
+
     private function getOptionsValues()
     {
         $options = [];
@@ -164,13 +174,6 @@ class QuestionStoreController extends Controller
             }
         }
         return $options;
-    }
-    private function destroyOptions(){
-        foreach ($this->options as $option) {
-            if ($option) {
-                $option->forceDelete();
-            };
-        }
     }
 
     private function destroy()

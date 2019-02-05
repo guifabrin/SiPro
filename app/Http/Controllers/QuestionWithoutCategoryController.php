@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Helpers\Boostrap\Alert;
+use Illuminate\Support\Facades\Auth;
 
-class QuestionWithoutCategoryController extends Controller {
+class QuestionWithoutCategoryController extends Controller
+{
 
-    public function questionsWithoutCategory(){
-        return Auth::user()->questions()->fromCategory(null)->notRemoved()->get();
-    }
-
-    public function index() {
+    public function index()
+    {
         $questions = $this->questionsWithoutCategory();
         $questionCategories = QuestionCategoryController::getUserCategories();
         if ($questions->count() == 0) {
             Alert::build(_v('none_message'), 'info');
         }
-        return view('questions.view', [
+        return view('question.view', [
             'questions' => $questions,
-            'questionCategory' => false,
+            'questionCategory' => null,
             'questionCategories' => $questionCategories
         ]);
+    }
+
+    public function questionsWithoutCategory()
+    {
+        return Auth::user()->questions()->fromCategory(null)->notRemoved()->get();
     }
 }

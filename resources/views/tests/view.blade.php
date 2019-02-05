@@ -11,7 +11,8 @@
 @endsection
 
 @section('btn-right')
-    <a class="btn   btn-success" href="{{ isset($categorie) ? url('tests/categorie/'.$categorie->id.'/create/') : url('tests/create/')  }}">
+    <a class="btn   btn-success"
+       href="{{ isset($categorie) ? url('tests/categorie/'.$categorie->id.'/create/') : url('tests/create/')  }}">
         <i class="fa fa-plus"></i> {{ __('lang.add') }}
     </a>
 @endsection
@@ -24,32 +25,33 @@
     @endif
     @if(isset($tests) && count($tests)>0)
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>{{ __('lang.code') }}</th>
-          <th>{{ __('lang.test_categorie') }}</th>
-          <th>{{ __('lang.description') }}</th>
-          <th>{{ __('lang.actions') }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($tests as $test)
+        <table class="table">
+            <thead>
             <tr>
-              <td>{{ $test->id }}</td>
-              <td><a href="{{ url('/tests/categorie/'.$test->categorie->id) }}">{{ $test->categorie->id }}/{{ $test->categorie->description }}</a></td>
-              <td>{{ $test->description }}</td>
-              <td style="width: 250px;">
-                <a class="btn btn-danger" href="{{ url('/tests/confirm/'.$test->id) }}">
-                    <i class='fa fa-times'></i> {{ __('lang.remove') }}
-                </a>
-                <a class="btn btn-warning" href="{{ url('/tests/'.$test->id) }}">
-                  <i class='fa fa-pencil'></i> {{ __('lang.edit') }}
-                </a>
-              </td>
+                <th>{{ __('lang.code') }}</th>
+                <th>{{ __('lang.test_categorie') }}</th>
+                <th>{{ __('lang.description') }}</th>
+                <th>{{ __('lang.actions') }}</th>
             </tr>
-        @endforeach
-      </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach ($tests as $test)
+                <tr>
+                    <td>{{ $test->id }}</td>
+                    <td><a href="{{ url('/tests/categorie/'.$test->categorie->id) }}">{{ $test->categorie->id }}
+                            /{{ $test->categorie->description }}</a></td>
+                    <td>{{ $test->description }}</td>
+                    <td style="width: 250px;">
+                        <a class="btn btn-danger" href="{{ url('/tests/confirm/'.$test->id) }}">
+                            <i class='fa fa-times'></i> {{ __('lang.remove') }}
+                        </a>
+                        <a class="btn btn-warning" href="{{ url('/tests/'.$test->id) }}">
+                            <i class='fa fa-pencil'></i> {{ __('lang.edit') }}
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     @endif
 @endsection

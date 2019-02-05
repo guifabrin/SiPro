@@ -2,11 +2,8 @@
 
 namespace App\Helpers\Boostrap;
 
-class LinkButton{
-
-    public static function build($key, $url, $icon = null){
-        (new self($key, $url, $icon))->__build();
-    }
+class LinkButton
+{
 
     private $key;
     private $url;
@@ -16,14 +13,20 @@ class LinkButton{
     {
         $this->key = $key;
         $this->url = $url;
-        $this->icon  = $icon;
+        $this->icon = $icon;
     }
 
-    public function __build(){
+    public static function build($key, $url, $icon = null)
+    {
+        (new self($key, $url, $icon))->__build();
+    }
+
+    public function __build()
+    {
         ?>
         <a href="<?php echo url($this->url); ?>" class="btn btn-link">
             <?php if (isset($this->icon)) { ?>
-            <i class="<?php echo $this->icon; ?>"></i>
+                <i class="<?php echo $this->icon; ?>"></i>
             <?php } ?>
             <?php echo _v($this->key); ?>
         </a>

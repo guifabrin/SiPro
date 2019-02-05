@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Test extends Model
+class Test extends BaseModel
 {
     /**
      * The table associated with the model.
@@ -12,8 +10,8 @@ class Test extends Model
      * @var string
      */
     protected $table = 'tests';
-	
-	/**
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

@@ -1,4 +1,4 @@
-<img class="img-rounded sipro-image-file-select" id="<?php echo $this->id(); ?>" style="margin: auto; margin-bottom: 10pt; display: block;"
+<img class="img-rounded sipro-image-file-select" id="<?php echo $this->id(); ?>" alt="<?php _v('selected_image'); ?>"
      src="<?php echo $this->value() ? $this->value() : url('/images/no_image.png'); ?>"/>
 
 <div class="custom-file">

@@ -12,18 +12,18 @@
  */
 
 Route::get('/', function () {
-	return view('home.welcome');
+    return view('home.welcome');
 });
 
 Route::get('/policy', function () {
-	return view('home.policy');
+    return view('home.policy');
 });
 
 Auth::routes();
 
 Route::group(['middleware' => 'web'], function () {
-	Route::get('/redirect', 'SocialAuthController@redirect');
-	Route::get('/callback', 'SocialAuthController@callback');
+    Route::get('/redirect', 'SocialAuthController@redirect');
+    Route::get('/callback', 'SocialAuthController@callback');
 //
 //	Route::get('/user/', 'UserController@read');
 //	Route::get('/user/password', 'UserController@passwordForm');
@@ -45,12 +45,12 @@ Route::group(['middleware' => 'web'], function () {
 //	Route::post('/questions_in_tests/destroy', 'QuestionsInTestsController@destroy');
 });
 Route::get('/logout', function () {
-	Auth::logout();
-	return view('home.welcome');
+    Auth::logout();
+    return view('home.welcome');
 });
 
 
-Route::group(['middleware' => ['web','auth']], function () {
+Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('questionCategory', 'QuestionCategoryController');
     Route::resource('testCategory', 'TestCategoryController');
     Route::resource('question', 'QuestionController');

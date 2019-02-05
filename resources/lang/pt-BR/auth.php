@@ -15,7 +15,7 @@ return [
 
     'failed' => 'Essas credenciais não correspondem aos nossos registros.',
     'throttle' => 'Muitas tentativas de login. Tente novamente em :seconds segundos.',
-    'login' =>[
+    'login' => [
         'email' => 'E-mail',
         'email_placeholder' => 'Digite aqui seu e-mail',
         'email_helper' => 'O e-mail é a única forma de entrada no sistema e tem formato parecido com "fulano@dominio.com"',
@@ -45,14 +45,14 @@ return [
         'submit' => 'Registrar',
     ],
     'passwords' => [
-        'email'=>[
+        'email' => [
             'title' => 'Resetar Senha',
             'email' => 'E-mail',
             'email_placeholder' => 'Digite seu e-mail',
             'email_helper' => 'Apenas com o e-mail é possivel recuperar a conta',
             'submit' => 'Enviar',
         ],
-        'reset'=>[
+        'reset' => [
             'title' => 'Resetar Senha',
             'email' => 'E-mail',
             'email_placeholder' => 'Digite seu e-mail',

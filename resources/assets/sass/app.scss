@@ -1,44 +1,44 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Variables
 @import "variables";
-
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 @import "~font-awesome/scss/font-awesome.scss";
-
 @import "welcome";
 @import "tree";
 
-body{
+body {
   padding-top: $base-padding;
 }
 
-footer{
+footer {
   padding: $base-padding 0 $base-padding 0;
 }
 
-header, nav.sipro-navbar-user, div.buttons{
+header, nav.sipro-navbar-user, div.buttons {
   margin-bottom: $base-margin;
 }
 
-.base-color{
+.base-color {
   color: $base-color;
 }
 
-img.sipro-navbar-logo-img, img.sipro-navbar-avatar-img{
+img.sipro-navbar-logo-img, img.sipro-navbar-avatar-img {
   height: 20pt;
 }
-img.sipro-navbar-logo-img, div.sipro-navbar-title{
+
+img.sipro-navbar-logo-img, div.sipro-navbar-title {
   display: inline-block;
 }
 
-button[type=submit]{
+button[type=submit] {
   margin: $base-margin;
 }
 
-.sipro-image-file-select{
+.sipro-image-file-select {
   max-height: 200px;
   max-width: 200px;
+  margin: auto auto 10pt auto;
+  display: block;
 }

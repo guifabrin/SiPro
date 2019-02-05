@@ -1,4 +1,5 @@
 import $ from 'jquery';
+
 window.$ = window.jQuery = $;
 
 /**
@@ -10,12 +11,12 @@ window.$ = window.jQuery = $;
 require('bootstrap/js/dist/dropdown');
 
 var siPro = {
-    renderImage: function(input, imageId) {
+    renderImage: function (input, imageId) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#'+imageId).attr('src', e.target.result);
+                $('#' + imageId).attr('src', e.target.result);
             };
 
             reader.readAsDataURL(input.files[0]);

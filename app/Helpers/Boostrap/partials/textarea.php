@@ -1,7 +1,7 @@
 <div class="form-group<?php echo $this->hasError() ? ' has-error' : ''; ?>">
-    <?php if (_v($this->name)!='') {?>
-    <label for="<?php echo $this->id(); ?>"><?php echo _v($this->name); ?>:</label>
-    <?php }?>
+    <?php if (_v($this->name) != '') { ?>
+        <label for="<?php echo $this->id(); ?>"><?php echo _v($this->name); ?>:</label>
+    <?php } ?>
     <textarea name="<?php echo $this->name; ?>" id="<?php echo $this->id(); ?>" class="form-control"
         <?php if ($this->hasHelper()) { ?>
             aria-describedby="<?php echo $this->helpId(); ?>"

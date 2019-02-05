@@ -6,12 +6,9 @@ use Illuminate\Support\Facades\Auth;
 
 class QuestionCategoryController extends CategoryController
 {
-    protected function type(){
-        return 'question';
-    }
-
-    protected function typeBasicClass(){
-        return 'App\QuestionCategorie';
+    public static function getUserCategories()
+    {
+        return (new self())->_getUserCategories();
     }
 
     protected function _getUserCategories()
@@ -19,9 +16,14 @@ class QuestionCategoryController extends CategoryController
         return Auth::user()->questionCategories()->withoutFather()->notRemoved()->get();
     }
 
-    public static function getUserCategories()
+    protected function type()
     {
-        return (new self())->_getUserCategories();
+        return 'question';
+    }
+
+    protected function typeBasicClass()
+    {
+        return 'App\QuestionCategorie';
     }
 
 }
