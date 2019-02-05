@@ -11,7 +11,7 @@ class QuestionWithoutCategoryController extends Controller
 
     public function index()
     {
-        return QuestionCategorie::_index($this->questionsWithoutCategory());
+        return QuestionController::_index($this->questionsWithoutCategory());
     }
 
     public function questionsWithoutCategory()

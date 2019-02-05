@@ -11,6 +11,8 @@
         {{ _v($titleKey) }} {{_v('question')}}
         @if (isset($questionCategory))
             {{  _v('in').' [ '.$questionCategory->description.' ]' }}
+        @else
+            @php($questionCategory = isset($question) ? $question->category()->first() : null)
         @endif
     </h3>
     <form action="{{ url('/question/'.$question->id) }}" method="POST" enctype="multipart/form-data">
@@ -25,7 +27,7 @@
                 'father' => false,
                 'type'=> 'question',
                 'key' => 'categorie_id',
-                'category' => $question->category()->first(),
+                'category' => $questionCategory,
                 'categories' => $questionCategories
             ])
         </div>
