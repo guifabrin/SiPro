@@ -15,14 +15,17 @@ class QuestionController extends Controller
 
     public function index()
     {
-        $questions = $this->questionsAll();
+        return self::_index($this->questionsAll());
+    }
+
+    public static function _index($questions, $questionCategory = null){
         $questionCategories = QuestionCategoryController::getUserCategories();
         if ($questions->count() == 0) {
             Alert::build(_v('none_message'), 'info');
         }
         return view('question.view', [
             'questions' => $questions,
-            'questionCategory' => null,
+            'questionCategory' => $questionCategory,
             'questionCategories' => $questionCategories
         ]);
     }

@@ -101,7 +101,7 @@ class QuestionStoreController extends Controller
     {
         if ($image) {
             $imageObj = Image::firstOrCreate([
-                "imageb64" => ImageController::convertBase64($image),
+                "imageb64" => ImageController::convertUploadedFile2Base64($image),
                 "imageb64_thumb" => ImageController::makeThumb($image, 100)
             ]);
         } else {

@@ -12,16 +12,7 @@ class QuestionFromCategoryController extends Controller
 
     public function index(QuestionCategorie $questionCategory)
     {
-        $questions = $this->questionsFromCategory($questionCategory);
-        $questionCategories = QuestionCategoryController::getUserCategories();
-        if ($questions->count() == 0) {
-            Alert::build(_v('none_message'), 'info');
-        }
-        return view('question.view', [
-            'questions' => $questions,
-            'questionCategory' => $questionCategory,
-            'questionCategories' => $questionCategories
-        ]);
+        return QuestionCategorie::_index($this->questionsFromCategory($questionCategory), $questionCategory);
     }
 
     public function questionsFromCategory($questionCategory)
