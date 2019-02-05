@@ -75,8 +75,7 @@
                     <td>{{ $question->id }}</td>
                     <td>
                         @if (isset($question->image))
-                            <img src="{{ $question->image->imageb64_thumb }}"
-                                 style="max-width:100px; max-height:100px;" alt="{{ $question->description }}"/>
+                            <img src="{{ $question->image->imageb64_thumb }}" class="sipro-image-file-select" alt="{{ $question->description }}"/>
                         @endif
                     </td>
                     <td>{{ $question->description }}</td>

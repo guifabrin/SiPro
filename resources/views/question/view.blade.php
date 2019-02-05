@@ -36,8 +36,8 @@
             <tr>
                 <td>{{ $question->id }}</td>
                 <td>
-                    <img src="{{ $question->thumbImage() }}" onerror="this.style.display='none'"
-                         style="max-width:100px; max-height:100px;" alt="{{ $question->description }}"/>
+                    <img src="{{ $question->thumbImage() }}" class="sipro-image-file-select"
+                         onerror="this.style.display='none'" alt="{{ $question->description }}"/>
                 </td>
                 <td>{{ $question->description }}</td>
                 <td style="width: 250px;">
