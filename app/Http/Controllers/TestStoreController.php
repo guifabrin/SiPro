@@ -60,7 +60,7 @@ class TestStoreController extends Controller
     private function getTestCategoryId()
     {
         $testCategoryId = $this->input["category_id"];
-        processIfNull($testCategoryId);
+        process_if_null($testCategoryId);
         $testCategory = Auth::user()->testCategories()->where("id", $testCategoryId)->first();
         return isset($testCategory) ? $testCategory->id : null;
     }

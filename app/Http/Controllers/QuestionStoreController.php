@@ -95,7 +95,7 @@ class QuestionStoreController extends Controller
     private function getQuestionCategoryId()
     {
         $questionCategoryId = $this->input["category_id"];
-        processIfNull($questionCategoryId);
+        process_if_null($questionCategoryId);
         $questionCategory = Auth::user()->questionCategories()->where("id", $questionCategoryId)->first();
         return isset($questionCategory) ? $questionCategory->id : null;
     }

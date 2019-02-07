@@ -63,7 +63,7 @@ class CategoryController extends Controller
     private function save(array $input = [], $category = null)
     {
         $input["user_id"] = Auth::user()->id;
-        processIfNull($input["father_id"]);
+        process_if_null($input["father_id"]);
         $input["soft_delete"] = isset($input["soft_delete"]) ? $input["soft_delete"] : false;
         if (empty($category)) {
             return $this->typeBasicClass()::create($input);
