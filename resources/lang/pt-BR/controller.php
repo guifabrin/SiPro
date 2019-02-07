@@ -25,4 +25,7 @@ return [
     "test_without_category" => [
         "none_message" => "Nenhum teste sem categoria"
     ],
+    "user" => [
+        "old-password" => "Senha antiga não corresponde"
+    ]
 ];

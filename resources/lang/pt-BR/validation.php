@@ -1,6 +1,6 @@
 <?php
 
-return [
+$arrValidationLang = [
 
     /*
     |--------------------------------------------------------------------------
@@ -116,6 +116,31 @@ return [
     |
     */
 
-    "attributes" => [],
+    "attributes" => [
+        "description" => "Descrição",
+        "email" => "Email",
+        "id" => "Código",
+        "image" => "Imagem",
+        "image_id" => "Imagem",
+        "lines" => "Linhas",
+        "name" => "Nome",
+        "new-password" => "Nova senha",
+        "old-password" => "Senha atual",
+        "option-correct[]" => "Opção correta",
+        "password" => "Senha",
+        "password_confirmation" => "Repetir a senha",
+        "remember" => "Lembrar",
+        "token" => "Token",
+        "type" => "Tipo",
+    ],
 
 ];
+
+
+for ($i = 0; $i < 5; $i++) {
+    $arrValidationLang["attributes"]["option-description[" . $i . "]"] = "";
+    $arrValidationLang["attributes"]["option-image[" . $i . "]"] = "Imagem da opção ".($i+1);
+    $arrValidationLang["attributes"]["option-description[" . $i . "]_placeholder"] = "Texto da opção ".($i+1);
+}
+
+return $arrValidationLang;

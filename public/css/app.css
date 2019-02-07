@@ -13657,3 +13657,7 @@ iframe {
   display: none;
 }
 
+div.alert ul {
+  margin-bottom: 0;
+}
+
