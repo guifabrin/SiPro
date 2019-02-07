@@ -68,4 +68,18 @@ class TestController extends Controller
         return redirect()->to("test/".$stored->id."/edit");
     }
 
+    public function show(Test $test)
+    {
+        return view("test.confirm", [
+            "test" => $test,
+        ]);
+    }
+
+    public function destroy(Test $test)
+    {
+        $testObj = $test->update(["soft_delete" => true]);
+        $this->message("removed", $testObj, true);
+        return redirect()->to("test");
+    }
+
 }

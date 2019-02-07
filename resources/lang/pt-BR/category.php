@@ -1,11 +1,6 @@
 <?php
 
 return [
-    "controller" => [
-        "index" => [
-            "none_message" => "Nenhuma categoria cadastrada"
-        ]
-    ],
     "confirm" => [
         "back" => "Voltar",
         "no" => "Não",

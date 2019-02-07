@@ -1,6 +1,6 @@
 @php($category = isset($category) ? $category : null)
 @php($manage = isset($manage) ? $manage : true)
-@php($first = $categories->count()>0 && $categories[0]->father_id == null)
+@php($first = $categories->count() == 0 || $categories[0]->father_id == null)
 @if ($first)
     <ul class="tree">
         <li>
@@ -12,7 +12,7 @@
                 {{ _v('none') }}
                 <span class="badge badge-light">
                     @php($userCategories = Auth::user()->categoryOf($type)->notRemoved())
-                    {{ (isset($category) ? $categories->fromCategory($category) : $userCategories->withoutCategory())->count() }}
+                    {{ (isset($category) ? $userCategories->fromCategory($category) : $userCategories->withoutCategory())->count() }}
                 </span>
             </button>
             <div class="dropdown-menu" aria-labelledby="siproDrodownMenuNull">

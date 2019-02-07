@@ -1,37 +1,27 @@
 @extends('home')
 
 @section('btn-left')
-    <a class="btn   btn-primary" href="{{ URL::previous() }}">
-        <i class="fa fa-arrow-circle-left"></i> {{ __('lang.back') }}
+    <a class="btn btn-primary" href="{{ url('test') }}">
+        <i class="fa fa-arrow-circle-left"></i> {{ _v('back') }}
     </a>
 @endsection
 
-@section('header')
-    Confirmar remoção de {{ __('lang.test') }}
-@endsection
-
 @section('body')
-    {!! Form::open(array('method' => 'post')) !!}
-    Tem certeza que deseja remover a avaliação
-    <?php
-    try {
-        $json = json_decode($test->json);
-        echo "'" . $json->description . "'";
-    } catch (Exception $e) {
-        echo " de Identificador " . $test->id;
-    }
+    <form method="POST" action="{{url("test/".$test->id) }}">
+        @csrf
+        @method("DELETE")
+        <div class="alert alert-warning">
+            {{ _v("remove_test_message") }} "{{$test->description}}"?
+        </div>
 
-    ?>
-    {{ Form::hidden('id', $test->id, ['class' => 'form-control', 'readonly' => 'true']) }}
-    {{ Form::hidden('soft_delete', 1 , ['class' => 'form-control', 'readonly' => 'true']) }}
-    <p class="yes-no-buttons">
-        <button type="submit" class="btn   btn-info">
-            <i class="fa fa-thumbs-up"></i> Sim
-        </button>
-        <a class="btn   btn-info" href="{{ url('lang.tests/') }}">
-            <i class="fa fa-thumbs-down"></i> Não
-        </a>
-    </p>
+        <p class="yes-no-buttons">
+            <button type="submit" class="btn btn-info">
+                <i class="fa fa-thumbs-up"></i> {{ _v("yes") }}
+            </button>
+            <a class="btn btn-info" href="{{ url("test/") }}">
+                <i class="fa fa-thumbs-down"></i> {{ _v("no") }}
+            </a>
+        </p>
 
-    {!! Form::close() !!}
+    </form>
 @endsection

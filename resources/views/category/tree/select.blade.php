@@ -1,4 +1,4 @@
-@php($first = $categories->count()>0 && $categories[0]->father_id == null)
+@php($first = $categories->count()==0 || $categories[0]->father_id == null)
 @if ($first)
     <ul class="tree">
         <li>

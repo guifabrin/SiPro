@@ -15,15 +15,6 @@ return [
         "test" => "Teste",
         "title" => "Formulário de testes",
     ],
-    "from" => [
-        "category" => [
-            "controller" => [
-                "index" => [
-                    "none_message" => "Nenhuma questão cadastrada"
-                ]
-            ]
-        ]
-    ],
     "view" => [
         "actions" => "Ações",
         "add" => "Adicionar",
@@ -37,14 +28,12 @@ return [
         "tests" => "testes",
         "title" => "Meus testes",
     ],
-    "without" => [
-        "category" => [
-            "controller" => [
-                "index" => [
-                    "none_message" => "Nenhuma questão cadastrada"
-                ]
-            ]
-        ]
-    ],
+    "confirm" => [
+        "back" => "Voltar",
+        "remove_test_message" => "Tem certeza que deseja remover o teste ",
+        "title" => "Confirmação para remoção de teste",
+        "yes" => "Sim",
+        "no" => "Não"
+    ]
 ];
 

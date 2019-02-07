@@ -69,26 +69,28 @@ if (!function_exists('_v')) {
      * @param string $key
      * @return string
      */
-    function _v(string $key)
+    function _v(string $key="")
     {
-        $debugBackTrace = debug_backtrace();
-        $i = 0;
-        while ($i < 1000) {
-            try {
-                $obj = $debugBackTrace[$i]["object"];
-                if (is_controller($obj)) {
-                    $base = get_controller_base_key($obj);
-                } else {
-                    $base = get_view_base_key($obj);
+        if ($key!="") {
+            $debugBackTrace = debug_backtrace();
+            $i = 0;
+            while ($i < 1000) {
+                try {
+                    $obj = $debugBackTrace[$i]["object"];
+                    if (is_controller($obj)) {
+                        $base = get_controller_base_key($obj);
+                    } else {
+                        $base = get_view_base_key($obj);
+                    }
+                    $fullKey = $base . $key;
+                    $translation = __($fullKey);
+                    if ($fullKey == $translation) {
+                        \App\Helpers\ConsoleJS::build('no translation for ' . $fullKey);
+                    }
+                    return $translation;
+                } catch (Exception $e) {
+                    $i++;
                 }
-                $fullKey = $base . $key;
-                $translation = __($fullKey);
-                if ($fullKey == $translation) {
-                    \App\Helpers\ConsoleJS::build('no translation for ' . $fullKey);
-                }
-                return $translation;
-            } catch (Exception $e) {
-                $i++;
             }
         }
         return "";

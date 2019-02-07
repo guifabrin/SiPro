@@ -1,11 +1,6 @@
 <?php
 
 $arrQuestionsLang = [
-    "controller" => [
-        "index" => [
-            "none_message" => "Nenhuma categoria cadastrada"
-        ]
-    ],
     "confirm" => [
         "back" => "Voltar",
         "no" => "Não",
@@ -37,15 +32,6 @@ $arrQuestionsLang = [
         "true_false" => "Verdadeira ou Falso",
         "type" => "Tipo",
         "type_placeholder" => "Selecione o tipo da questão",
-    ],
-    "from" => [
-        "category" => [
-            "controller" => [
-                "index" => [
-                    "none_message" => "Nenhuma questão cadastrada"
-                ]
-            ]
-        ]
     ],
     "view" => [
         "actions" => "Ações",
