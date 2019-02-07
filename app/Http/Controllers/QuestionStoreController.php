@@ -131,7 +131,7 @@ class QuestionStoreController extends Controller
 
     private function createOptions()
     {
-        if ($this->options &$this->options->count() > 0) {
+        if ($this->options & $this->options->count() > 0) {
             $this->destroyOptions();
         }
         $optionsValues = $this->getOptionsValues();

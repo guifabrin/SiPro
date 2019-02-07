@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Boostrap\Alert;
 use App\Question;
+use App\QuestionCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,10 +15,12 @@ class QuestionController extends Controller
 
     public function index()
     {
-        return self::_index($this->questionsAll());
+        $questions = Auth::user()->questions()->notRemoved()->get();
+        return self::_index($questions);
     }
 
-    public static function _index($questions, $questionCategory = null){
+    private static function _index($questions, $questionCategory = null)
+    {
         $questionCategories = QuestionCategoryController::getUserCategories();
         if ($questions->count() == 0) {
             Alert::build(_v("none_message"), "info");
@@ -29,20 +32,37 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function questionsAll()
+    public function indexFromCategory(QuestionCategory $questionCategory)
     {
-        return Auth::user()->questions()->notRemoved()->get();
+        $questions = Auth::user()->questions()->notRemoved()->fromCategory($questionCategory)->get();
+        return self::_index($questions, $questionCategory);
+    }
+
+    public function indexWithoutCategory()
+    {
+        $questions = Auth::user()->questions()->notRemoved()->withoutCategory()->get();
+        return self::_index($questions);
     }
 
     public function create()
     {
+        return self::_create();
+    }
+
+    private static function _create($questionCategory = null)
+    {
         $questionCategories = QuestionCategoryController::getUserCategories();
         return view("question.form", [
             "titleKey" => "add",
-            "questionCategory" => null,
+            "questionCategory" => $questionCategory,
             "question" => new Question(),
             "questionCategories" => $questionCategories
         ]);
+    }
+
+    public function createFromCategory(QuestionCategory $questionCategory)
+    {
+        return self::_create($questionCategory);
     }
 
     public function store(Request $request)

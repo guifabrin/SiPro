@@ -2,19 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class UserController extends Controller
 {
 
-    private function isSocialAccount(){
+    public function index()
+    {
+        return view('user.view', ['isSocialAccount' => $this->isSocialAccount()]);
+    }
+
+    private function isSocialAccount()
+    {
         return Auth::user()->password == "";
     }
 
-    public function index(){
-        return view('user.view', ['isSocialAccount' => $this->isSocialAccount()]);
+    public function update(Request $request)
+    {
+        $validator = $this->validate($request);
+        if (!$validator->fails()) {
+            $user = \Auth::user();
+            $user->update(['password' => bcrypt($request->input('password'))]);
+        }
+        return redirect()->to('user')->withErrors($validator);
     }
 
     public function validate(Request $request, array $_rules = [], array $_messages = [],
@@ -24,20 +36,11 @@ class UserController extends Controller
             'password' => 'required|same:new-password'
         ]);
         $validator->after(function ($validator) use ($request) {
-            if (!$this->isSocialAccount() && !\Hash::check($request->input('old-password'), \Auth::user()->password)){
+            if (!$this->isSocialAccount() && !\Hash::check($request->input('old-password'), \Auth::user()->password)) {
                 $validator->errors()->add('old-password', _v('old-password'));
             }
         });
         return $validator;
-    }
-
-    public function update(Request $request){
-        $validator = $this->validate($request);
-        if (!$validator->fails()) {
-            $user = \Auth::user();
-            $user->update(['password' => bcrypt($request->input('password'))]);
-        }
-        return redirect()->to('user')->withErrors($validator);
     }
 
 //    public function updatePassword(Request $request)

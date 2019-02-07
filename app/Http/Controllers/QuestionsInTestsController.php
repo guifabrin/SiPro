@@ -9,9 +9,10 @@ use App\Test;
 
 class QuestionsInTestsController extends Controller
 {
-    public function index(Test $test, QuestionCategory $questionCategory){
+    public function index(Test $test, QuestionCategory $questionCategory)
+    {
         $questionCategories = QuestionCategoryController::getUserCategories();
-        if (!isset($questionCategory)){
+        if (!isset($questionCategory)) {
             $questions = QuestionWithoutCategoryController::questionsWithoutCategory();
         } else {
             $questions = QuestionFromCategoryController::questionsFromCategory($questionCategory);
