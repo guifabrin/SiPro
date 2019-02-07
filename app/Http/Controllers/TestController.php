@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Boostrap\Alert;
+use App\Http\Controllers\Services\TestStore;
 use App\Test;
 use App\TestCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Base\Controller;
 
 class TestController extends Controller
 {
@@ -18,7 +20,7 @@ class TestController extends Controller
 
     public static function _index($tests, $testCategory = null)
     {
-        $testCategories = TestCategoryController::getUserCategories();
+        $testCategories = Auth::user()->testCategories()->notRemoved()->withoutFather()->get();
         if ($tests->count() == 0) {
             Alert::build(_v("none_message"), "info");
         }
@@ -48,7 +50,7 @@ class TestController extends Controller
 
     public static function _create($testCategory = null)
     {
-        $testCategories = TestCategoryController::getUserCategories();
+        $testCategories = Auth::user()->testCategories()->notRemoved()->withoutFather()->get();
         return view("test.form", [
             "titleKey" => "add",
             "test" => new Test(),
@@ -64,14 +66,14 @@ class TestController extends Controller
 
     public function store(Request $request)
     {
-        $stored = TestStoreController::store($request);
+        $stored = TestStore::run($request);
         $this->message("stored", $stored, true);
         return redirect()->to("test/" . $stored->id . "/edit");
     }
 
     public function edit(Test $test)
     {
-        $testCategories = TestCategoryController::getUserCategories();
+        $testCategories = Auth::user()->testCategories()->notRemoved()->withoutFather()->get();
         return view("test.form", [
             "titleKey" => "edit",
             "testCategory" => null,
@@ -83,7 +85,7 @@ class TestController extends Controller
 
     public function update(Request $request, Test $test)
     {
-        $stored = TestStoreController::store($request, $test);
+        $stored = TestStore::run($request, $test);
         $this->message("stored", $stored, true);
         return redirect()->to("test/" . $stored->id . "/edit");
     }

@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Services;
 
+use App\Http\Controllers\QuestionController;
 use App\Image;
 use App\Option;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class QuestionStoreController extends Controller
+class QuestionStore
 {
 
     private $request;
@@ -26,14 +27,14 @@ class QuestionStoreController extends Controller
         }
     }
 
-    public static function store(Request $request, Question $question = null)
+    public static function run(Request $request, Question $question = null)
     {
-        return (new QuestionStoreController($request, $question))->_store();
+        return (new QuestionStore($request, $question))->store();
     }
 
-    public function _store()
+    public function store()
     {
-        $this->validate($this->request);
+        $this->validate();
         if (!$this->processQuestion()) return false;
         if ($this->input["type"] != QuestionController::DESCRIPTIVE) {
             foreach ($this->createOptions() as $option) {
@@ -46,8 +47,7 @@ class QuestionStoreController extends Controller
         return true;
     }
 
-    public function validate(Request $_request, array $_rules = [], array $_messages = [],
-                             array $_customAttributes = [])
+    public function validate()
     {
         $array = [
             "description" => "required",
@@ -104,8 +104,8 @@ class QuestionStoreController extends Controller
     {
         if ($image) {
             $imageObj = Image::firstOrCreate([
-                "imageb64" => ImageController::convertUploadedFile2Base64($image),
-                "imageb64_thumb" => ImageController::makeThumb($image, 100)
+                "imageb64" => ImageMaker::convertUploadedFile2Base64($image),
+                "imageb64_thumb" => ImageMaker::makeThumb($image, 100)
             ]);
         } else {
             $imageObj = null;

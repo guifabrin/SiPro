@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\SocialAccountService;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\Base\Controller;
 
 
 class SocialAuthController extends Controller

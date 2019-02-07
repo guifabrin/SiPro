@@ -20,7 +20,7 @@ if (!function_exists('is_controller')) {
      */
     function is_controller($obj)
     {
-        return is_subclass_of($obj, 'App\Http\Controllers\Controller');
+        return is_subclass_of($obj, 'App\Http\Controllers\Base\Controller');
     }
 }
 

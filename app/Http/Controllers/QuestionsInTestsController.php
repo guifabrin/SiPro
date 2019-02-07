@@ -6,17 +6,16 @@ use App\Question;
 use App\QuestionCategory;
 use App\QuestionsInTests;
 use App\Test;
+use App\Http\Controllers\Base\Controller;
 
 class QuestionsInTestsController extends Controller
 {
     public function index(Test $test, QuestionCategory $questionCategory)
     {
-        $questionCategories = QuestionCategoryController::getUserCategories();
-        if (!isset($questionCategory)) {
-            $questions = QuestionWithoutCategoryController::questionsWithoutCategory();
-        } else {
-            $questions = QuestionFromCategoryController::questionsFromCategory($questionCategory);
-        }
+        $questionCategories = \Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
+        $nonRemoved = \Auth::user()->questions()->notRemoved();
+        $questions = (isset($questionCategory)? $nonRemoved->fromCategory($questionCategory) :
+            $nonRemoved->withoutCategory())->get();
         return view("question_in_test.form", [
             "test" => $test,
             "questionCategory" => $questionCategory,

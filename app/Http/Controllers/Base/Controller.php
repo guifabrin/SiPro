@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Base;
 
 use App\Helpers\Boostrap\Alert;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

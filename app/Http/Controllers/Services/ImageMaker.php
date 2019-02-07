@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Services;
 
-class ImageController extends Controller
+class ImageMaker
 {
 
     private $uploadedFile;

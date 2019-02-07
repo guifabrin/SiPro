@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Base;
 
 use App\Helpers\Boostrap\Alert;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function create()
     {
-        $categories = $this->_getUserCategories();
+        $categories = $this->getUserCategories();
         $class = $this->typeBasicClass();
         return view("category.form", [
             "type" => $this->type(),
@@ -19,9 +19,9 @@ class CategoryController extends Controller
         ]);
     }
 
-    protected function _getUserCategories()
+    protected function getUserCategories()
     {
-        throw new \Exception(_v("need_implement__getUserCategories"));
+        throw new \Exception(_v("need_implement_getUserCategories"));
     }
 
     protected function typeBasicClass()
@@ -36,7 +36,7 @@ class CategoryController extends Controller
 
     public function edit($category)
     {
-        $categories = $this->_getUserCategories();
+        $categories = $this->getUserCategories();
         return view("category.form", [
             "type" => $this->type(),
             "category" => $category,
@@ -75,7 +75,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = $this->_getUserCategories();
+        $categories = $this->getUserCategories();
         if ($categories->count() == 0) {
             Alert::build(_v("none_message"), "info");
         }

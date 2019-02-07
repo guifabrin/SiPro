@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Services;
 
 use App\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TestStoreController extends Controller
+class TestStore
 {
 
     private $request;
@@ -22,19 +22,18 @@ class TestStoreController extends Controller
         }
     }
 
-    public static function store(Request $request, Test $test = null)
+    public static function run(Request $request, Test $test = null)
     {
-        return (new self($request, $test))->_store();
+        return (new self($request, $test))->store();
     }
 
-    public function _store()
+    public function store()
     {
-        $this->validate($this->request);
+        $this->validate();
         return $this->processTest();
     }
 
-    public function validate(Request $_request, array $_rules = [], array $_messages = [],
-                             array $_customAttributes = [])
+    public function validate()
     {
         $this->request->validate([
             "description" => "required"

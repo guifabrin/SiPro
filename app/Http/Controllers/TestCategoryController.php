@@ -3,18 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Base\CategoryController;
 
 class TestCategoryController extends CategoryController
 {
 
-    public static function getUserCategories()
+    protected function getUserCategories()
     {
-        return (new self())->_getUserCategories();
-    }
-
-    protected function _getUserCategories()
-    {
-        return Auth::user()->testCategories()->withoutFather()->notRemoved()->get();
+        return Auth::user()->testCategories()->notRemoved()->withoutFather()->get();
     }
 
     protected function type()

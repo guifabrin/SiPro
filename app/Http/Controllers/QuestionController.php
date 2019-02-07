@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Boostrap\Alert;
+use App\Http\Controllers\Services\QuestionStore;
 use App\Question;
 use App\QuestionCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Base\Controller;
 
 class QuestionController extends Controller
 {
@@ -21,7 +23,7 @@ class QuestionController extends Controller
 
     private static function _index($questions, $questionCategory = null)
     {
-        $questionCategories = QuestionCategoryController::getUserCategories();
+        $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         if ($questions->count() == 0) {
             Alert::build(_v("none_message"), "info");
         }
@@ -51,7 +53,7 @@ class QuestionController extends Controller
 
     private static function _create($questionCategory = null)
     {
-        $questionCategories = QuestionCategoryController::getUserCategories();
+        $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         return view("question.form", [
             "titleKey" => "add",
             "questionCategory" => $questionCategory,
@@ -67,7 +69,7 @@ class QuestionController extends Controller
 
     public function store(Request $request)
     {
-        $stored = QuestionStoreController::store($request);
+        $stored = QuestionStore::run($request);
         $this->message("stored", $stored, true);
         return redirect()->to("question");
     }
@@ -89,7 +91,7 @@ class QuestionController extends Controller
 
     public function edit(Question $question)
     {
-        $questionCategories = QuestionCategoryController::getUserCategories();
+        $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         return view("question.form", [
             "titleKey" => "edit",
             "questionCategory" => null,
@@ -100,7 +102,7 @@ class QuestionController extends Controller
 
     public function update(Request $request, Question $question)
     {
-        $updated = QuestionStoreController::store($request, $question);
+        $updated = QuestionStore::run($request, $question);
         $this->message("updated", $updated, true);
         return redirect()->to("question");
     }
