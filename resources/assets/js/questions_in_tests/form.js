@@ -18,7 +18,7 @@ $(function () {
                     $(el).addClass('hide');
                     $(other).removeClass('hide');
                 }
-            })
+            });
             e.stopPropagation();
             e.preventDefault();
             return false;

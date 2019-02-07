@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Boostrap\Alert;
 use App\Question;
 use App\QuestionCategorie;
 use Illuminate\Support\Facades\Auth;

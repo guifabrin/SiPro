@@ -6,7 +6,6 @@ use App\Question;
 use App\QuestionCategorie;
 use App\QuestionsInTests;
 use App\Test;
-use Illuminate\Http\Request;
 
 class QuestionsInTestsController extends Controller
 {

@@ -1,22 +1,22 @@
 <?php
 
 return [
-    'view'=>[
+    'view' => [
         'title' => 'Meus testes',
         'add' => 'Adicionar',
-        'back' =>'Voltar',
+        'back' => 'Voltar',
         'see' => 'Ver testes',
-      'none'=>'Nenhum',
-      'description' =>'Descrição',
-      'actions'=>'Ações',
-        'remove' =>'Remover',
-        'edit'=>'Editar',
+        'none' => 'Nenhum',
+        'description' => 'Descrição',
+        'actions' => 'Ações',
+        'remove' => 'Remover',
+        'edit' => 'Editar',
         'mines_gender_b' => 'Meus',
         'tests' => 'testes'
     ],
-    'form' =>[
-        'title' =>'Formulário de testes',
-        'back' =>'Voltar',
+    'form' => [
+        'title' => 'Formulário de testes',
+        'back' => 'Voltar',
         'edit' => 'Editar',
         'add' => 'Adicionar',
         'test' => 'Teste',
