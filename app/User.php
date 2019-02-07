@@ -49,7 +49,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the comments for the blog post.
+     * Return hasMany if user has questions
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function questions()
     {
@@ -57,7 +59,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the comments for the blog post.
+     * Return hasMany if user has tests
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function tests()
     {
@@ -65,7 +69,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the comments for the blog post.
+     * Return hasMany if user has questionCategories
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function questionCategories()
     {
@@ -73,7 +79,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the comments for the blog post.
+     * Return hasMany if user has testCategories
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function testCategories()
     {

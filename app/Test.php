@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use Illuminate\Database\Eloquent\Builder;
 
 class Test extends BaseModel
@@ -22,7 +23,9 @@ class Test extends BaseModel
     ];
 
     /**
-     * Get the comments for the blog post.
+     * Return hasOne if test has a category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
     public function category()
     {
@@ -30,7 +33,7 @@ class Test extends BaseModel
     }
 
     /**
-     * Scope function to get questions in category.
+     * Scope function to get tests in category.
      *
      * @param Builder $query
      * @param TestCategory $testCategory
@@ -42,7 +45,7 @@ class Test extends BaseModel
     }
 
     /**
-     * Scope function to get questions without category
+     * Scope function to get tests without category
      *
      * @param Builder $query
      * @return Builder

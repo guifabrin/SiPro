@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class TestCategory extends BaseModel
 {
     /**
@@ -10,12 +12,14 @@ class TestCategory extends BaseModel
      * @var bool
      */
     public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = "test_categories";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -26,7 +30,9 @@ class TestCategory extends BaseModel
     ];
 
     /**
-     * Get the comments for the blog post.
+     * Return HasMany if categories has tests
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function itens()
     {
@@ -34,7 +40,9 @@ class TestCategory extends BaseModel
     }
 
     /**
-     * Get the comments for the blog post.
+     * Return hasMany if category has categories
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function children()
     {
@@ -42,14 +50,22 @@ class TestCategory extends BaseModel
     }
 
     /**
-     * Get the comments for the blog post.
+     * Return hasOne if category has a father category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
     public function father()
     {
         return $this->hasOne("App\TestCategory", "id", "father_id");
     }
 
-    public function scopeWithoutFather($query)
+    /**
+     * Scope function to get tests without father category
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeWithoutFather(Builder $query)
     {
         return $query->where("father_id", null);
     }

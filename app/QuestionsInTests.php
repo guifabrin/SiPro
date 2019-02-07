@@ -12,12 +12,14 @@ class QuestionsInTests extends Model
      * @var bool
      */
     public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = "questions_in_tests";
+
     /**
      * The attributes that are mass assignable.
      *

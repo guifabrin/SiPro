@@ -18,7 +18,8 @@ if (!function_exists('is_controller')) {
      * @param object $obj
      * @return bool
      */
-    function is_controller($obj){
+    function is_controller($obj)
+    {
         return is_subclass_of($obj, 'App\Http\Controllers\Controller');
     }
 }
@@ -30,7 +31,8 @@ if (!function_exists('get_controller_base_key')) {
      * @param object $obj
      * @return bool
      */
-    function get_controller_base_key($obj){
+    function get_controller_base_key($obj)
+    {
         $classPath = explode('\\', get_class($obj));
         $className = array_pop($classPath);
         $classWithoutController = str_replace("Controller", "", $className);
@@ -46,7 +48,8 @@ if (!function_exists('get_view_base_key')) {
      * @return bool
      * @throws ReflectionException
      */
-    function get_view_base_key($obj){
+    function get_view_base_key($obj)
+    {
         $reflection = new \ReflectionClass($obj);
         $property = $reflection->getProperty("lastCompiled");
         $property->setAccessible(true);
@@ -54,8 +57,8 @@ if (!function_exists('get_view_base_key')) {
         $paths = explode("/", $value);
         $countPaths = count($paths);
         $initIndexViews = array_search("views", $paths) + 1;
-        $paths[$countPaths-1] =  str_replace(".blade.php", "", $paths[$countPaths-1]);
-        return implode(".", array_slice($paths, $initIndexViews, $countPaths - $initIndexViews)).".";
+        $paths[$countPaths - 1] = str_replace(".blade.php", "", $paths[$countPaths - 1]);
+        return implode(".", array_slice($paths, $initIndexViews, $countPaths - $initIndexViews)) . ".";
     }
 }
 
@@ -109,7 +112,7 @@ if (!function_exists('process_if_null')) {
 if (!function_exists('current_url')) {
     /**
      * Function to get actual url;
-     * 
+     *
      * @return string
      */
     function current_url()
