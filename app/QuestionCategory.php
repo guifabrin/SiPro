@@ -65,7 +65,7 @@ class QuestionCategory extends BaseModel
      * @param Builder $query
      * @return Builder
      */
-    public function scopeWithoutFather(Build $query)
+    public function scopeWithoutFather(Builder $query)
     {
         return $query->where("father_id", null);
     }
