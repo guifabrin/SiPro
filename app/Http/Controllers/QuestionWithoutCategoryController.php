@@ -14,6 +14,6 @@ class QuestionWithoutCategoryController extends Controller
 
     public static function questionsWithoutCategory()
     {
-        return Auth::user()->questions()->fromCategory(null)->notRemoved()->get();
+        return Auth::user()->questions()->withoutCategory()->notRemoved()->get();
     }
 }

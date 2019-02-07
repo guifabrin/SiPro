@@ -14,7 +14,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar'
+        "name", "email", "password", "avatar"
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -22,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'remember_token',
+        "remember_token",
     ];
 
     public function avatar()
@@ -30,13 +30,15 @@ class User extends Authenticatable
         if ($this->avatar != null) {
             return Auth::user()->avatar;
         }
-        return url('/images/no_image.png');
+        return url("/images/no_image.png");
     }
 
     /**
      * Get the comments for the blog post.
+     * @param string $type
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
      */
-    public function itens($type)
+    public function categoryOf(string $type)
     {
         if ($type == "question") {
             return $this->questions();
@@ -51,7 +53,7 @@ class User extends Authenticatable
      */
     public function questions()
     {
-        return $this->hasMany('App\Question', 'user_id');
+        return $this->hasMany("App\Question", "user_id");
     }
 
     /**
@@ -59,7 +61,7 @@ class User extends Authenticatable
      */
     public function tests()
     {
-        return $this->hasMany('App\Test', 'user_id');
+        return $this->hasMany("App\Test", "user_id");
     }
 
     /**
@@ -67,7 +69,7 @@ class User extends Authenticatable
      */
     public function questionCategories()
     {
-        return $this->hasMany('App\QuestionCategorie', 'user_id');
+        return $this->hasMany("App\QuestionCategory", "user_id");
     }
 
     /**
@@ -75,6 +77,6 @@ class User extends Authenticatable
      */
     public function testCategories()
     {
-        return $this->hasMany('App\TestCategorie', 'user_id');
+        return $this->hasMany("App\TestCategory", "user_id");
     }
 }

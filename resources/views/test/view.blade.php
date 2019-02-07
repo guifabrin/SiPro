@@ -17,7 +17,7 @@
 
 @section('body')
     <h3>{{ _v('mines_gender_b') }} {{ _v('tests') }} {{ isset($testCategory) ? '[ '.$testCategory->description.' ]' : ''}}</h3>
-    @include('categories.tree.view', [
+    @include('category.tree.view', [
         'manage' => false,
         'type'=>'test',
         'category'=> $testCategory,

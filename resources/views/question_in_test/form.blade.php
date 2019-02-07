@@ -1,11 +1,11 @@
 @extends('layouts.iframe')
 @section('content')
     <h3>{{_v('questions')}}</h3>
-    <label for="categorie_id">{{ _v('categorie_id') }}:</label>
-    @include('categories.tree.select', [
+    <label for="category_id">{{ _v('category_id') }}:</label>
+    @include('category.tree.select', [
         'father' => false,
         'type'=> 'question',
-        'key' => 'categorie_id',
+        'key' => 'category_id',
         'category' => isset($questionCategory) ? $questionCategory : null,
         'categories' => $questionCategories
     ])

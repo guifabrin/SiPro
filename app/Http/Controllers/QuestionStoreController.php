@@ -35,7 +35,7 @@ class QuestionStoreController extends Controller
     {
         $this->validate($this->request);
         if (!$this->processQuestion()) return false;
-        if ($this->input['type'] != QuestionController::DESCRIPTIVE) {
+        if ($this->input["type"] != QuestionController::DESCRIPTIVE) {
             foreach ($this->createOptions() as $option) {
                 if (!$option) {
                     $this->destroy();
@@ -49,35 +49,38 @@ class QuestionStoreController extends Controller
     public function validate(Request $_request, array $_rules = [], array $_messages = [],
                              array $_customAttributes = [])
     {
-        $this->request->validate([
-            'description' => 'required',
-            'lines' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-        ]);
+        $array = [
+            "description" => "required",
+            "image" => "image|mimes:jpeg,png,jpg,gif,svg|max:1024",
+        ];
+        if ($this->input["type"] == QuestionController::DESCRIPTIVE) {
+            $array["lines"] = "required";
+        }
+        $this->request->validate($array);
         $this->validateOptionsNotDescriptive();
     }
 
     private function validateOptionsNotDescriptive()
     {
-        if ($this->input['type'] != QuestionController::DESCRIPTIVE) {
+        if ($this->input["type"] != QuestionController::DESCRIPTIVE) {
             $rules = [];
             for ($i = 0; $i < 5; $i++) {
-                $rules['option-description.' . $i] = 'required';
+                $rules["option-description." . $i] = "required";
             }
-            $rules['option-correct'] = 'required';
+            $rules["option-correct"] = "required";
             $this->request->validate($rules);
         }
     }
 
     private function processQuestion()
     {
-        $uploadedFile = isset($this->input['image']) ? $this->input['image'] : null;
+        $uploadedFile = isset($this->input["image"]) ? $this->input["image"] : null;
         $args = [
-            "categorie_id" => $this->getQuestionCategoryId(),
+            "category_id" => $this->getQuestionCategoryId(),
             "user_id" => Auth::user()->id,
-            "description" => $this->input['description'],
+            "description" => $this->input["description"],
             "image_id" => $this->getImageId($uploadedFile),
-            "type" => $this->input['type'],
+            "type" => $this->input["type"],
             "lines" => $this->getLines(),
             "soft_delete" => false
         ];
@@ -91,9 +94,9 @@ class QuestionStoreController extends Controller
 
     private function getQuestionCategoryId()
     {
-        $questionCategoryId = $this->input['categorie_id'];
+        $questionCategoryId = $this->input["category_id"];
         processIfNull($questionCategoryId);
-        $questionCategory = Auth::user()->questionCategories()->where('id', $questionCategoryId)->first();
+        $questionCategory = Auth::user()->questionCategories()->where("id", $questionCategoryId)->first();
         return isset($questionCategory) ? $questionCategory->id : null;
     }
 
@@ -110,45 +113,45 @@ class QuestionStoreController extends Controller
         if ($imageObj) {
             $imageId = $imageObj->id;
         } else {
-            $imageId = isset($this->input['image_id']) ? $this->input['image_id'] : null;
+            $imageId = isset($this->input["image_id"]) ? $this->input["image_id"] : null;
         }
         return $imageId;
     }
 
     private function getLines()
     {
-        switch ($this->input['type']) {
+        switch ($this->input["type"]) {
             case 1:
             case 2:
                 return -1;
                 break;
         }
-        return $this->input['lines'];
+        return $this->input["lines"];
     }
 
     private function createOptions()
     {
-        if ($this->options->count() > 0) {
+        if ($this->options &$this->options->count() > 0) {
             $this->destroyOptions();
         }
         $optionsValues = $this->getOptionsValues();
         for ($i = 0; $i < 5; $i++) {
-            $imageOption = isset($optionsValues['image']) && isset($optionsValues['image'][$i]) ? $optionsValues['image'][$i] : null;
+            $imageOption = isset($optionsValues["image"]) && isset($optionsValues["image"][$i]) ? $optionsValues["image"][$i] : null;
             $imageOptionId = isset($imageOption) ? $this->getImageId($imageOption) : null;
             $optionCorrect = false;
-            if (isset($optionsValues['correct'])) {
-                for ($j = 0; $j < count($optionsValues['correct']); $j++) {
-                    if ($optionsValues['correct'][$j] == $i) {
+            if (isset($optionsValues["correct"])) {
+                for ($j = 0; $j < count($optionsValues["correct"]); $j++) {
+                    if ($optionsValues["correct"][$j] == $i) {
                         $optionCorrect = true;
                         break;
                     }
                 }
             }
             Option::create([
-                'question_id' => $this->question->id,
-                'description' => $optionsValues['description'][$i],
-                'image_id' => $imageOptionId,
-                'correct' => $optionCorrect,
+                "question_id" => $this->question->id,
+                "description" => $optionsValues["description"][$i],
+                "image_id" => $imageOptionId,
+                "correct" => $optionCorrect,
             ]);
         }
         $this->options = $this->question->options()->get();

@@ -3,7 +3,7 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 
 $(function () {
-    $('input[type=radio][name=categorie_id]').change(function() {
+    $('input[type=radio][name=category_id]').change(function() {
         if (eval($(this).val())!=null){
             window.location = (baseUrl+$(this).val());
         } else {

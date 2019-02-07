@@ -14,7 +14,7 @@
         @endif
         @foreach ($categories as $actual)
             <li>
-                @include('categories.tree.partials.radio', [
+                @include('category.tree.partials.radio', [
                 'key' => $key,
                 'type' => $type,
                 'actual' => $actual,
@@ -24,7 +24,7 @@
                 @php($childrens = $actual->children()->notRemoved())
                 @if($childrens->count()>0)
                     <ul>
-                        @include("categories.tree.select", [
+                        @include("category.tree.select", [
                         "type" => $type,
                         'father' => $father,
                         "category" => $category,

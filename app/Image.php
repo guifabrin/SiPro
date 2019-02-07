@@ -11,7 +11,7 @@ class Image extends Model
      *
      * @var string
      */
-    protected $table = 'images';
+    protected $table = "images";
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +19,7 @@ class Image extends Model
      * @var array
      */
     protected $fillable = [
-        'imageb64', 'imageb64_thumb',
+        "imageb64",
+        "imageb64_thumb",
     ];
 }

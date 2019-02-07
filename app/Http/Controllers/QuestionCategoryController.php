@@ -18,12 +18,12 @@ class QuestionCategoryController extends CategoryController
 
     protected function type()
     {
-        return 'question';
+        return "question";
     }
 
     protected function typeBasicClass()
     {
-        return 'App\QuestionCategorie';
+        return "App\QuestionCategory";
     }
 
 }

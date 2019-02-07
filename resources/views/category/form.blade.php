@@ -14,7 +14,7 @@
             @method("PUT")
         @endif
         @php(Field::build("id", "text", $category->id, false, true))
-        @include("categories.tree.select", [
+        @include("category.tree.select", [
             "father" => true,
             "key" => "father_id",
             "category" => $category,

@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'form' => [
-        'questions' => 'Questões',
-        'categorie_id' => 'Categoria de questão',
-        'none' => 'Nenhuma',
-        'image' => 'Imagem',
-        'description' => 'Descrição',
-        'actions' => 'Ações',
-        'add' => 'Adicionar',
-        'remove' => 'Remover'
+    "form" => [
+        "actions" => "Ações",
+        "add" => "Adicionar",
+        "category_id" => "Categoria de questão",
+        "description" => "Descrição",
+        "image" => "Imagem",
+        "none" => "Nenhuma",
+        "questions" => "Questões",
+        "remove" => "Remover"
     ]
 ];

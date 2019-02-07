@@ -2,7 +2,7 @@
 
 namespace App;
 
-class QuestionCategorie extends BaseModel
+class TestCategory extends BaseModel
 {
     /**
      * Indicates if the model should be timestamped.
@@ -15,14 +15,14 @@ class QuestionCategorie extends BaseModel
      *
      * @var string
      */
-    protected $table = 'question_categories';
+    protected $table = "test_categories";
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'description', 'father_id', 'user_id', 'soft_delete',
+        "description", "father_id", "user_id", "soft_delete",
     ];
 
     /**
@@ -30,7 +30,7 @@ class QuestionCategorie extends BaseModel
      */
     public function itens()
     {
-        return $this->hasMany('App\Question', 'categorie_id');
+        return $this->hasMany("App\Test", "category_id");
     }
 
     /**
@@ -38,7 +38,7 @@ class QuestionCategorie extends BaseModel
      */
     public function children()
     {
-        return $this->hasMany('App\QuestionCategorie', 'father_id');
+        return $this->hasMany("App\TestCategory", "father_id");
     }
 
     /**
@@ -46,11 +46,11 @@ class QuestionCategorie extends BaseModel
      */
     public function father()
     {
-        return $this->hasOne('App\QuestionCategorie', 'id', 'father_id');
+        return $this->hasOne("App\TestCategory", "id", "father_id");
     }
 
     public function scopeWithoutFather($query)
     {
-        return $query->where('father_id', null);
+        return $query->where("father_id", null);
     }
 }

@@ -37,16 +37,16 @@ class TestStoreController extends Controller
                              array $_customAttributes = [])
     {
         $this->request->validate([
-            'description' => 'required'
+            "description" => "required"
         ]);
     }
 
     private function processTest()
     {
         $args = [
-            "categorie_id" => $this->getTestCategoryId(),
+            "category_id" => $this->getTestCategoryId(),
             "user_id" => Auth::user()->id,
-            "description" => $this->input['description'],
+            "description" => $this->input["description"],
             "soft_delete" => false
         ];
         if ($this->test) {
@@ -59,9 +59,9 @@ class TestStoreController extends Controller
 
     private function getTestCategoryId()
     {
-        $testCategoryId = $this->input['categorie_id'];
+        $testCategoryId = $this->input["category_id"];
         processIfNull($testCategoryId);
-        $testCategory = Auth::user()->testCategories()->where('id', $testCategoryId)->first();
+        $testCategory = Auth::user()->testCategories()->where("id", $testCategoryId)->first();
         return isset($testCategory) ? $testCategory->id : null;
     }
 }

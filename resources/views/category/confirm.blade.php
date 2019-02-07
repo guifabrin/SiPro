@@ -11,7 +11,7 @@
         @csrf
         @method("DELETE")
         <div class="alert alert-warning">
-            {{ _v("remove_categorie_message") }} "{{$category->description}}"?
+            {{ _v("remove_message") }} "{{$category->description}}"?
         </div>
 
         <p class="yes-no-buttons">

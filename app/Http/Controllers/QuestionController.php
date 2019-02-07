@@ -20,12 +20,12 @@ class QuestionController extends Controller
     public static function _index($questions, $questionCategory = null){
         $questionCategories = QuestionCategoryController::getUserCategories();
         if ($questions->count() == 0) {
-            Alert::build(_v('none_message'), 'info');
+            Alert::build(_v("none_message"), "info");
         }
-        return view('question.view', [
-            'questions' => $questions,
-            'questionCategory' => $questionCategory,
-            'questionCategories' => $questionCategories
+        return view("question.view", [
+            "questions" => $questions,
+            "questionCategory" => $questionCategory,
+            "questionCategories" => $questionCategories
         ]);
     }
 
@@ -37,51 +37,51 @@ class QuestionController extends Controller
     public function create()
     {
         $questionCategories = QuestionCategoryController::getUserCategories();
-        return view('question.form', [
-            'titleKey' => 'add',
-            'questionCategory' => null,
-            'question' => new Question(),
-            'questionCategories' => $questionCategories
+        return view("question.form", [
+            "titleKey" => "add",
+            "questionCategory" => null,
+            "question" => new Question(),
+            "questionCategories" => $questionCategories
         ]);
     }
 
     public function store(Request $request)
     {
         $stored = QuestionStoreController::store($request);
-        $this->message('stored', $stored, true);
-        return redirect()->to('question');
+        $this->message("stored", $stored, true);
+        return redirect()->to("question");
     }
 
     public function show(Question $question)
     {
-        return view('question.confirm', [
-            'question' => $question,
+        return view("question.confirm", [
+            "question" => $question,
         ]);
     }
 
     public function destroy(Question $question)
     {
-        $questionObj = $question->update(['soft_delete' => true]);
-        $this->message('removed', $questionObj, true);
-        return redirect()->to('question');
+        $questionObj = $question->update(["soft_delete" => true]);
+        $this->message("removed", $questionObj, true);
+        return redirect()->to("question");
     }
 
 
     public function edit(Question $question)
     {
         $questionCategories = QuestionCategoryController::getUserCategories();
-        return view('question.form', [
-            'titleKey' => 'edit',
-            'questionCategory' => null,
-            'question' => $question,
-            'questionCategories' => $questionCategories
+        return view("question.form", [
+            "titleKey" => "edit",
+            "questionCategory" => null,
+            "question" => $question,
+            "questionCategories" => $questionCategories
         ]);
     }
 
     public function update(Request $request, Question $question)
     {
         $updated = QuestionStoreController::store($request, $question);
-        $this->message('updated', $updated, true);
-        return redirect()->to('question');
+        $this->message("updated", $updated, true);
+        return redirect()->to("question");
     }
 }

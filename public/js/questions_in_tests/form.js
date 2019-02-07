@@ -2899,8 +2899,8 @@ function nodeName( elem, name ) {
 
   return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
 
-}
-    var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
+};
+var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
 
 
 
@@ -10476,7 +10476,7 @@ __webpack_require__.r(__webpack_exports__);
 
 window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('input[type=radio][name=categorie_id]').change(function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('input[type=radio][name=category_id]').change(function () {
     if (eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val()) != null) {
       window.location = baseUrl + jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
     } else {

@@ -41,7 +41,7 @@ class ImageController extends Controller
 
     private function isJPG()
     {
-        return in_array($this->getExtension(), ['jpg', 'jpeg', 'JPG', 'JPEG']);
+        return in_array($this->getExtension(), ["jpg", "jpeg", "JPG", "JPEG"]);
     }
 
     private function getExtension()
@@ -54,7 +54,7 @@ class ImageController extends Controller
 
     private function isPNG()
     {
-        return in_array($this->getExtension(), ['png', 'PNG']);
+        return in_array($this->getExtension(), ["png", "PNG"]);
     }
 
     private function getVirtualImage($source, $maxWidth)
@@ -81,7 +81,7 @@ class ImageController extends Controller
     {
         $destination = null;
         while (true) {
-            $destination = sys_get_temp_dir() . "/" . uniqid() . '.' . $this->getExtension();
+            $destination = sys_get_temp_dir() . "/" . uniqid() . "." . $this->getExtension();
             if (!file_exists($destination)) break;
         }
         return $destination;
@@ -90,14 +90,14 @@ class ImageController extends Controller
     public function convertBase64($destination)
     {
         $data = base64_encode(file_get_contents($destination));
-        return $base64 = 'data:image/' . $this->getExtension() . ';base64,' . $data;
+        return $base64 = "data:image/" . $this->getExtension() . ";base64," . $data;
     }
 
     public static function convertUploadedFile2Base64($uploadedFile)
     {
         $data = base64_encode(file_get_contents($uploadedFile));
         $type = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_EXTENSION);
-        return $base64 = 'data:image/' . $type . ';base64,' . $data;
+        return $base64 = "data:image/" . $type . ";base64," . $data;
     }
 
 }

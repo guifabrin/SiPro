@@ -10,7 +10,10 @@
                     aria-expanded="false">
                 <i class="fa fa-folder-open"></i>
                 {{ _v('none') }}
-                <span class="badge badge-light">{{ Auth::user()->itens($type)->notRemoved()->count() }}</span>
+                <span class="badge badge-light">
+                    @php($userCategories = Auth::user()->categoryOf($type)->notRemoved())
+                    {{ (isset($category) ? $categories->fromCategory($category) : $userCategories->withoutCategory())->count() }}
+                </span>
             </button>
             <div class="dropdown-menu" aria-labelledby="siproDrodownMenuNull">
                 <a class="dropdown-item" href="{{ url("/".$type."s/itensWithoutCategory") }}">
@@ -24,7 +27,7 @@
         @endif
         @foreach ($categories as $actual)
             <li>
-                @include('categories.tree.partials.button', [
+                @include('category.tree.partials.button', [
                 'type' => $type,
                 'manage' => $manage,
                 'actual' => $actual,
@@ -33,7 +36,7 @@
                 @php($childrens = $actual->children()->notRemoved())
                 @if($childrens->count()>0)
                     <ul>
-                        @include("categories.tree.view", [
+                        @include("category.tree.view", [
                         "type" => $type,
                         "manage" => $manage,
                         "category" => $category,

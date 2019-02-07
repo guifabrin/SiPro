@@ -9,6 +9,6 @@ class BaseModel extends Model
 
     public function scopeNotRemoved($query)
     {
-        return $query->where('soft_delete', false);
+        return $query->where("soft_delete", false);
     }
 }

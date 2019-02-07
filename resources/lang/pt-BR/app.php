@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'title' => 'SiPRO - Sistema de Provas',
-    'developed_by' => 'Desenvolvido por',
-    'rights' => 'Direitos Reservados',
-    'license' => 'Licença Creative Commons'
+    "developed_by" => "Desenvolvido por",
+    "license" => "Licença Creative Commons",
+    "rights" => "Direitos Reservados",
+    "title" => "SiPRO - Sistema de Provas"
 ];

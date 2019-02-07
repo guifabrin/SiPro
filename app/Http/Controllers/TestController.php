@@ -17,12 +17,12 @@ class TestController extends Controller
     public static function _index($tests, $testCategory = null){
         $testCategories = TestCategoryController::getUserCategories();
         if ($tests->count() == 0) {
-            Alert::build(_v('none_message'), 'info');
+            Alert::build(_v("none_message"), "info");
         }
-        return view('test.view', [
-            'tests' => $tests,
-            'testCategory' => $testCategory,
-            'testCategories' => $testCategories
+        return view("test.view", [
+            "tests" => $tests,
+            "testCategory" => $testCategory,
+            "testCategories" => $testCategories
         ]);
     }
 
@@ -34,29 +34,29 @@ class TestController extends Controller
     public function create()
     {
         $testCategories = TestCategoryController::getUserCategories();
-        return view('test.form', [
-            'titleKey' => 'add',
-            'testCategory' => null,
-            'test' => new Test(),
-            'testCategories' => $testCategories
+        return view("test.form", [
+            "titleKey" => "add",
+            "testCategory" => null,
+            "test" => new Test(),
+            "testCategories" => $testCategories
         ]);
     }
 
     public function store(Request $request)
     {
         $stored = TestStoreController::store($request);
-        $this->message('stored', $stored, true);
-        return redirect()->to('question/'.$stored.'/edit');
+        $this->message("stored", $stored, true);
+        return redirect()->to("test/".$stored->id."/edit");
     }
 
     public function edit(Test $test)
     {
         $testCategories = TestCategoryController::getUserCategories();
-        return view('test.form', [
-            'titleKey' => 'edit',
-            'testCategory' => null,
-            'test' => $test,
-            'testCategories' => $testCategories
+        return view("test.form", [
+            "titleKey" => "edit",
+            "testCategory" => null,
+            "test" => $test,
+            "testCategories" => $testCategories
         ]);
     }
 }

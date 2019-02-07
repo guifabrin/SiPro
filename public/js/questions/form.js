@@ -2899,8 +2899,8 @@ function nodeName( elem, name ) {
 
   return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
 
-}
-    var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
+};
+var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
 
 
 
@@ -10482,17 +10482,29 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   typeSelect.change(function () {
     switch (typeSelect.val() * 1) {
       case 0:
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber').attr('required', true);
+        options.find('[name*=option-description]').each(function (index, el) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).removeAttr('required');
+        });
         linesNumber.show();
         options.hide();
         break;
 
       case 1:
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber').removeAttr('required');
+        options.find('[name*=option-description]').each(function (index, el) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).attr('required', true);
+        });
         linesNumber.hide();
         options.show();
         options.find('input[type=checkbox]').attr('type', 'radio');
         break;
 
       case 2:
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber').removeAttr('required');
+        options.find('[name*=option-description]').each(function (index, el) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).attr('required', true);
+        });
         linesNumber.hide();
         options.show();
         options.find('input[type=radio]').attr('type', 'checkbox');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTestCategorieTable extends Migration
+class CreateQuestionCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTestCategorieTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_categories', function (Blueprint $table) {
+        Schema::create('question_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('father_id')->nullable()->unsigned();
-            $table->foreign('father_id')->references('id')->on('test_categories');
+            $table->foreign('father_id')->references('id')->on('question_categories');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('description');
@@ -32,6 +32,6 @@ class CreateTestCategorieTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('test_categories');
+        Schema::dropIfExists('question_categories');
     }
 }

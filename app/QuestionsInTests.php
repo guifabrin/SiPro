@@ -17,13 +17,13 @@ class QuestionsInTests extends Model
      *
      * @var string
      */
-    protected $table = 'questions_in_tests';
+    protected $table = "questions_in_tests";
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'question_id', 'test_id'
+        "question_id", "test_id"
     ];
 }

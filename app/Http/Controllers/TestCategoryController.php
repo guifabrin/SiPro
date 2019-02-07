@@ -19,12 +19,12 @@ class TestCategoryController extends CategoryController
 
     protected function type()
     {
-        return 'test';
+        return "test";
     }
 
     protected function typeBasicClass()
     {
-        return 'App\TestCategorie';
+        return "App\TestCategory";
     }
 
 }

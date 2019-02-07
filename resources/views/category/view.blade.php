@@ -18,5 +18,5 @@
 
 @section("body")
     <h3>{{_v($type)}}</h3>
-    @include("categories.tree.view", ["type" => $type, "categories" => $categories])
+    @include("category.tree.view", ["type" => $type, "categories" => $categories])
 @endsection

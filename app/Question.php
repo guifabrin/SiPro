@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class Question extends BaseModel
 {
     /**
@@ -10,35 +12,57 @@ class Question extends BaseModel
      * @var bool
      */
     public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'questions';
+    protected $table = "questions";
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'description', 'categorie_id', 'user_id', 'soft_delete', 'lines', 'image_id', 'type',
+        "category_id",
+        "description",
+        "image_id",
+        "lines",
+        "soft_delete",
+        "type",
+        "user_id",
     ];
 
-    public function scopeWithoutCategorie($query)
+    /**
+     * Scope function to get questions in category.
+     *
+     * @param Builder $query
+     * @param QuestionCategory $questionCategory
+     * @return Builder
+     */
+    public function scopeFromCategory(Builder $query, QuestionCategory $questionCategory)
     {
-        return $query->where('categorie_id', null);
+        return $query->where("category_id", $questionCategory->id);
     }
 
-    public function scopeFromCategory($query, $questionCategory = null)
+    /**
+     * Scope function to get questions without category
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeWithoutCategory(Builder $query)
     {
-        if (isset($questionCategory) && isset($questionCategory->id)) {
-            return $query->where('categorie_id', $questionCategory->id);
-        } else {
-            return $query->where('categorie_id', null);
-        }
+        return $query->where("category_id", null);
     }
 
+    /**
+     * Function to return image in base64 if valid image.
+     *
+     * @return string|null
+     */
     public function thumbImage()
     {
         try {
@@ -50,35 +74,45 @@ class Question extends BaseModel
     }
 
     /**
-     * Get the comments for the blog post.
+     * Return HasOne if image isset.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function image()
     {
-        return $this->hasOne('App\Image', 'id', 'image_id');
+        return $this->hasOne("App\Image", "id", "image_id");
     }
 
+
     /**
-     * Get the comments for the blog post.
+     * Return HasMany if questions has options
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function options()
     {
-        return $this->hasMany('App\Option');
+        return $this->hasMany("App\Option");
     }
 
+
     /**
-     * Get the comments for the blog post.
+     * Return HasOne if category isset.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function category()
     {
-        return $this->hasOne('App\QuestionCategorie', 'id', 'categorie_id');
+        return $this->hasOne("App\QuestionCategory", "id", "category_id");
     }
 
     /**
-     * Get the comments for the blog post.
+     * Function to verify if question in test
+     * @param Test $test
+     * @return bool
      */
     public function inTest(Test $test)
     {
-        return QuestionsInTests::where('question_id', $this->id)->where('test_id', $test->id)->first() != null;
+        return QuestionsInTests::where("question_id", $this->id)->where("test_id", $test->id)->first() != null;
     }
 
 }

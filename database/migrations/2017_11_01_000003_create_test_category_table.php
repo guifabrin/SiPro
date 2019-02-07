@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHeadersTable extends Migration
+class CreateTestCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateHeadersTable extends Migration
      */
     public function up()
     {
-        Schema::create('header', function (Blueprint $table) {
+        Schema::create('test_categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('school');
-            $table->string('title');
-            $table->string('subtitle');
-            $table->string('observation');
-            $table->boolean('teacher');
-            $table->boolean('date');
-            $table->double('value', 8, 2);
-            $table->text('imageb64');
+            $table->integer('father_id')->nullable()->unsigned();
+            $table->foreign('father_id')->references('id')->on('test_categories');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('description');
             $table->boolean('soft_delete');
             $table->timestamps();
         });
@@ -35,6 +32,6 @@ class CreateHeadersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('header');
+        Schema::dropIfExists('test_categories');
     }
 }

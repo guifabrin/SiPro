@@ -22,11 +22,11 @@
         @endif
         @php(Field::build('id', 'text', isset($test) ? $test->id : null, false, true))
         <div class="form-group">
-            <label for="categorie_id">{{ _v('categorie_id') }}:</label>
-            @include('categories.tree.select', [
+            <label for="category_id">{{ _v('category_id') }}:</label>
+            @include('category.tree.select', [
                 'father' => false,
                 'type'=> 'test',
-                'key' => 'categorie_id',
+                'key' => 'category_id',
                 'category' => $testCategory,
                 'categories' => $testCategories
             ])

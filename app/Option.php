@@ -11,7 +11,7 @@ class Option extends Model
      *
      * @var string
      */
-    protected $table = 'options';
+    protected $table = "options";
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +19,9 @@ class Option extends Model
      * @var array
      */
     protected $fillable = [
-        'question_id', 'description', 'image_id', 'correct',
+        "correct",
+        "description",
+        "image_id",
+        "question_id",
     ];
 }
