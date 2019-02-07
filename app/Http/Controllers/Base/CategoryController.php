@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Base;
 
 use App\Helpers\Boostrap\Alert;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
