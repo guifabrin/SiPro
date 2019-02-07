@@ -7,6 +7,7 @@ use App\Image;
 use App\Option;
 use App\Question;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 
 class QuestionStore
@@ -17,6 +18,11 @@ class QuestionStore
     private $question;
     private $options;
 
+    /**
+     * QuestionStore constructor.
+     * @param Request $request
+     * @param Question|null $question
+     */
     public function __construct(Request $request, Question $question = null)
     {
         $this->request = $request;
@@ -27,11 +33,19 @@ class QuestionStore
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Question|null $question
+     * @return bool
+     */
     public static function run(Request $request, Question $question = null)
     {
         return (new QuestionStore($request, $question))->store();
     }
 
+    /**
+     * @return bool
+     */
     public function store()
     {
         $this->validate();
@@ -100,15 +114,14 @@ class QuestionStore
         return isset($questionCategory) ? $questionCategory->id : null;
     }
 
-    private function getImageId($image = null)
+    private function getImageId(UploadedFile $uploadedImage = null)
     {
-        if ($image) {
+        $imageObj = null;
+        if ($uploadedImage) {
             $imageObj = Image::firstOrCreate([
-                "imageb64" => ImageMaker::convertUploadedFile2Base64($image),
-                "imageb64_thumb" => ImageMaker::makeThumb($image, 100)
+                "imageb64" => ImageMaker::convertUploadedFile2Base64($uploadedImage),
+                "imageb64_thumb" => ImageMaker::makeThumb($uploadedImage, 100)
             ]);
-        } else {
-            $imageObj = null;
         }
         if ($imageObj) {
             $imageId = $imageObj->id;

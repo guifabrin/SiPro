@@ -8,19 +8,28 @@ use App\Question;
 use App\QuestionCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 
 class QuestionController extends Controller
 {
 
     const DESCRIPTIVE = 0;
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $questions = Auth::user()->questions()->notRemoved()->get();
         return self::_index($questions);
     }
 
-    private static function _index($questions, $questionCategory = null)
+    /**
+     * @param Collection $questions
+     * @param QuestionCategory|null $questionCategory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    private static function _index(Collection $questions, QuestionCategory $questionCategory = null)
     {
         $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         if ($questions->count() == 0) {
@@ -33,24 +42,38 @@ class QuestionController extends Controller
         ]);
     }
 
+    /**
+     * @param QuestionCategory $questionCategory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function indexFromCategory(QuestionCategory $questionCategory)
     {
         $questions = Auth::user()->questions()->notRemoved()->fromCategory($questionCategory)->get();
         return self::_index($questions, $questionCategory);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function indexWithoutCategory()
     {
         $questions = Auth::user()->questions()->notRemoved()->withoutCategory()->get();
         return self::_index($questions);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         return self::_create();
     }
 
-    private static function _create($questionCategory = null)
+    /**
+     * @param QuestionCategory|null $questionCategory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    private static function _create(QuestionCategory $questionCategory = null)
     {
         $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         return view("question.form", [
@@ -61,11 +84,19 @@ class QuestionController extends Controller
         ]);
     }
 
+    /**
+     * @param QuestionCategory $questionCategory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function createFromCategory(QuestionCategory $questionCategory)
     {
         return self::_create($questionCategory);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $stored = QuestionStore::run($request);
@@ -73,6 +104,10 @@ class QuestionController extends Controller
         return redirect()->to("question");
     }
 
+    /**
+     * @param Question $question
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(Question $question)
     {
         return view("question.confirm", [
@@ -80,6 +115,10 @@ class QuestionController extends Controller
         ]);
     }
 
+    /**
+     * @param Question $question
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Question $question)
     {
         $questionObj = $question->update(["soft_delete" => true]);

@@ -2,22 +2,36 @@
 
 namespace App\Http\Controllers\Services;
 
+use Illuminate\Http\UploadedFile;
+
 class ImageMaker
 {
-
     private $uploadedFile;
     private $extension;
 
-    public function __construct($uploadedFile)
+    /**
+     * ImageMaker constructor.
+     * @param UploadedFile $uploadedFile
+     */
+    public function __construct(UploadedFile $uploadedFile)
     {
         $this->uploadedFile = $uploadedFile;
     }
 
+    /**
+     * @param $uploadedFile
+     * @param $maxWidth
+     * @return string|null
+     */
     public static function makeThumb($uploadedFile, $maxWidth)
     {
         return (new self($uploadedFile))->_makeThumb($maxWidth);
     }
 
+    /**
+     * @param $maxWidth
+     * @return string|null
+     */
     public function _makeThumb($maxWidth)
     {
         $source = $this->getSource();
@@ -28,6 +42,9 @@ class ImageMaker
         return $this->convertBase64($destination);
     }
 
+    /**
+     * @return resource|null
+     */
     private function getSource()
     {
         if ($this->isJPG()) {
@@ -39,11 +56,17 @@ class ImageMaker
         }
     }
 
+    /**
+     * @return bool
+     */
     private function isJPG()
     {
         return in_array($this->getExtension(), ["jpg", "jpeg", "JPG", "JPEG"]);
     }
 
+    /**
+     * @return mixed
+     */
     private function getExtension()
     {
         if (!$this->extension) {
@@ -52,11 +75,19 @@ class ImageMaker
         return $this->extension;
     }
 
+    /**
+     * @return bool
+     */
     private function isPNG()
     {
         return in_array($this->getExtension(), ["png", "PNG"]);
     }
 
+    /**
+     * @param $source
+     * @param $maxWidth
+     * @return resource
+     */
     private function getVirtualImage($source, $maxWidth)
     {
         $width = imagesx($source);
@@ -67,6 +98,10 @@ class ImageMaker
         return $virtualImage;
     }
 
+    /**
+     * @param $virtualImage
+     * @return bool|string|null
+     */
     private function saveVirtualImage($virtualImage)
     {
         $destination = $this->getDestination();
@@ -77,6 +112,9 @@ class ImageMaker
         return false;
     }
 
+    /**
+     * @return string|null
+     */
     private function getDestination()
     {
         $destination = null;
@@ -87,12 +125,20 @@ class ImageMaker
         return $destination;
     }
 
+    /**
+     * @param $destination
+     * @return string
+     */
     public function convertBase64($destination)
     {
         $data = base64_encode(file_get_contents($destination));
         return $base64 = "data:image/" . $this->getExtension() . ";base64," . $data;
     }
 
+    /**
+     * @param $uploadedFile
+     * @return string
+     */
     public static function convertUploadedFile2Base64($uploadedFile)
     {
         $data = base64_encode(file_get_contents($uploadedFile));

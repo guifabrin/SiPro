@@ -12,6 +12,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+
+    /**
+     * Function to store message and auto show in home if object is okey or not.
+     * @param string $key
+     * @param null $object
+     * @param bool $clear
+     */
     protected function message(string $key, $object = null, $clear = false)
     {
         if ($clear) {

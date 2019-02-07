@@ -9,11 +9,18 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
+    /**
+     * @return mixed
+     */
     public function redirect()
     {
         return Socialite::driver("facebook")->redirect();
     }
 
+    /**
+     * @param SocialAccountService $service
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function callback(SocialAccountService $service)
     {
         $user = $service->getUser(Socialite::driver("facebook")->user());
