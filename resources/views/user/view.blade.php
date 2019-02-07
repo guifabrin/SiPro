@@ -1,21 +1,25 @@
 @extends('home')
 
 @section('btn-left')
-	<a class="btn btn-primary" href="{{ url('/') }}">
-		<i class="fa fa-btn fa-arrow-circle-left"></i> {{ __('lang.back') }}
-	</a>
+    <a class="btn btn-primary" href="{{ url('/') }}">
+        <i class="fa fa-btn fa-arrow-circle-left"></i> {{ _v('back') }}
+    </a>
 @endsection
 
 @section('header')
-	{{ __('lang.my_account') }}
+    {{ _v($isSocialAccount?'create_password':'edit_password') }}
 @endsection
 
 @section('body')
-	<ul class="list-group">
-	    <li class="list-group-item">
-	    	<a href="{{ url('/user/password') }}">
-	    		<i class="fa fa-key fa-btn"></i> {{ __('lang.edit_password') }}
-	    	</a>
-		</li>
-	</ul>
+
+    <form action="{{url("user/".Auth::user()->id)}}" method="POST">
+        @method('PUT')
+        @csrf
+        @if (!$isSocialAccount)
+            @php(Field::build('old-password', 'password'))
+        @endif
+        @php(Field::build('password', 'password'))
+        @php(Field::build('new-password', 'password'))
+        @php(Submit::build('fa fa-btn fa-floppy-o'))
+    </form>
 @endsection

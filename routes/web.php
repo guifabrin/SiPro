@@ -11,45 +11,33 @@
 |
  */
 
-Route::get('/', function () {
-	return view('home.welcome');
-});
-
-Route::get('/policy', function () {
-	return view('home.policy');
-});
-
 Auth::routes();
 
-Route::group(['middleware' => 'web'], function () {
-	Route::get('/redirect', 'SocialAuthController@redirect');
-	Route::get('/callback', 'SocialAuthController@callback');
-
-	Route::get('/user/', 'UserController@read');
-	Route::get('/user/password', 'UserController@passwordForm');
-	Route::post('/user/password', 'UserController@updatePassword');
-
-	Route::resource('/questions/categories', 'QuestionCategoriesController');
-	Route::get('/questions/categories/confirm/{id}', 'QuestionCategoriesController@confirm');
-
-	Route::resource('/questions', 'QuestionsController');
-	Route::get('/questions/confirm/{id}', 'QuestionsController@confirm');
-	Route::get('/questions/categorie/{id}', 'QuestionsController@index_');
-	Route::get('/questions/categorie/{id}/create', 'QuestionsController@create_');
-	Route::post('/questions/categorie/{id}/store', 'QuestionsController@store_');
-
-	Route::resource('/tests/categories', 'TestCategoriesController');
-	Route::get('/tests/categories/confirm/{id}', 'TestCategoriesController@confirm');
-
-	Route::resource('/tests', 'TestsController');
-	Route::get('/tests/confirm/{id}', 'TestsController@confirm');
-	Route::get('/tests/categorie/{id}', 'TestsController@index_');
-	Route::get('/tests/categorie/{id}/create', 'TestsController@create_');
-
-	Route::post('/questions_in_tests/store', 'QuestionsInTestsController@store');
-	Route::post('/questions_in_tests/destroy', 'QuestionsInTestsController@destroy');
+Route::get('/', function () {
+    return view('home.welcome');
 });
+Route::get('/policy', function () {
+    return view('home.policy');
+});
+Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');
 Route::get('/logout', function () {
-	Auth::logout();
-	return view('home.welcome');
+    Auth::logout();
+    return view('home.welcome');
+});
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::resource('questionCategory', 'QuestionCategoryController');
+    Route::resource('testCategory', 'TestCategoryController');
+    Route::resource('question', 'QuestionController');
+    Route::resource('test', 'TestController');
+    Route::resource('user', 'UserController');
+    Route::get('questions/itens/{questionCategory}', 'QuestionController@indexFromCategory');
+    Route::get('questions/itens/{questionCategory}/create', 'QuestionController@createFromCategory');
+    Route::get('questions/itensWithoutCategory', 'QuestionController@indexWithoutCategory');
+    Route::get('tests/itens/{testCategory}', 'TestController@indexFromCategory');
+    Route::get('tests/itens/{testCategory}/create', 'TestController@createFromCategory');
+    Route::get('tests/itensWithoutCategory', 'TestController@indexWithoutCategory');
+    Route::get('tests/{test}/questions/{questionCategory?}', 'QuestionsInTestsController@index');
+    Route::get('questions_in_tests/{test}/{question}/store', 'QuestionsInTestsController@store');
+    Route::get('questions_in_tests/{test}/{question}/destroy', 'QuestionsInTestsController@destroy');
 });

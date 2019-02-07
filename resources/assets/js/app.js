@@ -1,3 +1,6 @@
+import $ from 'jquery';
+
+window.$ = window.jQuery = $;
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -5,18 +8,28 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require('bootstrap/js/dist/dropdown');
 
-window.Vue = require('vue');
+var siPro = {
+    renderImage: function (input, imageId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+            reader.onload = function (e) {
+                $('#' + imageId).attr('src', e.target.result);
+            };
 
-Vue.component('example', require('./components/Example.vue'));
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+};
+window.siPro = siPro;
 
-const app = new Vue({
-    el: '#app'
+$(function () {
+    function resizeIframe() {
+        $('iframe').each(function(index, el){
+           $(el).height($(el).contents().find('html').height() + 'px')
+        });
+    }
+    setInterval(resizeIframe, 100)
 });
