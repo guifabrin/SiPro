@@ -59,4 +59,13 @@ class TestController extends Controller
             "testCategories" => $testCategories
         ]);
     }
+
+
+    public function update(Request $request, Test $test)
+    {
+        $stored = TestStoreController::store($request, $test);
+        $this->message("stored", $stored, true);
+        return redirect()->to("test/".$stored->id."/edit");
+    }
+
 }
