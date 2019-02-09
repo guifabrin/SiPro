@@ -62,7 +62,7 @@
                         </td>
                         <td>
                             @php(Field::build("option-image[". $i ."]", "image",
-                            $settedOptionImage ? $options[$i]->image->imageb64_thumb : null))
+                            $settedOptionImage ? $options[$i]->thumbImage() : null))
                         </td>
                         <td>
                             @php(Field::build("option-description[". $i ."]", "textarea",

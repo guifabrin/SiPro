@@ -8,7 +8,6 @@ use App\Question;
 use App\QuestionCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Collection;
 
 class QuestionController extends Controller
 {
@@ -25,11 +24,10 @@ class QuestionController extends Controller
     }
 
     /**
-     * @param Collection $questions
      * @param QuestionCategory|null $questionCategory
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    private static function _index(Collection $questions, QuestionCategory $questionCategory = null)
+    private static function _index($questions, QuestionCategory $questionCategory = null)
     {
         $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         if ($questions->count() == 0) {

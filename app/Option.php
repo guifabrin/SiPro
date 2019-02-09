@@ -24,4 +24,27 @@ class Option extends Model
         "image_id",
         "question_id",
     ];
+
+    /**
+     * Return HasOne if image isset.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function image()
+    {
+        return $this->hasOne("App\Image", "id", "image_id");
+    }
+
+    /**
+     * @return string|null
+     */
+    public function thumbImage()
+    {
+        try {
+            return $this->image()->first()->imageb64_thumb;
+        } catch (\Exception $e) {
+            return null;
+        }
+
+    }
 }

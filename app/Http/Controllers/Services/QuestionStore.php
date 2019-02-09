@@ -126,7 +126,13 @@ class QuestionStore
         if ($imageObj) {
             $imageId = $imageObj->id;
         } else {
-            $imageId = isset($this->input["image_id"]) ? $this->input["image_id"] : null;
+            $hiddenImg = isset($this->input["hidden-image"]) ? $this->input["hidden-image"] : null;
+            if (isset($hiddenImg)) {
+                $imageObj = Image::where('imageb64_thumb', $hiddenImg)->first();
+                $imageId = isset($imageObj) ? $imageObj->id : null;
+            } else {
+                $imageId = null;
+            }
         }
         return $imageId;
     }
@@ -144,13 +150,17 @@ class QuestionStore
 
     private function createOptions()
     {
-        if ($this->options & $this->options->count() > 0) {
+        if ($this->options && $this->options->count() > 0) {
             $this->destroyOptions();
         }
         $optionsValues = $this->getOptionsValues();
         for ($i = 0; $i < 5; $i++) {
             $imageOption = isset($optionsValues["image"]) && isset($optionsValues["image"][$i]) ? $optionsValues["image"][$i] : null;
             $imageOptionId = isset($imageOption) ? $this->getImageId($imageOption) : null;
+            if ($imageOptionId == null && isset($optionsValues["hidden"]) && isset($optionsValues["hidden"][$i]) ){
+                $imageOption = Image::where('imageb64_thumb', $optionsValues["hidden"][$i])->first();
+                $imageOptionId = isset($imageOption) ? $imageOption->id : null;
+            }
             $optionCorrect = false;
             if (isset($optionsValues["correct"])) {
                 for ($j = 0; $j < count($optionsValues["correct"]); $j++) {
@@ -189,6 +199,7 @@ class QuestionStore
                 $options[$key] = $this->input["option-" . $key];
             }
         }
+        $options["hidden"] = $this->input["hidden-option-image"];
         return $options;
     }
 

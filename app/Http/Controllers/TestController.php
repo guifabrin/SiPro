@@ -8,7 +8,6 @@ use App\Test;
 use App\TestCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Collection;
 
 class TestController extends Controller
 {
@@ -22,11 +21,10 @@ class TestController extends Controller
     }
 
     /**
-     * @param Collection $tests
      * @param TestCategory|null $testCategory
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function _index(Collection $tests, TestCategory $testCategory = null)
+    public static function _index($tests, TestCategory $testCategory = null)
     {
         $testCategories = Auth::user()->testCategories()->notRemoved()->withoutFather()->get();
         if ($tests->count() == 0) {
