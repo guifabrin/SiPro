@@ -21,6 +21,8 @@ class Alert
 
     public static function build($message, $status = 'success')
     {
+        if (empty($message))
+            return;
         $GLOBALS['messages'][] = (new self($message, $status))->__build();
     }
 

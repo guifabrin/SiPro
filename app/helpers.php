@@ -1,5 +1,13 @@
 <?php
 
+if (!function_exists('console_log')) {
+    function console_log($message){
+        if (!isset($GLOBALS['consoleOutput']))
+            $GLOBALS['consoleOutput'] = new Symfony\Component\Console\Output\ConsoleOutput();
+        $GLOBALS['consoleOutput']->writeln($message);
+    }
+}
+
 if (!function_exists('_e')) {
     /**
      * Function to echo translation key.
@@ -20,7 +28,7 @@ if (!function_exists('is_controller')) {
      */
     function is_controller($obj)
     {
-        return is_subclass_of($obj, 'App\Http\Controllers\Base\Controller');
+        return is_subclass_of($obj, 'App\Http\Controllers\Controller');
     }
 }
 
@@ -63,7 +71,7 @@ if (!function_exists('get_view_base_key')) {
 }
 
 if (!function_exists('get_base_key_translation')) {
-    function get_base_key_translation($debugBackTrace, $tries, $key){
+    function get_base_key_translation(&$debugBackTrace, $tries, $key){
         try {
             $obj = $debugBackTrace[$tries]["object"];
             return (is_controller($obj) ? get_controller_base_key($obj) : get_view_base_key($obj)) . $key;
@@ -82,18 +90,15 @@ if (!function_exists('_v')) {
      */
     function _v(string $key="")
     {
-        if (empty($key)) {
-            return "";
-        }
-        $tries = -1;
+        if (empty($key)) return "";
+        $tries = 0;
         $debugBackTrace = debug_backtrace();
         while (true) {
-            $fullKey = get_base_key_translation($debugBackTrace, $tries++, $key);
-            if (!$fullKey) continue;
-            if ($tries > 1000) break;
-            return __($fullKey);
+            if ($tries > 99) return "";
+            if (!$fullKey = get_base_key_translation($debugBackTrace, $tries++, $key)) continue;
+            if ($fullKey == ($translation = __($fullKey))) console_log($fullKey." without translation");
+            return $translation;
         }
-        return "";
     }
 }
 
