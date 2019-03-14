@@ -118,21 +118,24 @@ class QuestionStore
         return isset($questionCategory) ? $questionCategory->id : null;
     }
 
-    private function processUploadedImage(UploadedFile $uploadedImage){
+    private function processUploadedImage(UploadedFile $uploadedImage = null){
+        if (!isset($uploadedImage)){
+            return null;
+        }
         return Image::firstOrCreate([
             "imageb64" => ImageMaker::convertUploadedFile2Base64($uploadedImage),
             "imageb64_thumb" => ImageMaker::makeThumb($uploadedImage, 100)
         ]);
     }
 
-    private function getImageFromHidden($hiddenValue){
+    private function getImageFromHidden($hiddenValue = null){
         if (!isset($hiddenValue)){
             return null;
         }
         return Image::where('imageb64_thumb', $hiddenValue)->first();
     }
 
-    private function getImageId(UploadedFile $uploadedImage = null)
+    private function getImageId(UploadedFile $uploadedImage = null, $hiddenValue = null)
     {
         if ($imageObj = ($this->processUploadedImage($uploadedImage) ?: $this->getImageFromHidden($hiddenValue))) {
             return $imageObj->id;
@@ -150,7 +153,7 @@ class QuestionStore
         }
         return $this->input["lines"];
     }
-    
+
     private function tryGetValue($array, $key) {
         return (array_key_exists($key, $array)) ? $array[$key] : NULL;
     }
