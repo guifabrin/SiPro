@@ -95,7 +95,10 @@ class QuestionStore
             "category_id" => $this->getQuestionCategoryId(),
             "user_id" => Auth::user()->id,
             "description" => $this->input["description"],
-            "image_id" => $this->getImageId($this->input["image"], $this->input["hidden-image"]),
+            "image_id" => $this->getImageId(
+                $this->tryGetValue($this->input,"image"),
+                $this->tryGetValue($this->input,"hidden-image")
+            ),
             "type" => $this->input["type"],
             "lines" => $this->getLines(),
             "soft_delete" => false
