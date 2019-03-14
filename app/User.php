@@ -87,4 +87,14 @@ class User extends Authenticatable
     {
         return $this->hasMany("App\TestCategory", "user_id");
     }
+
+    public function createSocialAccount(ProviderUser $provUser){
+        $account = new SocialAccount([
+            "provider_user_id" => $provUser->getId(),
+            "provider" => "facebook"
+        ]);
+        $account->user()->associate($this);
+        $account->save();
+        return $account;
+    }
 }

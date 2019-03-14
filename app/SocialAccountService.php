@@ -2,41 +2,19 @@
 
 namespace App;
 
-use Laravel\Socialite\Contracts\User as ProviderUser;
-
 class SocialAccountService
 {
     /**
-     * @param ProviderUser $providerUser
+     * @param ProviderUser $provUser
      * @return User
      */
-    public function getUser(ProviderUser $providerUser)
+    public function getUser(ProviderUser $provUser)
     {
-        $account = SocialAccount::whereProvider("facebook")
-            ->whereProviderUserId($providerUser->getId())
-            ->first();
-        $user = User::whereEmail($providerUser->getEmail())->first();
-
-        if (!$user) {
-            $user = User::create([
-                "email" => $providerUser->getEmail(),
-                "name" => $providerUser->getName(),
-                "avatar" => $providerUser->avatar,
-            ]);
+        $user = User::whereEmail($provUser->getEmail())->first() ?: User::create($provUser->toUserCreationArray());
+        $user->update(["avatar" => $provUser->avatar]);
+        if (!SocialAccount::whereProvider("facebook")->whereProviderUserId($provUser->getId())->first()){
+            $user->createSocialAccount($provUser);
         }
-        if ($account) {
-            $user->update(["avatar" => $providerUser->avatar]);
-            return $user;
-        } else {
-            $account = new SocialAccount([
-                "provider_user_id" => $providerUser->getId(),
-                "provider" => "facebook"
-            ]);
-
-            $account->user()->associate($user);
-            $account->save();
-
-            return $user;
-        }
+        return $user;
     }
 }

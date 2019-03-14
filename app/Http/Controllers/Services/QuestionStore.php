@@ -49,13 +49,16 @@ class QuestionStore
     public function store()
     {
         $this->validate();
-        if (!$this->processQuestion()) return false;
-        if ($this->input["type"] != QuestionController::DESCRIPTIVE) {
-            foreach ($this->createOptions() as $option) {
-                if (!$option) {
-                    $this->destroy();
-                    return false;
-                }
+        return $this->processQuestion() && ($this->input["type"] == QuestionController::DESCRIPTIVE || (
+            $this->input["type"] != QuestionController::DESCRIPTIVE && $this->processOptions())
+        );
+    }
+
+    private function processOptions(){
+        foreach ($this->createOptions() as $option) {
+            if (!$option) {
+                $this->destroy();
+                return false;
             }
         }
         return true;
@@ -114,27 +117,26 @@ class QuestionStore
         return isset($questionCategory) ? $questionCategory->id : null;
     }
 
+    private function processUploadedImage(UploadedFile $uploadedImage){
+        return Image::firstOrCreate([
+            "imageb64" => ImageMaker::convertUploadedFile2Base64($uploadedImage),
+            "imageb64_thumb" => ImageMaker::makeThumb($uploadedImage, 100)
+        ]);
+    }
+
+    private function getImageFromHidden(){
+        if (!isset($this->input["hidden-image"])){
+            return null;
+        }
+        return Image::where('imageb64_thumb', $this->input["hidden-image"])->first();
+    }
+
     private function getImageId(UploadedFile $uploadedImage = null)
     {
-        $imageObj = null;
-        if ($uploadedImage) {
-            $imageObj = Image::firstOrCreate([
-                "imageb64" => ImageMaker::convertUploadedFile2Base64($uploadedImage),
-                "imageb64_thumb" => ImageMaker::makeThumb($uploadedImage, 100)
-            ]);
+        if ($imageObj = ($this->processUploadedImage($uploadedImage) ?: $this->getImageFromHidden())) {
+            return $imageObj->id;
         }
-        if ($imageObj) {
-            $imageId = $imageObj->id;
-        } else {
-            $hiddenImg = isset($this->input["hidden-image"]) ? $this->input["hidden-image"] : null;
-            if (isset($hiddenImg)) {
-                $imageObj = Image::where('imageb64_thumb', $hiddenImg)->first();
-                $imageId = isset($imageObj) ? $imageObj->id : null;
-            } else {
-                $imageId = null;
-            }
-        }
-        return $imageId;
+       return null;
     }
 
     private function getLines()
