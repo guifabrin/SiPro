@@ -163,6 +163,7 @@ class QuestionStore
     private function createOptions()
     {
         $values = $this->getOptionsValues();
+        dd($values);
         for ($index = 0; $index < 5; $index++) {
             $this->createOption($values, $index);
         }
