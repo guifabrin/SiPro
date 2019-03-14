@@ -62,6 +62,17 @@ if (!function_exists('get_view_base_key')) {
     }
 }
 
+if (!function_exists('get_base_key_translation')) {
+    function get_base_key_translation($debugBackTrace, $tries, $key){
+        try {
+            $obj = $debugBackTrace[$tries]["object"];
+            return (is_controller($obj) ? get_controller_base_key($obj) : get_view_base_key($obj)) . $key;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+}
+
 if (!function_exists('_v')) {
     /**
      * Function to auto get in views and controllers translation key.
@@ -71,27 +82,16 @@ if (!function_exists('_v')) {
      */
     function _v(string $key="")
     {
-        if ($key!="") {
-            $debugBackTrace = debug_backtrace();
-            $i = 0;
-            while ($i < 1000) {
-                try {
-                    $obj = $debugBackTrace[$i]["object"];
-                    if (is_controller($obj)) {
-                        $base = get_controller_base_key($obj);
-                    } else {
-                        $base = get_view_base_key($obj);
-                    }
-                    $fullKey = $base . $key;
-                    $translation = __($fullKey);
-                    if ($fullKey == $translation) {
-                        \App\Helpers\ConsoleJS::build('no translation for ' . $fullKey);
-                    }
-                    return $translation;
-                } catch (Exception $e) {
-                    $i++;
-                }
-            }
+        if (empty($key)) {
+            return "";
+        }
+        $tries = -1;
+        $debugBackTrace = debug_backtrace();
+        while (true) {
+            $fullKey = get_base_key_translation($debugBackTrace, $tries++, $key);
+            if (!$fullKey) continue;
+            if ($tries > 1000) break;
+            return __($fullKey);
         }
         return "";
     }
