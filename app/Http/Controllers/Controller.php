@@ -28,4 +28,8 @@ class Controller extends BaseController
         $message = ($object) ? _v($key) : _v("not_" . $key);
         Alert::build($message, $status);
     }
+
+    protected function tryGetValue($array, $key) {
+        return (array_key_exists($key, $array)) ? $array[$key] : NULL;
+    }
 }
