@@ -150,6 +150,10 @@ class QuestionStore
         }
         return $this->input["lines"];
     }
+    
+    private function tryGetValue($array, $key) {
+        return (array_key_exists($key, $array)) ? $array[$key] : NULL;
+    }
 
     private function createOption($values, $index){
         Option::create([
