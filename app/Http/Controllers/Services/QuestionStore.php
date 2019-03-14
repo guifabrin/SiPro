@@ -155,7 +155,7 @@ class QuestionStore
         Option::create([
             "question_id" => $this->question->id,
             "description" => $values["description"][$index],
-            "image_id" => $this->getImageId($values["images"][$index], $values["hidden"][$index]),
+            "image_id" => $this->getImageId($values["image"][$index], $values["hidden"][$index]),
             "correct" => in_array($index, $values["correct"]),
         ]);
     }
@@ -163,7 +163,6 @@ class QuestionStore
     private function createOptions()
     {
         $values = $this->getOptionsValues();
-        dd($values);
         for ($index = 0; $index < 5; $index++) {
             $this->createOption($values, $index);
         }
