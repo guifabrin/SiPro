@@ -55,6 +55,7 @@ class QuestionStore
     }
 
     private function processOptions(){
+        $this->destroyOptions();
         foreach ($this->createOptions() as $option) {
             if (!$option) {
                 $this->destroy();
@@ -96,7 +97,7 @@ class QuestionStore
             "category_id" => $this->getQuestionCategoryId(),
             "user_id" => Auth::user()->id,
             "description" => $this->input["description"],
-            "image_id" => $this->getImageId($uploadedFile),
+            "image_id" => $this->getImageId($uploadedFile, $this->input["hidden-image"]),
             "type" => $this->input["type"],
             "lines" => $this->getLines(),
             "soft_delete" => false
@@ -124,16 +125,16 @@ class QuestionStore
         ]);
     }
 
-    private function getImageFromHidden(){
-        if (!isset($this->input["hidden-image"])){
+    private function getImageFromHidden($hiddenValue){
+        if (!isset($hiddenValue)){
             return null;
         }
-        return Image::where('imageb64_thumb', $this->input["hidden-image"])->first();
+        return Image::where('imageb64_thumb', $hiddenValue)->first();
     }
 
     private function getImageId(UploadedFile $uploadedImage = null)
     {
-        if ($imageObj = ($this->processUploadedImage($uploadedImage) ?: $this->getImageFromHidden())) {
+        if ($imageObj = ($this->processUploadedImage($uploadedImage) ?: $this->getImageFromHidden($hiddenValue))) {
             return $imageObj->id;
         }
        return null;
@@ -150,34 +151,20 @@ class QuestionStore
         return $this->input["lines"];
     }
 
+    private function createOption($values, $index){
+        Option::create([
+            "question_id" => $this->question->id,
+            "description" => $values["description"][$index],
+            "image_id" => $this->getImageId($values["images"][$index], $values["hidden"][$index]),
+            "correct" => in_array($index, $values["correct"]),
+        ]);
+    }
+
     private function createOptions()
     {
-        if ($this->options && $this->options->count() > 0) {
-            $this->destroyOptions();
-        }
-        $optionsValues = $this->getOptionsValues();
-        for ($i = 0; $i < 5; $i++) {
-            $imageOption = isset($optionsValues["image"]) && isset($optionsValues["image"][$i]) ? $optionsValues["image"][$i] : null;
-            $imageOptionId = isset($imageOption) ? $this->getImageId($imageOption) : null;
-            if ($imageOptionId == null && isset($optionsValues["hidden"]) && isset($optionsValues["hidden"][$i]) ){
-                $imageOption = Image::where('imageb64_thumb', $optionsValues["hidden"][$i])->first();
-                $imageOptionId = isset($imageOption) ? $imageOption->id : null;
-            }
-            $optionCorrect = false;
-            if (isset($optionsValues["correct"])) {
-                for ($j = 0; $j < count($optionsValues["correct"]); $j++) {
-                    if ($optionsValues["correct"][$j] == $i) {
-                        $optionCorrect = true;
-                        break;
-                    }
-                }
-            }
-            Option::create([
-                "question_id" => $this->question->id,
-                "description" => $optionsValues["description"][$i],
-                "image_id" => $imageOptionId,
-                "correct" => $optionCorrect,
-            ]);
+        $values = $this->getOptionsValues();
+        for ($index = 0; $index < 5; $index++) {
+            $this->createOption($values, $index);
         }
         $this->options = $this->question->options()->get();
         return $this->options;
@@ -185,10 +172,10 @@ class QuestionStore
 
     private function destroyOptions()
     {
-        foreach ($this->options as $option) {
-            if ($option) {
-                $option->forceDelete();
-            };
+        if ($this->options && $this->options->count() > 0) {
+            foreach ($this->options as $option) {
+                if ($option) $option->forceDelete();
+            }
         }
     }
 
@@ -208,8 +195,7 @@ class QuestionStore
     private function destroy()
     {
         $this->destroyOptions();
-        if ($this->question) {
+        if ($this->question)
             $this->question->forceDelete();
-        }
     }
 }
