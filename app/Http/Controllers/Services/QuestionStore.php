@@ -133,7 +133,7 @@ class QuestionStore
 
     private function getImageId(UploadedFile $uploadedImage = null)
     {
-        if ($imageObj = ($this->processUploadedImage($uploadedImage) || $this->getImageFromHidden())) {
+        if ($imageObj = ($this->processUploadedImage($uploadedImage) ?: $this->getImageFromHidden())) {
             return $imageObj->id;
         }
        return null;
