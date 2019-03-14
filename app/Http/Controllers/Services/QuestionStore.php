@@ -90,18 +90,21 @@ class QuestionStore
         }
     }
 
-    private function processQuestion()
-    {
-        $uploadedFile = isset($this->input["image"]) ? $this->input["image"] : null;
-        $args = [
+    private function questionArgs(){
+        return [
             "category_id" => $this->getQuestionCategoryId(),
             "user_id" => Auth::user()->id,
             "description" => $this->input["description"],
-            "image_id" => $this->getImageId($uploadedFile, $this->input["hidden-image"]),
+            "image_id" => $this->getImageId($this->input["image"], $this->input["hidden-image"]),
             "type" => $this->input["type"],
             "lines" => $this->getLines(),
             "soft_delete" => false
         ];
+    }
+
+    private function processQuestion()
+    {
+        $args = $this->questionArgs();
         if ($this->question) {
             $this->question->update($args);
         } else {
