@@ -1,4 +1,4 @@
-@extends("home")
+@extends("layouts.app")
 
 @section("header")
     {{ _v("mines_gender_a") }} {{ _v("question_categories") }}

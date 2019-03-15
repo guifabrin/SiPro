@@ -15,6 +15,8 @@ return [
             "register" => "Registrar",
             "test_categories" => "Categorias de Testes",
             "tests" => "Testes",
+            "teacher" => "Professor",
+            "student" => "Estudante"
         ]
     ]
 ];

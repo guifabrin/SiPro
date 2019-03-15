@@ -2,36 +2,42 @@
 
 namespace App\Helpers\Boostrap;
 
+use App\Helpers\JS;
+
 class NavItem
 {
 
     private $key;
     private $url;
     private $icon;
+    private $subitens;
+    private $parentId;
 
-    public function __construct($key, $url, $icon = null)
+    public function __construct($key, $url, $icon = null, $subitens = null, $parentId = null)
     {
         $this->key = $key;
         $this->url = $url;
         $this->icon = $icon;
+        $this->subitens = $subitens;
+        $this->parentId = $parentId;
     }
 
-    public static function build($key, $url, $icon = null)
+    public static function build($key, $url, $icon = null, $subitens = null, $parentId = null)
     {
-        (new self($key, $url, $icon))->__build();
+        (new self($key, $url, $icon, $subitens, $parentId))->__build();
+    }
+
+    private function buildSubitens($navItemId){
+        foreach ($this->subitens as $item) {
+            NavItem::build($item[0], $item[1], $item[2], isset($item[3]) ? $item[3] : null, $navItemId);
+        }
     }
 
     public function __build()
     {
         $active = current_url() == $this->url || current_url() == $this->url . "/";
-        ?>
-        <li class="nav-item<?php echo $active ? " active" : ""; ?>">
-            <a class="nav-link" href="<?php echo $this->url; ?>">
-                <i class="<?php echo $this->icon; ?>"></i>
-                <?php _e('bootstrap.nav.item.' . $this->key); ?>
-                <?php echo $active ? "<span class='sr-only'></span>" : ""; ?>
-            </a>
-        </li>
-        <?php
+        include 'partials/navitem.php';
+        if ($active && $this->parentId)
+            JS::build("$('#".$this->parentId."').addClass('active')");
     }
 }

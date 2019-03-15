@@ -131,3 +131,9 @@ if (!function_exists('current_url')) {
 
     }
 }
+
+if (!function_exists('random_uuid')) {
+    function random_uuid(){
+        return "ru_".md5(uniqid(rand(), true));
+    }
+}

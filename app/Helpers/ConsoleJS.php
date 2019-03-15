@@ -33,7 +33,7 @@ class ConsoleJS
             return;
         }
         foreach ($GLOBALS['consolejs'] as $message) {
-            echo $message;
+            echo $message."\n";
         }
     }
 }

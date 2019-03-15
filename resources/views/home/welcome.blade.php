@@ -1,7 +1,7 @@
-@extends('home')
+@extends('layouts.app')
 
 @section('body')
-    <img class="welcome-logo" src="{{ asset('/images/logo.png') }}" alt="{{ _v('logo_sipro') }}">
+    <img class="welcome-logo" src="{{ asset('/images/logo.png') }}" alt="{{ _v('title') }}">
     <hr>
     {!! _v('message') !!}
     <hr>

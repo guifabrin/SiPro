@@ -1,4 +1,4 @@
-@extends('home')
+@extends('layouts.app')
 
 @section('btn-left')
     <a class="btn btn-primary" href="{{ url('question') }}">

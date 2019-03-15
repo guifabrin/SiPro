@@ -1,6 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#siproNavbarSidebar"
+            aria-controls="siproNavbarSidebar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <a class="navbar-brand" href="{{ url('/') }}">
-        <img src="{{ asset('images/logo.png') }}" class="sipro-navbar-logo-img" alt="{{_v('logo_sipro')}}"/>
+        <img src="{{ asset('images/logo.png') }}" class="sipro-navbar-logo-img" alt="{{__('app.logo_sipro')}}"/>
         <div class="sipro-navbar-title">Si<b class="base-color">PRO</b></div>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#siproNavbarSupportedContent"

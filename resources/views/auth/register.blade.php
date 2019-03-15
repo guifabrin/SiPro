@@ -1,4 +1,4 @@
-@extends('home')
+@extends('layouts.app')
 
 @section('body')
     @php(LinkButton::build("facebook", "redirect", "fa fa-facebook"))

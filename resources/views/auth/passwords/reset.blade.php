@@ -1,4 +1,4 @@
-@extends('home')
+@extends('layouts.app')
 
 @section('body')
     <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">

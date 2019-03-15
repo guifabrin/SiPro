@@ -10,6 +10,6 @@ return [
         "license" => "está licenciado com uma Licença <a rel='license' href='http://creativecommons.org/licenses/by-nc-nd/4.0/'>Creative Commons - Atribuição-NãoComercial-SemDerivações 4.0 Internacional",
         "message" => "No princípio, havia apenas o lápis e o papel, então foi dito: 'que haja o mimeógrafo' então o mimeógrafo se fez!</br>Esqueça as 172 horas editando um arquivo do Microsoft Word ou Libre Office.</br>Cadastre questões e gere provas em menos tempo!</br>",
         "thanks" => "Com gratidão pelo conhecimento,",
-        "title" => "Bem vindo!!!",
+        "title" => "Bem vindo!!!"
     ],
 ];
