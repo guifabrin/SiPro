@@ -2,5 +2,6 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/js/questions/form.js": "/js/questions/form.js",
-    "/js/questions_in_tests/form.js": "/js/questions_in_tests/form.js"
+    "/js/questions_in_tests/form.js": "/js/questions_in_tests/form.js",
+    "/js/tests/apply.js": "/js/tests/apply.js"
 }
