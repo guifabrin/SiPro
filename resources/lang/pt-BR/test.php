@@ -25,7 +25,7 @@ return [
         "none" => "Nenhum",
         "remove" => "Remover",
         "see" => "Ver testes",
-        "tests" => "testes",
+        "tests" => ":action testes :name",
         "title" => "Meus testes",
     ],
     "confirm" => [

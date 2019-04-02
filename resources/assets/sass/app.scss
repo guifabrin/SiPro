@@ -1,10 +1,10 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 // Variables
 @import "variables";
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
-@import "~font-awesome/scss/font-awesome.scss";
 @import "welcome";
 @import "tree";
 
@@ -25,7 +25,12 @@ header, nav.sipro-navbar-user, div.buttons {
 }
 
 img.sipro-navbar-logo-img, img.sipro-navbar-avatar-img {
-  height: 20pt;
+  height: 26pt;
+}
+
+img.sipro-navbar-avatar-img{
+  margin-right: 10px;
+  border-radius: 3.25rem !important;
 }
 
 img.sipro-navbar-logo-img, div.sipro-navbar-title {
@@ -106,4 +111,8 @@ a[data-toggle="collapse"] {
 
 #siproContent {
   flex: 1;
+}
+
+h1{
+  margin-top: 20pt;
 }

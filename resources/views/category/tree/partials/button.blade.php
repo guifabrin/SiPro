@@ -17,7 +17,7 @@
             <i class="fa fa-times"></i> {{ _v("remove") }}
         </a>
         <a class="dropdown-item" href="{{ url("/".$type."Category/".$actual->id."/edit") }}">
-            <i class="fa fa-pencil"></i> {{ _v("edit") }}
+            <i class="fa fa-pencil-alt"></i> {{ _v("edit") }}
         </a>
     @endif
 </div>

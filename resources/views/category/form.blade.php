@@ -1,3 +1,7 @@
+@php
+    $action = _v($category->id ? 'edit' : 'new');
+    $name = _v($type);
+@endphp
 @extends("layouts.app")
 
 @section("btn-left")
@@ -21,6 +25,6 @@
             "categories" => $categories,
         ])
         @php(Field::build("description", "text", $category->description))
-        @php(Submit::build("fa fa-floppy-o"))
+        @php(Submit::build("fa fa-save"))
     </form>
 @endsection

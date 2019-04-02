@@ -1,3 +1,7 @@
+@php
+    $name = _v($type);
+@endphp
+
 @extends("layouts.app")
 
 @section("btn-left")

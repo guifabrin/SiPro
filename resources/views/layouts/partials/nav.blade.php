@@ -25,9 +25,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="siproMainNavbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="sipro-navbar-avatar-img rounded" src="{{ Auth::user()->avatar() }}"
+                       <span style="margin-right: 33px;">
+                           <img class="sipro-navbar-avatar-img rounded" src="{{ Auth::user()->avatar() }}"
                              alt="{{Auth::user()->name}}" onerror="$(this).hide();">
-                        {{ Auth::user()->name }}
+                            {{ Auth::user()->name }}
+                       </span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="siproMainNavbarDropdown">
                         @php(App\Helpers\Boostrap\NavItemDropdownItem::build('logout', 'logout'))

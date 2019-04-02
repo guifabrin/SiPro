@@ -1,3 +1,7 @@
+@php
+    $action = _v('mines_gender_b');
+    $name = isset($testCategory) ? '[ '.$testCategory->description.' ]' : '';
+@endphp
 @extends('layouts.app')
 
 
@@ -10,13 +14,12 @@
 @section('btn-right')
     @php( $url = isset($testCategory) ? '/tests/itens/'.$testCategory->id.'/create' : '/test/create')
     <a class="btn btn-success"
-       href="{{ $url }}">
+       href="{{ url($url) }}">
         <i class="fa fa-plus"></i> {{ _v('add') }}
     </a>
 @endsection
 
 @section('body')
-    <h3>{{ _v('mines_gender_b') }} {{ _v('tests') }} {{ isset($testCategory) ? '[ '.$testCategory->description.' ]' : ''}}</h3>
     @include('category.tree.view', [
         'manage' => false,
         'type'=>'test',
@@ -40,7 +43,7 @@
                     </a>
                     <hr>
                     <a class="btn btn-warning w-100" href="{{ url('/test/'.$test->id."/edit") }}">
-                        <i class='fa fa-pencil'></i> {{ _v('edit') }}
+                        <i class='fa fa-pencil-alt'></i> {{ _v('edit') }}
                     </a>
                 </td>
             </tr>

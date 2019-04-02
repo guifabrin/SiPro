@@ -43,10 +43,10 @@ $arrQuestionsLang = [
         "image" => "Imagem",
         "mines_gender_a" => "Minhas",
         "none" => "Nenhum",
-        "questions" => "Questões",
+        "questions" => ":action questões :name",
         "remove" => "Remover",
         "see" => "Ver",
-        "title" => "Minhas questões",
+        "title" => ":action questões :name",
     ],
 ];
 for ($i = 0; $i < 5; $i++) {

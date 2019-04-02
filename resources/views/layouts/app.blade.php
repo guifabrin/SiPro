@@ -17,16 +17,22 @@
 <section>
     <div class="wrapper">
 
-        <nav id="siproNavbarSidebar" class="navbar-dark bg-dark collapse show">
-            @if(Auth::check())
+        @if(Auth::check())
+            <nav id="siproNavbarSidebar" class="navbar-dark bg-dark collapse show">
                 @include('sidebar')
-            @endif
-        </nav>
+            </nav>
+        @endif
 
         <div id="siproContent">
             <header class="container text-center">
                 <h1>{{ __('app.title') }}</h1>
-                <h2>{{ _v('title') }}</h2>
+                @php
+                    $titleParams = [
+                        'action' => empty($action) ? null : $action,
+                        'name' => empty($name) ? null : $name
+                    ]
+                @endphp
+                <h2>{{ _v('title', $titleParams) }}</h2>
             </header>
 
             <div class="container">

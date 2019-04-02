@@ -20,6 +20,6 @@
         @endif
         @php(Field::build('password', 'password'))
         @php(Field::build('new-password', 'password'))
-        @php(Submit::build('fa fa-btn fa-floppy-o'))
+        @php(Submit::build('fa fa-save'))
     </form>
 @endsection

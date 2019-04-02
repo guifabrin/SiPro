@@ -1,3 +1,9 @@
+@php
+    $action = _v($titleKey);
+    if (!isset($questionCategory)) $questionCategory = isset($question) ? $question->category()->first() : null;
+    if (isset($questionCategory)) $name = _v('in').' [ '.$questionCategory->description.' ]';
+@endphp
+
 @extends('layouts.app')
 
 @section('btn-left')
@@ -7,14 +13,6 @@
 @endsection
 
 @section('body')
-    <h3>
-        {{ _v($titleKey) }} {{_v('question')}}
-        @if (isset($questionCategory))
-            {{  _v('in').' [ '.$questionCategory->description.' ]' }}
-        @else
-            @php($questionCategory = isset($question) ? $question->category()->first() : null)
-        @endif
-    </h3>
     <form action="{{ url('/question/'.$question->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if (isset($question->id))
@@ -53,27 +51,37 @@
                 <tbody>
                 @php($options = $question->options()->get())
                 @for ($i=0; $i<5; $i++)
-                    @php($settedOptionImage = isset($options[$i]) && isset($options[$i]->image) && isset($options[$i]->image->imageb64_thumb))
+                    @php
+                        $settedOptionImage = isset($options[$i]) &&
+                                                isset($options[$i]->image) &&
+                                                isset($options[$i]->image->imageb64_thumb);
+                    @endphp
                     <tr>
                         <td>
                             @php(Field::build("option-id[".$i."]", "hidden"))
-                            @php(Field::build("option-correct[]", "checkbox",
-                            $i, false, false,  isset($options) && isset($options[$i]) && $options[$i]->correct))
+                            @php
+                                Field::build("option-correct[]", "checkbox", $i, false, false,
+                                    isset($options) && isset($options[$i]) && $options[$i]->correct);
+                            @endphp
                         </td>
                         <td>
-                            @php(Field::build("option-image[". $i ."]", "image",
-                            $settedOptionImage ? $options[$i]->thumbImage() : null))
+                            @php
+                                Field::build("option-image[". $i ."]", "image",
+                                    $settedOptionImage ? $options[$i]->thumbImage() : null)
+                            @endphp
                         </td>
                         <td>
-                            @php(Field::build("option-description[". $i ."]", "textarea",
-                             isset($options) && isset($options[$i]) ? $options[$i]->description : ""))
+                            @php
+                                Field::build("option-description[". $i ."]", "textarea",
+                                    isset($options) && isset($options[$i]) ? $options[$i]->description : "")
+                             @endphp
                         </td>
                     </tr>
                 @endfor
                 </tbody>
             </table>
         </div>
-        @php(Submit::build('fa fa-floppy-o'))
+        @php(Submit::build('fa fa-save'))
         <script type="text/javascript" src="{{ URL::asset('js/questions/form.js') }}"></script>
     </form>
 @endsection

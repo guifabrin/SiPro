@@ -1,3 +1,8 @@
+@php
+    $action = _v('mines_gender_a');
+    $name = isset($questionCategory) ? '[ '.$questionCategory->description.' ]' : '';
+@endphp
+
 @extends('layouts.app')
 
 @section('btn-left')
@@ -9,13 +14,12 @@
 @section('btn-right')
     @php( $url = isset($questionCategory) ? '/questions/itens/'.$questionCategory->id.'/create' : '/question/create')
     <a class="btn btn-success"
-       href="{{ $url }}">
+       href="{{ url($url) }}">
         <i class="fa fa-plus"></i> {{ _v('add') }}
     </a>
 @endsection
 
 @section('body')
-    <h3>{{ _v('mines_gender_a') }} {{ _v('questions') }} {{ isset($questionCategory) ? '[ '.$questionCategory->description.' ]' : ''}}</h3>
     @include('category.tree.view', [
         'manage' => false,
         'type'=>'question',
@@ -44,7 +48,7 @@
                     </a>
                     <hr>
                     <a class="btn btn-warning w-100" href="{{ url('/question/'.$question->id."/edit") }}">
-                        <i class='fa fa-pencil'></i> {{ _v('edit') }}
+                        <i class='fa fa-pencil-alt'></i> {{ _v('edit') }}
                     </a>
                 </td>
             </tr>

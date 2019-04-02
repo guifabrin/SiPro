@@ -1,7 +1,11 @@
+@php
+	$action = _v("mines_gender_a");
+    $name = _v($type);
+@endphp
+
 @extends("layouts.app")
 
 @section("header")
-    {{ _v("mines_gender_a") }} {{ _v("question_categories") }}
 @endsection
 
 @section("btn-left")
@@ -17,6 +21,5 @@
 @endsection
 
 @section("body")
-    <h3>{{_v($type)}}</h3>
     @include("category.tree.view", ["type" => $type, "categories" => $categories])
 @endsection

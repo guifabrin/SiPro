@@ -88,7 +88,7 @@ if (!function_exists('_v')) {
      * @param string $key
      * @return string
      */
-    function _v(string $key="")
+    function _v(string $key="", array $params = [])
     {
         if (empty($key)) return "";
         $tries = 0;
@@ -96,7 +96,7 @@ if (!function_exists('_v')) {
         while (true) {
             if ($tries > 99) return "";
             if (!$fullKey = get_base_key_translation($debugBackTrace, $tries++, $key)) continue;
-            if ($fullKey == ($translation = __($fullKey))) console_log($fullKey." without translation");
+            if ($fullKey == ($translation = __($fullKey, $params))) console_log($fullKey." without translation");
             return $translation;
         }
     }

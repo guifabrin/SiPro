@@ -2,10 +2,13 @@
 
 return [
     "confirm" => [
+        "title" => "Remover categoria de :name",
         "back" => "Voltar",
         "no" => "Não",
         "remove_message" => "Removendo a categoria, você também remove os itens que adicionou nela. Tem certeza que deseja remover a categoria",
         "yes" => "Sim",
+        "question" => "questão",
+        "test" => "teste"
     ],
     "form" => [
         "back" => "Voltar",
@@ -14,7 +17,12 @@ return [
         "id" => "Código",
         "id_placeholder" => "Código gerado automaticamente",
         "none" => "Nenhum",
-        "submit" => "Salvar"
+        "submit" => "Salvar",
+        "title" => ":action categoria de :name",
+        "new" => "Nova",
+        "edit" => "Editar",
+        "question" => "questão",
+        "test" => "teste"
     ],
     "view" => [
         "add" => "Adicionar",
@@ -27,6 +35,8 @@ return [
         "remove" => "Remover",
         "see" => "Ver",
         "test" => "Categoria de Testes",
-        "title" => "Categorias",
+        "title" => "Categorias de :name",
+        "question" => "questão",
+        "test" => "teste"
     ],
 ];

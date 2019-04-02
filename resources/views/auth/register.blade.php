@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('body')
-    @php(LinkButton::build("facebook", "redirect", "fa fa-facebook"))
+    @php(LinkButton::build("facebook", "redirect", "fab fa-facebook"))
     <hr>
     <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
         {!! csrf_field() !!}
