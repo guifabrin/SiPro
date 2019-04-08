@@ -177,7 +177,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        Sentry\Laravel\ServiceProvider::class
     ],
 
     /*
@@ -229,7 +230,8 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Field' => App\Helpers\Boostrap\Field::class,
         'Submit' => App\Helpers\Boostrap\Submit::class,
-        'LinkButton' => App\Helpers\Boostrap\LinkButton::class
+        'LinkButton' => App\Helpers\Boostrap\LinkButton::class,
+        'Sentry' => Sentry\Laravel\Facade::class
     ],
 
 ];
