@@ -11,17 +11,17 @@
     "php": ">=7.0.0",
     "ext-gd": "*",
     "ext-json": "*",
-    "fideloper/proxy": "~4.0",
-    "laravel/framework": "5.7.*",
-    "laravel/socialite": "^3.0",
-    "laravel/tinker": "~1.0",
-    "sentry/sentry-laravel": "^1.0"
+    "fideloper/proxy": "4.1.0",
+    "laravel/framework": "5.7.28",
+    "laravel/socialite": "3.3.0",
+    "laravel/tinker": "1.0.8",
+    "sentry/sentry-laravel": "1.0.1"
   },
   "require-dev": {
-    "filp/whoops": "~2.0",
-    "fzaninotto/faker": "~1.4",
-    "mockery/mockery": "0.9.*",
-    "phpunit/phpunit": "~6.0"
+    "filp/whoops": "2.3.1",
+    "fzaninotto/faker": "1.8.0",
+    "mockery/mockery": "0.9.11",
+    "phpunit/phpunit": "6.5.14"
   },
   "autoload": {
     "files": [
