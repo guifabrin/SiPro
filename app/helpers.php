@@ -73,7 +73,7 @@ if (!function_exists('get_view_base_key')) {
 if (!function_exists('get_base_key_translation')) {
     function get_base_key_translation(&$debugBackTrace, $tries, $key){
         try {
-            if (!array_key_exists("object", $debugBackTrace[$tries])) continue;
+            if (!array_key_exists("object", $debugBackTrace[$tries])) return false;
             $obj = $debugBackTrace[$tries]["object"];
             return (is_controller($obj) ? get_controller_base_key($obj) : get_view_base_key($obj)) . $key;
         } catch (Exception $e) {
