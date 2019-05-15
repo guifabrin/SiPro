@@ -1,25 +1,62 @@
 # SIPRO - Sistema de Provas
 Este projeto tem como objetivo principal prover um sistema de provas para professores e alunos.
 
-## Observação
-O projeto foi constituído em 2016 e está passando por atualizações para que o mesmo possa voltar ao ar.
+# Badges
+## Github
+![tag](https://img.shields.io/github/tag/guifabrin/sipro.svg)
+![issues](https://img.shields.io/github/issues/guifabrin/sipro.svg)
+![contributors](https://img.shields.io/github/contributors/guifabrin/sipro.svg)
+![license](https://img.shields.io/github/license/guifabrin/sipro.svg)
+![code-size](https://img.shields.io/github/languages/code-size/guifabrin/sipro.svg)
+![top-languages](https://img.shields.io/github/languages/top/guifabrin/sipro.svg)
+![languages](https://img.shields.io/github/languages/count/guifabrin/sipro.svg)
 
-## Requirimentos
-- php ^7.1.3
-- composer ^1.2.2
+### Social
+![forks](https://img.shields.io/github/forks/guifabrin/sipro.svg?style=social)
+![stars](https://img.shields.io/github/stars/guifabrin/sipro.svg?style=social)
+![watchers](https://img.shields.io/github/watchers/guifabrin/sipro.svg?style=social)
+![followers](https://img.shields.io/github/followers/guifabrin.svg?style=social)
 
-## Instalação
+## Clean Code
+[![BCH compliance](https://bettercodehub.com/edge/badge/guifabrin/sipro?branch=master)](https://bettercodehub.com/)
 
-### Debian
+# Configuração básica do servidor e máquina de desenvolvimento
 
-- **Comandos**
-  - sudo apt -y install lsb-release apt-transport-https ca-certificates
-  - sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-  - echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php7.3.list
-  - sudo apt install php7.3 php-mbstring php-zip php-xml php-gd
-  - sudo apt install nodejs
-  - npm install
-  - php composer.phar install
-- **Processos**
-  - Copiar .env.example para .env
-  - Configurar .env
+Ubuntu:
+- sudo apt install lamp-server^
+- sudo apt install git
+- sudo apt install composer
+- sudo apt install php-mbstring php-xml
+- sudo apt install acl
+
+# Configuração desenvolvimento
+- Clonar repositório
+- Instalar ruby 2.6.1p33
+- Executar: bundle install
+- Copiar arquivo .env para .env.example
+- Executar: php composer install
+- Executar: php artisan key:generate
+
+# Configuração para deploy
+## .env
+Configurar as seguintes chaves:
+
+- **DEPLOY_REPO**=URL SSH do GIT
+- **DEPLOY_TO**=Pasta para quais os arquivos irão automaticamente
+- **DEPLOY_PROD_HOST**=IP ou DNS do Servidor para qual irá o deploy
+- **DEPLOY_PROD_USER**=Usuário da máquina com permissões para deploy
+- **DEPLOY_PROD_PASS**=Senha do Usuário acima
+
+## Capistrano
+- Para testar executar: 'cap production deploy:check'
+- Para deploy executar: 'cap production deploy'
+
+## Configuração .env em produção caso primeira instalação
+- Na pasta 'shared' após o primeiro deploy, criar o arquivo .env e adicionar a parte relacionada apenas ao Laravel.
+- Configurar apache para apontar para a pasta 'current' do deploy.
+
+# Sistema Online
+> Atualmente o sistema está dispível em [https://guifabrin.ddns.net/sipro](https://guifabrin.ddns.net/sipro) é gratuíto e você pode usar quando quiser.
+
+# Contribuições
+Toda contribuição é bem vinda.
