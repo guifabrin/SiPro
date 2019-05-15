@@ -13,18 +13,11 @@
 
 Auth::routes();
 
-Route::get('/', function () {
-    return view('home.welcome');
-});
-Route::get('/policy', function () {
-    return view('home.policy');
-});
+Route::get('/', 'HomeController@welcome');
+Route::get('/policy', 'HomeController@policy');
+Route::get('/logout', 'HomeController@logout');
 Route::get('/redirect', 'SocialAuthController@redirect');
 Route::get('/callback', 'SocialAuthController@callback');
-Route::get('/logout', function () {
-    Auth::logout();
-    return view('home.welcome');
-});
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('questionCategory', 'QuestionCategoryController');
     Route::resource('testCategory', 'TestCategoryController');
