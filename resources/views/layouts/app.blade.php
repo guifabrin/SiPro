@@ -12,12 +12,13 @@
 </head>
 
 <body id="app-layout">
-@include('layouts.partials.nav')
-
+@if (!env('WORDPRESS'))
+    @include('layouts.partials.nav')
+@endif
 <section>
     <div class="wrapper">
 
-        @if(Auth::check())
+        @if(Auth::check() && !env('WORDPRESS'))
             <nav id="siproNavbarSidebar" class="navbar-dark bg-dark collapse show">
                 @include('sidebar')
             </nav>

@@ -56,7 +56,7 @@ Configurar as seguintes chaves:
 - Configurar apache para apontar para a pasta 'current' do deploy.
 
 # Sistema Online
-> Atualmente o sistema está dispível em [https://guifabrin.ddns.net/sipro](https://guifabrin.ddns.net/sipro) é gratuíto e você pode usar quando quiser.
+> Atualmente o sistema está dispível em [https://guifabrin.dev/sipro](https://guifabrin.dev/sipro) é gratuíto e você pode usar quando quiser.
 
 # Contribuições
 Toda contribuição é bem vinda.
