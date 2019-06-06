@@ -14,7 +14,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        "name", "email", "password", "avatar"
+        "name", "email", "password", "avatar", "wp_user_id"
     ];
     /**
      * The attributes that should be hidden for arrays.
