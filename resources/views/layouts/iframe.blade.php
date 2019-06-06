@@ -6,10 +6,6 @@
 </head>
 <body>
 @yield('content')
-
-<script>
-    @php(App\Helpers\ConsoleJS::echo())
-</script>
 </body>
 
 </html>
