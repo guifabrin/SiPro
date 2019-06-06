@@ -3,27 +3,19 @@
 
 <head>
     <title>{{  __('app.title') }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    @include('layouts.meta.basic')
-    @include('layouts.meta.social')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="icon" href="{{ asset('images/logo.ico') }}"/>
 </head>
 
 <body id="app-layout">
-@if (!env('WORDPRESS'))
-    @include('layouts.partials.nav')
-@endif
 <section>
     <div class="wrapper">
-
-        @if(Auth::check() && !env('WORDPRESS'))
-            <nav id="siproNavbarSidebar" class="navbar-dark bg-dark collapse show">
-                @include('sidebar')
-            </nav>
-        @endif
-
         <div id="siproContent">
             <header class="container text-center">
                 <h1>{{ __('app.title') }}</h1>
@@ -46,13 +38,6 @@
 
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        @if (Auth::check() && (!isset(Auth::user()->password) || Auth::user()->password==""))
-                            <div class="alert alert-warning">{{__('lang.empty_password')}}</div>
-                            <a class="btn btn-warning" href="{{ url('/user/password') }}"
-                               title="{{ __('lang.create_password') }}">
-                                {{ __('lang.create_password') }}
-                            </a>
-                        @endif
                         @php(App\Helpers\Boostrap\Alert::echo())
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -86,7 +71,21 @@
     </div>
 </footer>
 
-@include('layouts.script.google')
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-81128126-1', 'auto');
+    ga('send', 'pageview');
+</script>
 
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
