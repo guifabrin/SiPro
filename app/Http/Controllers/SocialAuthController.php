@@ -7,7 +7,7 @@ use App\SocialAccountService;
 use Laravel\Socialite\Facades\Socialite;
 
 
-class SocialAuthController extends Controller
+class SocialAuthController extends ApplicationController
 {
     /**
      * @return mixed

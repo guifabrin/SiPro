@@ -9,7 +9,7 @@ use App\TestCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TestController extends Controller
+class TestController extends ApplicationController
 {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

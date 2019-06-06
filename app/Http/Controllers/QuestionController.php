@@ -9,7 +9,7 @@ use App\QuestionCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class QuestionController extends Controller
+class QuestionController extends ApplicationController
 {
 
     const DESCRIPTIVE = 0;

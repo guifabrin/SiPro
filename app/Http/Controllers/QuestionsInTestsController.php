@@ -7,7 +7,7 @@ use App\QuestionCategory;
 use App\QuestionsInTests;
 use App\Test;
 
-class QuestionsInTestsController extends Controller
+class QuestionsInTestsController extends ApplicationController
 {
     /**
      * @param Test $test
