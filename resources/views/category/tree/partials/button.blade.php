@@ -7,17 +7,17 @@
 </button>
 <div class="dropdown-menu" aria-labelledby="siproDrodownMenu{{$actual->id}}">
     <a class="dropdown-item" href="{{ url("/".$type."s/itens/".$actual->id) }}">
-        <i class="fa fa-eye"></i> {{ _v("see") }}
+        <i class="fa fa-eye"></i> {{ __("lang.see") }}
     </a>
     <a class="dropdown-item" href="{{ url("/".$type."s/itens/".$actual->id."/create") }}">
-        <i class="fa fa-plus"></i> {{ _v("add") }}
+        <i class="fa fa-plus"></i> {{ __("lang.add") }}
     </a>
     @if ($manage)
         <a class="dropdown-item" href="{{ url("/".$type."Category/".$actual->id) }}">
-            <i class="fa fa-times"></i> {{ _v("remove") }}
+            <i class="fa fa-times"></i> {{ __("lang.remove") }}
         </a>
         <a class="dropdown-item" href="{{ url("/".$type."Category/".$actual->id."/edit") }}">
-            <i class="fa fa-pencil-alt"></i> {{ _v("edit") }}
+            <i class="fa fa-pencil-alt"></i> {{ __("lang.edit") }}
         </a>
     @endif
 </div>

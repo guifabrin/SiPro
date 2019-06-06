@@ -9,7 +9,7 @@
                    @else checked
                     @endif
             />
-            {{ _v('none') }}
+            {{ __('lang.none') }}
         </li>
         @endif
         @foreach ($categories as $actual)

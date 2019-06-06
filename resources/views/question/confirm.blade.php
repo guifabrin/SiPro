@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+@section('title', __('lang.questions.confirm.title'))
+
 @section('btn-left')
-    <a class="btn btn-primary" href="{{ url('question') }}">
-        <i class="fa fa-btn fa-arrow-circle-left"></i> {{ _v('back') }}
+    <a class="{{config('constants.classes.buttons.back')}}" href="{{ url('question') }}">
+        <i class="{{config('constants.classes.icons.back')}}"></i> {{ __('lang.back') }}
     </a>
 @endsection
 
@@ -11,15 +13,14 @@
         @csrf
         @method("DELETE")
         <div class="alert alert-warning">
-            {{ _v("remove_question_message") }} "{{$question->description}}"?
+            {{ __('questions.confirm.message') }}"{{$question->description}}"?
         </div>
-
         <p class="yes-no-buttons">
-            <button type="submit" class="btn btn-info">
-                <i class="fa fa-thumbs-up"></i> {{ _v("yes") }}
+            <button class="{{config('constants.classes.buttons.yes')}}">
+                <i class="{{config('constants.classes.icons.yes')}}"></i> {{ __("lang.yes") }}
             </button>
-            <a class="btn btn-info" href="{{ url("question/") }}">
-                <i class="fa fa-thumbs-down"></i> {{ _v("no") }}
+            <a class="{{config('constants.classes.buttons.no')}}" href="{{ url("question/") }}">
+                <i class="{{config('constants.classes.icons.no')}}"></i> {{ __("lang.no") }}
             </a>
         </p>
 
