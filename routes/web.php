@@ -16,7 +16,6 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('testCategory', 'TestCategoryController');
     Route::resource('question', 'QuestionController');
     Route::resource('test', 'TestController');
-    Route::resource('user', 'UserController');
     Route::get('questions/itens/{questionCategory}', 'QuestionController@indexFromCategory');
     Route::get('questions/itens/{questionCategory}/create', 'QuestionController@createFromCategory');
     Route::get('questions/itensWithoutCategory', 'QuestionController@indexWithoutCategory');
