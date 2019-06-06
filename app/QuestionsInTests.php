@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class QuestionsInTests extends Model
+class QuestionsInTests extends ApplicationModel
 {
     /**
      * Indicates if the model should be timestamped.

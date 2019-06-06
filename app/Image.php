@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Image extends Model
+class Image extends ApplicationModel
 {
     /**
      * The table associated with the model.

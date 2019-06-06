@@ -39,7 +39,7 @@ class CheckWordpress
             include $wpLoadFile;
             if (!is_user_logged_in()) return redirect(env('WORDPRESS_LOGIN_URL'));
             $user = wp_get_current_user();
-            $user = $this->userFindOrCreate($user->ID, $user->data->email);
+            $user = $this->userFindOrCreate($user->ID, $user->user_email);
             if (Auth::guest() ||
                 (Auth::check() && Auth::user()->id != $user->id)){
                 Auth::login($user);
