@@ -10711,13 +10711,13 @@ __webpack_require__.r(__webpack_exports__);
 window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   var typeSelect = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#typeSelect');
-  var linesNumber = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber').parent();
+  var linesNumber = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber');
   var options = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#options');
   typeSelect.change(function () {
     switch (typeSelect.val() * 1) {
       case 0:
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber').attr('required', true);
-        options.find('[name*=option-description]').each(function (index, el) {
+        options.find('[name*=option-description]').each(function (_index, el) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).removeAttr('required');
         });
         linesNumber.show();
@@ -10726,7 +10726,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
 
       case 1:
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber').removeAttr('required');
-        options.find('[name*=option-description]').each(function (index, el) {
+        options.find('[name*=option-description]').each(function (_index, el) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).attr('required', true);
         });
         linesNumber.hide();
@@ -10736,7 +10736,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
 
       case 2:
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#linesNumber').removeAttr('required');
-        options.find('[name*=option-description]').each(function (index, el) {
+        options.find('[name*=option-description]').each(function (_index, el) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).attr('required', true);
         });
         linesNumber.hide();
@@ -10757,7 +10757,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /workspace/sipro/resources/assets/js/questions/form.js */"./resources/assets/js/questions/form.js");
+module.exports = __webpack_require__(/*! /home/guilherme_fabrin/sipro/resources/assets/js/questions/form.js */"./resources/assets/js/questions/form.js");
 
 
 /***/ })

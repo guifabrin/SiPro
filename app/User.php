@@ -74,6 +74,10 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
         return $this->hasMany("App\Test", "user_id");
     }
 
+    public function categories($type){
+        return $this->{$type.'Categories'}();
+    }
+
     /**
      * Return hasMany if user has questionCategories
      *
