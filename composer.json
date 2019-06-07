@@ -30,7 +30,7 @@
       "app/Base/CategoryController.php",
       "app/Base/ItemCategoryController.php",
       "app/Helpers/ImageMaker.php",
-      "app/Helpers/QuestionStore.php",
+      "app/Helpers/QuestionSaver.php",
       "app/Helpers/TestStore.php"
     ],
     "classmap": [
