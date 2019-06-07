@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('lang.mines_gender_female')." ". (isset($itemCategory) ? '[ '.$itemCategory->description.' ]' : ''))
+@section('title', __('lang.mines_gender_female')." ".__('lang.questions.name')." ". (isset($itemCategory) ? '[ '.$itemCategory->description.' ]' : ''))
 
 @section('btn-left')
 	<a class="{{config('constants.classes.buttons.back')}}" href="{{ url('question') }}">

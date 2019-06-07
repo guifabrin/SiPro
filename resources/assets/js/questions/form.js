@@ -13,7 +13,7 @@ $(function () {
                 options.find('[name*=option-description]').each(function(_index, el){
                     $(el).removeAttr('required');
                 });
-                linesNumber.show();
+                linesNumber.parent().show();
                 options.hide();
                 break;
             case 1:
@@ -21,7 +21,7 @@ $(function () {
                 options.find('[name*=option-description]').each(function(_index, el){
                     $(el).attr('required', true);
                 });
-                linesNumber.hide();
+                linesNumber.parent().hide();
                 options.show();
                 options.find('input[type=checkbox]').attr('type', 'radio');
                 break;
@@ -30,7 +30,7 @@ $(function () {
                 options.find('[name*=option-description]').each(function(_index, el){
                     $(el).attr('required', true);
                 });
-                linesNumber.hide();
+                linesNumber.parent().hide();
                 options.show();
                 options.find('input[type=radio]').attr('type', 'checkbox');
                 break;

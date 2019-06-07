@@ -5,7 +5,7 @@
 
 @extends('layouts.app')
 
-@section('title', ($item->id ? __('lang.edit') : __('lang.add'))." ".__('lang.question'). ($itemCategory ? "[ ".$itemCategory->description." ]" : "") )
+@section('title', ($item->id ? __('lang.edit') : __('lang.add'))." ".__('lang.question') ." ". ($itemCategory ? "[ ".$itemCategory->description." ]" : "") )
 
 @section('btn-left')
 	<a class="{{config('constants.classes.buttons.back')}}" href="{{ url('question') }}">
@@ -38,19 +38,32 @@
 			<textarea name="description" id="descriptionText"
 				class="form-control" required="true">{{old('description', $item->description)}}</textarea>
 		</div>
-		<input type="file" name="image_id" class="form-control">
-		<select name="type" id="typeSelect" class="form-control">
-			<option value="0" {{!$item->type || $item->type==0?"selected=true":""}}>{{__('lang.questions.form.descriptive')}}</option>
-			<option value="1" {{$item->type==1?"selected=true":""}}>{{__('lang.questions.form.optative')}}</option>
-			<option value="2" {{$item->type==2?"selected=true":""}}>{{__('lang.questions.form.true_false')}}</option>
-		</select>
-		<input type="number" name="lines" id="linesNumber" class="form-control" value="{{$item->id ? $item->lines : -1}}">
+		<div class="form-group">
+			<label for="imageFile">{{__('lang.image')}}</label>
+			@if ($item->image)
+				<img class="sipro-image-file-select" onerror="this.style.display='none'" src="{{$item->thumbImage()}}"/>
+				<input type="hidden" id="hiddenImage" name="hidden-image" class="form-control" value="{{$item->thumbImage()}}">
+			@endif
+			<input type="file" id="imageFile" name="image" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="typeSelect">{{__('lang.questions.form.category_id')}}</label>
+			<select name="type" id="typeSelect" class="form-control">
+				<option value="0" {{!$item->type || $item->type==0?"selected=true":""}}>{{__('lang.questions.form.descriptive')}}</option>
+				<option value="1" {{$item->type==1?"selected=true":""}}>{{__('lang.questions.form.optative')}}</option>
+				<option value="2" {{$item->type==2?"selected=true":""}}>{{__('lang.questions.form.true_false')}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="linesNumber">{{__('lang.questions.form.lines')}}</label>
+			<input type="number" name="lines" id="linesNumber" class="form-control" value="{{$item->id ? $item->lines : -1}}">
+		</div>
 		<div class="form-group" id="options" style="display: none;">
-			<label>{{ __('lang.options') }}:</label>
+			<label>{{ __('lang.questions.form.options') }}:</label>
 			<table class="{{config('constants.classes.table')}}">
 				<thead class="{{config('constants.classes.thead')}}">
 				<tr>
-					<th>{{ __('lang.right') }}</th>
+					<th>{{ __('lang.questions.form.right') }}</th>
 					<th>{{ __('lang.image') }}</th>
 					<th>{{ __('lang.description') }}</th>
 				</tr>
@@ -68,6 +81,10 @@
 								>
 							</td>
 							<td>
+								@if ($item->options[$i]->image)
+									<img class="sipro-image-file-select" onerror="this.style.display='none'" src="{{$item->options[$i]->thumbImage()}}"/>
+									<input type="hidden" id="optionHiddenImage_{{$i}}" name="option-hidden[{{$i}}]" class="form-control" value="{{$item->thumbImage()}}">
+								@endif
 								<input type="file" name="option-image[{{$i}}]">
 							</td>
 							<td>

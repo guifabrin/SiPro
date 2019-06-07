@@ -10720,7 +10720,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
         options.find('[name*=option-description]').each(function (_index, el) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).removeAttr('required');
         });
-        linesNumber.show();
+        linesNumber.parent().show();
         options.hide();
         break;
 
@@ -10729,7 +10729,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
         options.find('[name*=option-description]').each(function (_index, el) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).attr('required', true);
         });
-        linesNumber.hide();
+        linesNumber.parent().hide();
         options.show();
         options.find('input[type=checkbox]').attr('type', 'radio');
         break;
@@ -10739,7 +10739,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
         options.find('[name*=option-description]').each(function (_index, el) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(el).attr('required', true);
         });
-        linesNumber.hide();
+        linesNumber.parent().hide();
         options.show();
         options.find('input[type=radio]').attr('type', 'checkbox');
         break;

@@ -84,7 +84,7 @@ class ItemCategoryController extends ApplicationController
     {
         $stored = $this->storer::run($request);
         //$this->message("stored", $stored, true);
-        return redirect(url("item"));
+        return redirect(url($this->type));
     }
 	
     public function show($item)
@@ -98,7 +98,7 @@ class ItemCategoryController extends ApplicationController
     {
         $itemObj = $item->update(["soft_delete" => true]);
         //$this->message("removed", $itemObj, true);
-        return redirect(url("item"));
+        return redirect(url($this->type));
     }
 
     public function edit($item)
@@ -114,6 +114,6 @@ class ItemCategoryController extends ApplicationController
     {
         $updated = $this->storer::run($request, $item);
         //$this->message("updated", $updated, true);
-        return redirect(url("item"));
+        return redirect(url($this->type));
     }
 }
