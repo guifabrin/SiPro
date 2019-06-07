@@ -30,7 +30,6 @@ class QuestionSaver
         $this->request = $request;
         $this->input = $request->all();
         $this->descriptive = $this->input["type"] == self::DESCRIPTIVE;
-        if (!$question) return;
         $this->question = $question ? $question : new Question();
         $this->options = $question->options()->get();
     }

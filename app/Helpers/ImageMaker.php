@@ -21,29 +21,29 @@ class ImageMaker
     /**
      * @param $uploadedFile
      * @param $maxWidth
-     * @return string|null
+     * @return string|false
      */
     public static function makeThumb($uploadedFile, $maxWidth)
     {
-        return (new self($uploadedFile))->_makeThumb($maxWidth);
+        return (new self($uploadedFile))->thumb($maxWidth);
     }
 
     /**
      * @param $maxWidth
-     * @return string|null
+     * @return string|false
      */
-    public function _makeThumb($maxWidth)
+    public function thumb($maxWidth)
     {
         $source = $this->getSource();
-        if (!$source) return null;
+        if (!$source) return false;
         $virtualImage = $this->getVirtualImage($source, $maxWidth);
         $destination = $this->saveVirtualImage($virtualImage);
-        if (!$destination) return null;
+        if (!$destination) return false;
         return $this->convertBase64($destination);
     }
 
     /**
-     * @return resource|null
+     * @return resource|false
      */
     private function getSource()
     {
@@ -52,7 +52,7 @@ class ImageMaker
         } elseif ($this->isPNG()) {
             return imagecreatefrompng($this->uploadedFile);
         } else {
-            return null;
+            return false;
         }
     }
 
@@ -86,15 +86,15 @@ class ImageMaker
     /**
      * @param $source
      * @param $maxWidth
-     * @return resource
+     * @return resource|false
      */
     private function getVirtualImage($source, $maxWidth)
     {
         $width = imagesx($source);
         $height = imagesy($source);
-        $maxHeight = floor($height * ($maxWidth / $width));
+        $maxHeight = intval(floor($height * ($maxWidth / $width)));
         $virtualImage = imagecreatetruecolor($maxWidth, $maxHeight);
-        imagecopyresampled($virtualImage, $source, 0, 0, 0, 0, $maxWidth, $maxHeight, $width, $height);
+        imagecopyresampled($virtualImage, $source, 0.0, 0.0, 0.0, 0.0, $maxWidth, $maxHeight, $width, $height);
         return $virtualImage;
     }
 
@@ -105,19 +105,21 @@ class ImageMaker
     private function saveVirtualImage($virtualImage)
     {
         $destination = $this->getDestination();
-        if ($this->isJPG() && imagejpeg($virtualImage, $destination) ||
-            $this->isPNG() && imagepng($virtualImage, $destination)) {
+        if (
+            ($this->isJPG() && imagejpeg($virtualImage, $destination)) ||
+            ($this->isPNG() && imagepng($virtualImage, $destination))
+            ) {
             return $destination;
         }
         return false;
     }
 
     /**
-     * @return string|null
+     * @return string|false
      */
     private function getDestination()
     {
-        $destination = null;
+        $destination = false;
         while (true) {
             $destination = sys_get_temp_dir() . "/" . uniqid() . "." . $this->getExtension();
             if (!file_exists($destination)) break;
@@ -132,7 +134,7 @@ class ImageMaker
     public function convertBase64($destination)
     {
         $data = base64_encode(file_get_contents($destination));
-        return $base64 = "data:image/" . $this->getExtension() . ";base64," . $data;
+        return "data:image/" . $this->getExtension() . ";base64," . $data;
     }
 
     /**
@@ -143,7 +145,7 @@ class ImageMaker
     {
         $data = base64_encode(file_get_contents($uploadedFile));
         $type = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_EXTENSION);
-        return $base64 = "data:image/" . $type . ";base64," . $data;
+        return "data:image/" . $type . ";base64," . $data;
     }
 
 }

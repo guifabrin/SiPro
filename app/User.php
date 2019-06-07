@@ -8,8 +8,6 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Helpers\Account\Values;
 
 class User extends ApplicationModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
@@ -96,15 +94,5 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
     public function testCategories()
     {
         return $this->hasMany("App\TestCategory", "user_id");
-    }
-
-    public function createSocialAccount(ProviderUser $provUser){
-        $account = new SocialAccount([
-            "provider_user_id" => $provUser->getId(),
-            "provider" => "facebook"
-        ]);
-        $account->user()->associate($this);
-        $account->save();
-        return $account;
     }
 }

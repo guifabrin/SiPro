@@ -31,7 +31,7 @@
       "app/Base/ItemCategoryController.php",
       "app/Helpers/ImageMaker.php",
       "app/Helpers/QuestionSaver.php",
-      "app/Helpers/TestStore.php"
+      "app/Helpers/TestSaver.php"
     ],
     "classmap": [
       "database/seeds",

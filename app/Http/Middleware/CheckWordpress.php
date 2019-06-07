@@ -31,18 +31,30 @@ class CheckWordpress
      */
     public function handle($request, Closure $next)
     {
-        $dotenv = \Dotenv\Dotenv::create(__DIR__."/../../../");
+        $dotenv = \Dotenv\Dotenv::create(__DIR__ . "/../../../");
         $dotenv->load();
-        $wpLoadFile = env('WORDPRESS_PATH').'wp-load.php';
-        if(env('WORDPRESS') && file_exists($wpLoadFile)){
-            define('WP_USE_THEMES', false);
+        $wpLoadFile = env('WORDPRESS_PATH') . 'wp-load.php';
+        if (env('WORDPRESS') && file_exists($wpLoadFile)) {
+            if (!defined('WP_USE_THEMES'))
+                define('WP_USE_THEMES', false);
             include $wpLoadFile;
-            if (!is_user_logged_in()) return redirect(env('WORDPRESS_LOGIN_URL'));
+            if (!is_user_logged_in())
+                return redirect(env('WORDPRESS_LOGIN_URL') . "?redirect_to=" . $request->url());
             $user = wp_get_current_user();
-            $user = $this->userFindOrCreate($user->ID, $user->user_email);
-            if (Auth::guest() ||
-                (Auth::check() && Auth::user()->id != $user->id)){
-                Auth::login($user);
+            $laravelUser = User::where('wp_user_id', $user->ID)->first();
+            if (Auth::check()) {
+                if (Auth::user()->id != $laravelUser->id) {
+                    Auth::logout();
+                    return redirect(env('WORDPRESS_LOGIN_URL') . "?redirect_to=" . $request->url());
+                }
+            } else {
+                if (!$laravelUser)
+                    $laravelUser = User::create([
+                        'email' => $user->data->user_email,
+                        'name' => $user->data->user_email,
+                        'wp_user_id' => $user->ID
+                    ]);
+                Auth::login($laravelUser);
             }
         }
         return $next($request);

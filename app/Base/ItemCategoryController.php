@@ -82,9 +82,8 @@ class ItemCategoryController extends ApplicationController
 	
     public function store(Request $request)
     {
-        $stored = $this->storer::run($request);
-        //$this->message("stored", $stored, true);
-        return redirect(url($this->type));
+        $this->storer::run($request);
+        return redirect(url($this->type))->with(['message' => __('lang.stored')]);
     }
 	
     public function show($item)
@@ -96,9 +95,8 @@ class ItemCategoryController extends ApplicationController
 	
     public function destroy($item)
     {
-        $itemObj = $item->update(["soft_delete" => true]);
-        //$this->message("removed", $itemObj, true);
-        return redirect(url($this->type));
+        $item->update(["soft_delete" => true]);
+        return redirect(url($this->type))->with(['message' => __('lang.stored')]);
     }
 
     public function edit($item)
@@ -112,8 +110,7 @@ class ItemCategoryController extends ApplicationController
 
     public function update(Request $request, $item)
     {
-        $updated = $this->storer::run($request, $item);
-        //$this->message("updated", $updated, true);
-        return redirect(url($this->type));
+        $this->storer::run($request, $item);
+        return redirect(url($this->type))->with(['message' => __( 'lang.updated')]);
     }
 }

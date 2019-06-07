@@ -1,11 +1,11 @@
 @php
-	if (!isset($testCategory))
-		$testCategory = isset($test) ? $test->category()->first() : null;
+	if (!isset($itemCategory))
+		$itemCategory = isset($item) ? $item->category()->first() : null;
 @endphp
 
 @extends('layouts.app')
 
-@section('title', ($test->id ? __('lang.edit') : __('lang.add'))." ".__('lang.test'). ($testCategory ? "[ ".$testCategory->description." ]" : "") )
+@section('title', ($item->id ? __('lang.edit') : __('lang.add'))." ".__('lang.test'). ($itemCategory ? "[ ".$itemCategory->description." ]" : "") )
 
 @section('btn-left')
 	<a class="{{config('constants.classes.buttons.back')}}" href="{{ url('test') }}">
@@ -14,14 +14,14 @@
 @endsection
 
 @section('body')
-	<form action="{{ url('/test/'.$test->id) }}" method="POST" enctype="multipart/form-data">
+	<form action="{{ url('/test/'.$item->id) }}" method="POST" enctype="multipart/form-data">
 		@csrf
-		@if (isset($test->id))
+		@if (isset($item->id))
 			@method("PUT")
 		@endif
 		<div class="form-group">
 			<label for="idText">{{__('lang.id')}}</label>
-			<input type="text" name="id" id="idText" value="{{old('id', $test->id)}}" class="form-control" placeholder="{{__('lang.id_placeholder')}}" readonly="true">
+			<input type="text" name="id" id="idText" value="{{old('id', $item->id)}}" class="form-control" placeholder="{{__('lang.id_placeholder')}}" readonly="true">
 		</div>
 		<div class="form-group">
 			<label for="category_id">{{ __('lang.tests.form.category_id') }}:</label>
@@ -29,21 +29,21 @@
 				'father' => false,
 				'type'=> 'test',
 				'key' => 'category_id',
-				'category' => $testCategory,
-				'categories' => $testCategories
+				'category' => $itemCategory,
+				'categories' => $itemCategories
 			])
 		</div>
 		<div class="form-group">
 			<label for="descriptionText">{{__('lang.description')}}</label>
 			<textarea name="description" id="descriptionText"
-				class="form-control" required="true">{{old('description', $test->description)}}</textarea>
+				class="form-control" required="true">{{old('description', $item->description)}}</textarea>
 		</div>
 		<button class="{{config('constants.classes.buttons.submit')}}">
 			<i class="{{config('constants.classes.icons.submit')}}"></i>
 			{{__('lang.submit')}}
 		</button>
 	</form>
-	@if ($test->id)
-		<iframe src="{{url('/tests/'.$test->id."/questions")}}" frameborder="0"></iframe>
+	@if ($item->id)
+		<iframe src="{{url('/tests/'.$item->id."/questions")}}" frameborder="0"></iframe>
 	@endif
 @endsection

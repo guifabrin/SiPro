@@ -70,7 +70,6 @@ class Question extends ApplicationModel
         } catch (\Exception $e) {
             return null;
         }
-
     }
 
     /**
