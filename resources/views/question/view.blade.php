@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('lang.mines_gender_female')." ". (isset($questionCategory) ? '[ '.$questionCategory->description.' ]' : ''))
+@section('title', __('lang.mines_gender_female')." ". (isset($itemCategory) ? '[ '.$itemCategory->description.' ]' : ''))
 
 @section('btn-left')
 	<a class="{{config('constants.classes.buttons.back')}}" href="{{ url('question') }}">
@@ -10,7 +10,7 @@
 
 @section('btn-right')
 	<a class="{{config('constants.classes.buttons.add')}}"
-	   href="{{ url(isset($questionCategory) ? '/questions/itens/'.$questionCategory->id.'/create' : '/question/create') }}">
+	   href="{{ url(isset($itemCategory) ? '/questions/itens/'.$itemCategory->id.'/create' : '/question/create') }}">
 		<i class="{{config('constants.classes.icons.add')}}"></i> {{ __('lang.add') }}
 	</a>
 @endsection
@@ -19,8 +19,8 @@
 	@include('category.tree.view', [
 		'manage' => false,
 		'type'=>'question',
-		'category'=> $questionCategory,
-		'categories' => $questionCategories
+		'category'=> $itemCategory,
+		'categories' => $itemCategories
 	])
 	<table class="{{config('constants.classes.table')}}">
 		<thead class="{{config('constants.classes.thead')}}">
@@ -31,7 +31,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($questions as $question)
+			@foreach ($items as $question)
 				<tr>
 					<td>
 						<img src="{{ $question->thumbImage() }}" class="sipro-image-file-select"

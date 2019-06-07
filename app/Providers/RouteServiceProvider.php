@@ -23,8 +23,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
         Route::bind('questionCategory', function ($value) {
             return \Auth::user()->questionCategories()->where('id', $value)->first();

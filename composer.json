@@ -28,6 +28,7 @@
       "app/Base/ApplicationModel.php",
       "app/Base/ApplicationController.php",
       "app/Base/CategoryController.php",
+      "app/Base/ItemCategoryController.php",
       "app/Helpers/ImageMaker.php",
       "app/Helpers/QuestionStore.php",
       "app/Helpers/TestStore.php"

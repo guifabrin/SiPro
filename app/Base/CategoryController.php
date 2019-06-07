@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Http\Requests\CategorySaveRequest;
-use App\Http\Controllers\ApplicationController;
 
 class CategoryController extends ApplicationController
 {
@@ -53,7 +52,6 @@ class CategoryController extends ApplicationController
 
 	public function update(CategorySaveRequest $request, $category)
 	{
-		$category = $this->categories()->findOrFail($category->id);
 		$input = $request->input();
 		$input["father_id"] = is_input_null($input["father_id"]) ? null : $input["father_id"];
 		$input["soft_delete"] = false;
@@ -63,7 +61,6 @@ class CategoryController extends ApplicationController
 
 	public function destroy($category)
 	{
-		$category = $this->categories()->findOrFail($category->id);
 		$category->update([
 			"soft_delete" => true
 		]);

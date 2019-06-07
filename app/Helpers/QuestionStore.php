@@ -2,13 +2,13 @@
 
 namespace App\Http\Helpers;
 
-use App\Http\Controllers\QuestionController;
 use App\Image;
 use App\Option;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\QuestionController;
 
 class QuestionStore
 {

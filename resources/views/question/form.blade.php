@@ -1,11 +1,11 @@
 @php
-	if (!isset($questionCategory))
-		$questionCategory = isset($question) ? $question->category()->first() : null;
+	if (!isset($itemCategory))
+		$itemCategory = isset($item) ? $item->category()->first() : null;
 @endphp
 
 @extends('layouts.app')
 
-@section('title', ($question->id ? __('lang.edit') : __('lang.add'))." ".__('lang.question'). ($questionCategory ? "[ ".$questionCategory->description." ]" : "") )
+@section('title', ($item->id ? __('lang.edit') : __('lang.add'))." ".__('lang.question'). ($itemCategory ? "[ ".$itemCategory->description." ]" : "") )
 
 @section('btn-left')
 	<a class="{{config('constants.classes.buttons.back')}}" href="{{ url('question') }}">
@@ -14,9 +14,9 @@
 @endsection
 
 @section('body')
-	<form action="{{ url('/question/'.$question->id) }}" method="POST" enctype="multipart/form-data">
+	<form action="{{ url('/question/'.$item->id) }}" method="POST" enctype="multipart/form-data">
 		@csrf
-		@if (isset($question->id))
+		@if (isset($item->id))
 			@method("PUT")
 		@endif
 		<div class="form-group">
@@ -29,22 +29,22 @@
 				'father' => false,
 				'type'=> 'question',
 				'key' => 'category_id',
-				'category' => $questionCategory,
-				'categories' => $questionCategories
+				'category' => $itemCategory,
+				'categories' => $itemCategories
 			])
 		</div>
 		<div class="form-group">
 			<label for="descriptionText">{{__('lang.description')}}</label>
 			<textarea name="description" id="descriptionText"
-				class="form-control" required="true">{{old('description', $question->description)}}</textarea>
+				class="form-control" required="true">{{old('description', $item->description)}}</textarea>
 		</div>
 		<input type="file" name="image_id" class="form-control">
 		<select name="type" id="typeSelect" class="form-control">
-			<option value="0" {{!$question->type || $question->type==0?"selected=true":""}}>{{__('lang.questions.form.descriptive')}}</option>
-			<option value="1" {{$question->type==1?"selected=true":""}}>{{__('lang.questions.form.optative')}}</option>
-			<option value="2" {{$question->type==2?"selected=true":""}}>{{__('lang.questions.form.true_false')}}</option>
+			<option value="0" {{!$item->type || $item->type==0?"selected=true":""}}>{{__('lang.questions.form.descriptive')}}</option>
+			<option value="1" {{$item->type==1?"selected=true":""}}>{{__('lang.questions.form.optative')}}</option>
+			<option value="2" {{$item->type==2?"selected=true":""}}>{{__('lang.questions.form.true_false')}}</option>
 		</select>
-		<input type="number" name="lines" id="linesNumber" class="form-control" value="{{$question->id ? $question->lines : -1}}">
+		<input type="number" name="lines" id="linesNumber" class="form-control" value="{{$item->id ? $item->lines : -1}}">
 		<div class="form-group" id="options" style="display: none;">
 			<label>{{ __('lang.options') }}:</label>
 			<table class="{{config('constants.classes.table')}}">
@@ -58,13 +58,13 @@
 				<tbody>
 					@for ($i=0; $i<5; $i++)
 						@php
-							$settedOption = isset($question->options) && isset( $question->options[$i]);
+							$settedOption = isset($item->options) && isset( $item->options[$i]);
 						@endphp
 						<tr>
 							<td>
 								<input type="hidden" name="option-id[{{$i}}]">
 								<input type="checkbox" name="option-correct[]" value="{{$i}}"
-									{{$settedOption &&  $question->options[$i]->correct ? "checked=true" : ""}}
+									{{$settedOption &&  $item->options[$i]->correct ? "checked=true" : ""}}
 								>
 							</td>
 							<td>
@@ -75,7 +75,7 @@
 									class="form-control" required="true">{{
 										old(
 											'option-description['.$i.']',
-											$settedOption ?  $question->options[$i]->description : ""
+											$settedOption ?  $item->options[$i]->description : ""
 										)
 									}}</textarea>
 							</td>
