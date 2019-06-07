@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Test;
 use App\Question;
 use App\QuestionCategory;
 use App\QuestionsInTests;
-use App\Test;
 
 class QuestionsInTestsController extends ApplicationController
 {

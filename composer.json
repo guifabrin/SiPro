@@ -26,7 +26,11 @@
     "files": [
       "app/Helpers/helpers.php",
       "app/Base/ApplicationModel.php",
-      "app/Base/ApplicationController.php"
+      "app/Base/ApplicationController.php",
+      "app/Base/CategoryController.php",
+      "app/Helpers/ImageMaker.php",
+      "app/Helpers/QuestionStore.php",
+      "app/Helpers/TestStore.php"
     ],
     "classmap": [
       "database/seeds",

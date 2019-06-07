@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Services;
+namespace App\Http\Helpers;
 
 use App\Http\Controllers\QuestionController;
 use App\Image;

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Services\QuestionStore;
+use Auth;
 use App\Question;
 use App\QuestionCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Helpers\QuestionStore;
 
 class QuestionController extends ApplicationController
 {

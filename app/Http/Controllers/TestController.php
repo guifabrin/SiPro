@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Services\TestStore;
+use Auth;
 use App\Test;
 use App\TestCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Helpers\TestStore;
 
 class TestController extends ApplicationController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Base;
+namespace App\Http\Controllers;
 
 use Auth;
 use App\Http\Requests\CategorySaveRequest;
@@ -15,11 +15,10 @@ class CategoryController extends ApplicationController
 	public function create()
 	{
 		$class = $this->model;
-		$categories = $this->categoriesNotRemovedWithoutFather();
 		return view("category.form", [
 			"type" => $this->type,
 			"category" => new $class(),
-			"categories" => $categories
+			"categories" => $this->categoriesNotRemovedWithoutFather()
 		]);
 	}
 
@@ -35,11 +34,10 @@ class CategoryController extends ApplicationController
 
 	public function edit($category)
 	{
-		$categories = $this->categoriesNotRemovedWithoutFather();
 		return view("category.form", [
 			"type" => $this->type,
 			"category" => $category,
-			"categories" => $categories
+			"categories" => $this->categoriesNotRemovedWithoutFather()
 		]);
 	}
 
@@ -74,10 +72,9 @@ class CategoryController extends ApplicationController
 
 	public function index()
 	{
-		$categories = $this->categoriesNotRemovedWithoutFather();
 		return view("category.view", [
 			"type" => $this->type,
-			"categories" => $categories
+			"categories" => $this->categoriesNotRemovedWithoutFather()
 		]);
 	}
 
