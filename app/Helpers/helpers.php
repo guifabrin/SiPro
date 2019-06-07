@@ -1,16 +1,14 @@
 <?php
 
-if (!function_exists('process_if_null')) {
+if (!function_exists('is_input_null')) {
     /**
      * Function to verify if $var is null or string null and replace by null value
      *
      * @param null $var
      */
-    function process_if_null(&$var = null)
+    function is_input_null($var = null)
     {
-        if (!isset($var) || $var == null || $var == "null") {
-            $var = NULL;
-        }
+        return (!isset($var) || $var == null || $var == "null");
     }
 }
 

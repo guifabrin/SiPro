@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Base;
 
+use Auth;
+use App\Http\Requests\CategorySaveRequest;
 use App\Http\Controllers\ApplicationController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends ApplicationController
 {
@@ -15,7 +15,7 @@ class CategoryController extends ApplicationController
 	public function create()
 	{
 		$class = $this->model;
-		$categories = $this->categories();
+		$categories = $this->categoriesNotRemovedWithoutFather();
 		return view("category.form", [
 			"type" => $this->type,
 			"category" => new $class(),
@@ -25,12 +25,17 @@ class CategoryController extends ApplicationController
 
 	private function categories()
 	{
-		return Auth::user()->categories($this->type)->notRemoved()->withoutFather()->get();
+		return Auth::user()->categories($this->type);
+	}
+
+	private function categoriesNotRemovedWithoutFather()
+	{
+		return $this->categories()->notRemoved()->withoutFather()->get();
 	}
 
 	public function edit($category)
 	{
-		$categories = $this->categories();
+		$categories = $this->categoriesNotRemovedWithoutFather();
 		return view("category.form", [
 			"type" => $this->type,
 			"category" => $category,
@@ -38,37 +43,38 @@ class CategoryController extends ApplicationController
 		]);
 	}
 
-	public function store(Request $request)
+	public function store(CategorySaveRequest $request)
 	{
-		$this->validate($request);
-		$categoryObj = $this->save($request->input());
-		//$this->message("created", $categoryObj);
-		return redirect()->to($this->type . "Category");
-	}
-
-	public function validate(Request $request, array $rules = [], array $messages = [], array $customAttributes = [])
-	{
-		$request->validate([
-			"description" => "required",
-		]);
-	}
-
-	private function save(array $input = [], $category = null)
-	{
+		$input = $request->input();
 		$input["user_id"] = Auth::user()->id;
-		process_if_null($input["father_id"]);
-		$input["soft_delete"] = isset($input["soft_delete"]) ? $input["soft_delete"] : false;
-		if (empty($category)) {
-			return $this->model::create($input);
-		} else {
-			$category->update($input);
-			return $category;
-		}
+		$input["father_id"] = is_input_null($input["father_id"]) ? null : $input["father_id"];
+		$input["soft_delete"] = false;
+		$this->model::create($input);
+		return redirect(url($this->type . "Category"))->with(['message' => __('lang.stored')]);
+	}
+
+	public function update(CategorySaveRequest $request, $category)
+	{
+		$category = $this->categories()->findOrFail($category->id);
+		$input = $request->input();
+		$input["father_id"] = is_input_null($input["father_id"]) ? null : $input["father_id"];
+		$input["soft_delete"] = false;
+		$category->update($input);
+		return redirect(url($this->type . "Category"))->with(['message' => __('lang.updated')]);
+	}
+
+	public function destroy($category)
+	{
+		$category = $this->categories()->findOrFail($category->id);
+		$category->update([
+			"soft_delete" => true
+		]);
+		return redirect(url($this->type . "Category"))->with(['message' => __('lang.removed')]);
 	}
 
 	public function index()
 	{
-		$categories = $this->categories();
+		$categories = $this->categoriesNotRemovedWithoutFather();
 		return view("category.view", [
 			"type" => $this->type,
 			"categories" => $categories
@@ -81,20 +87,5 @@ class CategoryController extends ApplicationController
 			"type" => $this->type,
 			"category" => $category,
 		]);
-	}
-
-	public function destroy($category)
-	{
-		$categoryObj = $this->save(["soft_delete" => true], $category);
-		//$this->message("removed", $categoryObj);
-		return redirect()->to($this->type . "Category");
-	}
-
-	public function update(Request $request, $category)
-	{
-		$this->validate($request);
-		$categoryObj = $this->save($request->input(), $category);
-		//$this->message("updated", $categoryObj);
-		return redirect()->to($this->type . "Category");
 	}
 }
