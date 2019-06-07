@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class Test extends ApplicationModel
-{
+class Test extends ApplicationModel {
     /**
      * The table associated with the model.
      *
@@ -27,8 +26,7 @@ class Test extends ApplicationModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    public function category()
-    {
+    public function category() {
         return $this->hasOne("App\TestCategory", "id", "category_id");
     }
 
@@ -39,8 +37,7 @@ class Test extends ApplicationModel
      * @param TestCategory $testCategory
      * @return Builder
      */
-    public function scopeFromCategory(Builder $query, TestCategory $testCategory)
-    {
+    public function scopeFromCategory(Builder $query, TestCategory $testCategory) {
         return $query->where("category_id", $testCategory->id);
     }
 
@@ -50,8 +47,7 @@ class Test extends ApplicationModel
      * @param Builder $query
      * @return Builder
      */
-    public function scopeWithoutCategory(Builder $query)
-    {
+    public function scopeWithoutCategory(Builder $query) {
         return $query->where("category_id", null);
     }
 }

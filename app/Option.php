@@ -2,8 +2,7 @@
 
 namespace App;
 
-class Option extends ApplicationModel
-{
+class Option extends ApplicationModel {
     /**
      * The table associated with the model.
      *
@@ -28,16 +27,14 @@ class Option extends ApplicationModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function image()
-    {
+    public function image() {
         return $this->hasOne("App\Image", "id", "image_id");
     }
 
     /**
      * @return string|null
      */
-    public function thumbImage()
-    {
+    public function thumbImage() {
         try {
             return $this->image()->first()->imageb64_thumb;
         } catch (\Exception $e) {

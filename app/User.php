@@ -29,8 +29,7 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
         "remember_token",
     ];
 
-    public function avatar()
-    {
+    public function avatar() {
         if ($this->avatar != null) {
             return Auth::user()->avatar;
         }
@@ -42,8 +41,7 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
      * @param string $type
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
      */
-    public function categoryOf(string $type)
-    {
+    public function categoryOf(string $type) {
         if ($type == "question") {
             return $this->questions();
         } elseif ($type == "test") {
@@ -57,8 +55,7 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function questions()
-    {
+    public function questions() {
         return $this->hasMany("App\Question", "user_id");
     }
 
@@ -72,8 +69,8 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
         return $this->hasMany("App\Test", "user_id");
     }
 
-    public function categories($type){
-        return $this->{$type.'Categories'}();
+    public function categories($type) {
+        return $this->{$type . 'Categories'}();
     }
 
     /**
@@ -81,8 +78,7 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function questionCategories()
-    {
+    public function questionCategories() {
         return $this->hasMany("App\QuestionCategory", "user_id");
     }
 
@@ -91,8 +87,7 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function testCategories()
-    {
+    public function testCategories() {
         return $this->hasMany("App\TestCategory", "user_id");
     }
 }

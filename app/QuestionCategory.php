@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class QuestionCategory extends ApplicationModel
-{
+class QuestionCategory extends ApplicationModel {
     /**
      * Indicates if the model should be timestamped.
      *
@@ -34,8 +33,7 @@ class QuestionCategory extends ApplicationModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function itens()
-    {
+    public function itens() {
         return $this->hasMany("App\Question", "category_id");
     }
 
@@ -44,8 +42,7 @@ class QuestionCategory extends ApplicationModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function children()
-    {
+    public function children() {
         return $this->hasMany("App\QuestionCategory", "father_id");
     }
 
@@ -54,8 +51,7 @@ class QuestionCategory extends ApplicationModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    public function father()
-    {
+    public function father() {
         return $this->hasOne("App\QuestionCategory", "id", "father_id");
     }
 
@@ -65,8 +61,7 @@ class QuestionCategory extends ApplicationModel
      * @param Builder $query
      * @return Builder
      */
-    public function scopeWithoutFather(Builder $query)
-    {
+    public function scopeWithoutFather(Builder $query) {
         return $query->where("father_id", null);
     }
 }

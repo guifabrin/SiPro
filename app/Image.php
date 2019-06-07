@@ -2,8 +2,7 @@
 
 namespace App;
 
-class Image extends ApplicationModel
-{
+class Image extends ApplicationModel {
     /**
      * The table associated with the model.
      *

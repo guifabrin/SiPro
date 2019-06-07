@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends ApplicationController
 {
-    public function welcome(){
+    public function welcome() {
         return view('home.welcome');
     }
 }
