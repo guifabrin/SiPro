@@ -32,9 +32,8 @@ if (!function_exists('random_uuid')) {
     }
 }
 if (!function_exists('get_item_from_array')) {
-    function get_item_from_array($array = null, $key = null)
-    {
+    function get_item_from_array($array = null, $key = null) {
         if ($array === null || $key === null) return null;
-        return (array_key_exists($key, $array)) ? $array[$key] : NULL;
+        return (array_key_exists($key, $array)) ? $array[$key] : null;
     }
 }

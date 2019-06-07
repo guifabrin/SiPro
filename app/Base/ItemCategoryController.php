@@ -6,63 +6,52 @@ use Auth;
 use App\Http\Controllers\ApplicationController;
 use Illuminate\Http\Request;
 
-class ItemCategoryController extends ApplicationController
-{
+class ItemCategoryController extends ApplicationController {
 
     protected $type;
     protected $class;
     protected $storer;
 
-    private function itens()
-    {
+    private function itens() {
         return Auth::user()->categoryOf($this->type);
     }
 
-    private function itensNotRemoved()
-    {
+    private function itensNotRemoved() {
         return $this->itens()->notRemoved()->get();
     }
 
-    private function categories()
-    {
+    private function categories() {
         return Auth::user()->categories($this->type);
     }
 
-    private function categoriesNotRemovedWithoutFather()
-    {
+    private function categoriesNotRemovedWithoutFather() {
         return $this->categories()->notRemoved()->withoutFather()->get();
     }
 	
-    public function index()
-    {
+    public function index() {
         $items = $this->itensNotRemoved();
         return $this->indexView($items);
     }
 	
-    public function indexFromCategory($category)
-    {
+    public function indexFromCategory($category) {
         $items = $this->itensNotRemoved()->fromCategory($category)->get();
         return $this->indexView($items, $category);
     }
 	
-    public function indexWithoutCategory()
-    {
+    public function indexWithoutCategory() {
         $items = $this->itensNotRemoved()->withoutCategory()->get();
         return $this->indexView($items);
     }
 
-    public function create()
-    {
+    public function create() {
         return $this->creaveView();
     }
 
-    public function createFromCategory($category)
-    {
+    public function createFromCategory($category) {
         return $this->creaveView($category);
     }
 
-    private function indexView($items, $category = null)
-    {
+    private function indexView($items, $category = null) {
         return view($this->type . ".view", [
             "items" => $items,
             "category" => $category,
@@ -79,27 +68,23 @@ class ItemCategoryController extends ApplicationController
         ]);
     }
 	
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->storer::run($request);
         return redirect(url($this->type))->with(['message' => __('lang.stored')]);
     }
 	
-    public function show($item)
-    {
+    public function show($item) {
         return view($this->type . ".confirm", [
             "item" => $item,
         ]);
     }
 	
-    public function destroy($item)
-    {
+    public function destroy($item) {
         $item->update(["soft_delete" => true]);
         return redirect(url($this->type))->with(['message' => __('lang.stored')]);
     }
 
-    public function edit($item)
-    {
+    public function edit($item) {
         return view($this->type . ".form", [
             "item" => $item,
             "category" => null,

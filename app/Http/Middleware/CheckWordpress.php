@@ -6,8 +6,7 @@ use Auth;
 use App\User;
 use Closure;
 
-class CheckWordpress
-{
+class CheckWordpress {
     private function userFindOrCreate($id, $email) {
         $user = User::where('wp_user_id', $id)->first();
         if ($user) return $user;
