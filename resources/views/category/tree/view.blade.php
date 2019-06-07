@@ -9,7 +9,7 @@
                     id="siproDrodownMenuNull" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                 <i class="fa fa-folder-open"></i>
-                {{ _v('none') }}
+                {{ __('lang.none') }}
                 <span class="badge badge-light">
                     @php($userCategories = Auth::user()->categoryOf($type)->notRemoved())
                     {{ (isset($category) ? $userCategories->fromCategory($category) : $userCategories->withoutCategory())->count() }}
@@ -17,10 +17,10 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="siproDrodownMenuNull">
                 <a class="dropdown-item" href="{{ url("/".$type."s/itensWithoutCategory") }}">
-                    <i class="fa fa-eye"></i> {{ _v("see") }}
+                    <i class="fa fa-eye"></i> {{ __("lang.see") }}
                 </a>
                 <a class="dropdown-item" href="{{ url("/".$type."/create") }}">
-                    <i class="fa fa-plus"></i> {{ _v("add") }}
+                    <i class="fa fa-plus"></i> {{ __("lang.add") }}
                 </a>
             </div>
         </li>

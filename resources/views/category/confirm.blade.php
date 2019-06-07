@@ -1,31 +1,27 @@
-@php
-    $name = _v($type);
-@endphp
-
 @extends("layouts.app")
 
+@section("title", __('lang.category.confirm.title', ['name' => __('lang.'.$type)]))
+
 @section("btn-left")
-    <a class="btn   btn-primary" href="{{ url($type."Category") }}">
-        <i class="fa fa-arrow-circle-left"></i> {{ _v("back") }}
-    </a>
+<a class="{{config('constants.classes.buttons.back')}}" href="{{ url($type."Category") }}">
+	<i class="{{config('constants.classes.icons.back')}}"></i> {{ __("lang.back") }}
+</a>
 @endsection
 
 @section("body")
-    <form method="POST" action="{{url($type."Category/".$category->id) }}">
-        @csrf
-        @method("DELETE")
-        <div class="alert alert-warning">
-            {{ _v("remove_message") }} "{{$category->description}}"?
-        </div>
-
-        <p class="yes-no-buttons">
-            <button type="submit" class="btn btn-info">
-                <i class="fa fa-thumbs-up"></i> {{ _v("yes") }}
-            </button>
-            <a class="btn btn-info" href="{{ url($type."Category/") }}">
-                <i class="fa fa-thumbs-down"></i> {{ _v("no") }}
-            </a>
-        </p>
-
-    </form>
+<form method="POST" action="{{url($type."Category/".$category->id) }}">
+	@csrf
+	@method("DELETE")
+	<div class="alert alert-warning">
+		{{ __("lang.category.confirm.message") }}"{{$category->description}}"?
+	</div>
+	<p class="yes-no-buttons">
+		<button class="{{config('constants.classes.buttons.yes')}}">
+			<i class="{{config('constants.classes.icons.yes')}}"></i> {{ __("lang.yes") }}
+		</button>
+		<a class="{{config('constants.classes.buttons.no')}}" href="{{ url($type."Category/") }}">
+			<i class="{{config('constants.classes.icons.no')}}"></i> {{ __("lang.no") }}
+		</a>
+	</p>
+</form>
 @endsection

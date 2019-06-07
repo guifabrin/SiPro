@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Option extends Model
+class Option extends ApplicationModel
 {
     /**
      * The table associated with the model.

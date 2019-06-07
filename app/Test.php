@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class Test extends BaseModel
+class Test extends ApplicationModel
 {
     /**
      * The table associated with the model.

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class QuestionCategory extends BaseModel
+class QuestionCategory extends ApplicationModel
 {
     /**
      * Indicates if the model should be timestamped.

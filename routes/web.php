@@ -10,20 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
-
-Auth::routes();
-
 Route::get('/', 'HomeController@welcome');
-Route::get('/policy', 'HomeController@policy');
-Route::get('/logout', 'HomeController@logout');
-Route::get('/redirect', 'SocialAuthController@redirect');
-Route::get('/callback', 'SocialAuthController@callback');
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('questionCategory', 'QuestionCategoryController');
     Route::resource('testCategory', 'TestCategoryController');
     Route::resource('question', 'QuestionController');
     Route::resource('test', 'TestController');
-    Route::resource('user', 'UserController');
     Route::get('questions/itens/{questionCategory}', 'QuestionController@indexFromCategory');
     Route::get('questions/itens/{questionCategory}/create', 'QuestionController@createFromCategory');
     Route::get('questions/itensWithoutCategory', 'QuestionController@indexWithoutCategory');

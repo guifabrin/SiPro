@@ -1,60 +1,53 @@
-@php
-    $action = _v('mines_gender_a');
-    $name = isset($questionCategory) ? '[ '.$questionCategory->description.' ]' : '';
-@endphp
-
 @extends('layouts.app')
 
+@section('title', __('lang.mines_gender_female')." ".__('lang.questions.name')." ". (isset($itemCategory) ? '[ '.$itemCategory->description.' ]' : ''))
+
 @section('btn-left')
-    <a class="btn   btn-primary" href="{{ url('question') }}">
-        <i class="fa fa-btn fa-arrow-circle-left"></i> {{ _v('back') }}
-    </a>
+	<a class="{{config('constants.classes.buttons.back')}}" href="{{ url('question') }}">
+		<i class="{{config('constants.classes.icons.back')}}"></i> {{ __('lang.back') }}
+	</a>
 @endsection
 
 @section('btn-right')
-    @php( $url = isset($questionCategory) ? '/questions/itens/'.$questionCategory->id.'/create' : '/question/create')
-    <a class="btn btn-success"
-       href="{{ url($url) }}">
-        <i class="fa fa-plus"></i> {{ _v('add') }}
-    </a>
+	<a class="{{config('constants.classes.buttons.add')}}"
+	   href="{{ url(isset($itemCategory) ? '/questions/itens/'.$itemCategory->id.'/create' : '/question/create') }}">
+		<i class="{{config('constants.classes.icons.add')}}"></i> {{ __('lang.add') }}
+	</a>
 @endsection
 
 @section('body')
-    @include('category.tree.view', [
-        'manage' => false,
-        'type'=>'question',
-        'category'=> $questionCategory,
-        'categories' => $questionCategories
-    ])
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-        <tr>
-            <th style="width: 100pt;">{{ _v('image') }}</th>
-            <th>{{ _v('description') }}</th>
-            <th style="width: 100pt;">{{ _v('actions') }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($questions as $question)
-            <tr>
-                <td>
-                    <img src="{{ $question->thumbImage() }}" class="sipro-image-file-select"
-                         onerror="this.style.display='none'" alt="{{ $question->description }}"/>
-                </td>
-                <td>{{ $question->description }}</td>
-                <td>
-                    <a class="btn btn-danger w-100" href="{{ url('/question/'.$question->id) }}">
-                        <i class='fa fa-times'></i> {{ _v('remove') }}
-                    </a>
-                    <hr>
-                    <a class="btn btn-warning w-100" href="{{ url('/question/'.$question->id."/edit") }}">
-                        <i class='fa fa-pencil-alt'></i> {{ _v('edit') }}
-                    </a>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-
-    {{--    {{ $questions->links() }}--}}
+	@include('category.tree.view', [
+		'manage' => false,
+		'type'=>'question',
+		'category'=> $itemCategory,
+		'categories' => $itemCategories
+	])
+	<table class="{{config('constants.classes.table')}}">
+		<thead class="{{config('constants.classes.thead')}}">
+			<tr>
+				<th>{{ __('lang.image') }}</th>
+				<th>{{ __('lang.description') }}</th>
+				<th>{{ __('lang.actions') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach ($items as $question)
+				<tr>
+					<td>
+						<img src="{{ $question->thumbImage() }}" class="sipro-image-file-select"
+							onerror="this.style.display='none'" alt="{{ $question->description }}"/>
+					</td>
+					<td>{{ $question->description }}</td>
+					<td>
+						<a class="{{config('constants.classes.buttons.remove')}}" href="{{ url('/question/'.$question->id) }}">
+							<i class='{{config('constants.classes.icons.remove')}}'></i> {{ __('lang.remove') }}
+						</a>
+						<a class="{{config('constants.classes.buttons.edit')}}" href="{{ url('/question/'.$question->id."/edit") }}">
+							<i class='{{config('constants.classes.icons.edit')}}'></i> {{ __('lang.edit') }}
+						</a>
+					</td>
+				</tr>
+			@endforeach
+		</tbody>
+	</table>
 @endsection

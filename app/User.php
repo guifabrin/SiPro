@@ -1,20 +1,24 @@
 <?php
-
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable as Notifiable;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends ApplicationModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    use Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        "name", "email", "password", "avatar"
+        "name", "email", "password", "avatar", "wp_user_id"
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -68,6 +72,10 @@ class User extends Authenticatable
         return $this->hasMany("App\Test", "user_id");
     }
 
+    public function categories($type){
+        return $this->{$type.'Categories'}();
+    }
+
     /**
      * Return hasMany if user has questionCategories
      *
@@ -86,15 +94,5 @@ class User extends Authenticatable
     public function testCategories()
     {
         return $this->hasMany("App\TestCategory", "user_id");
-    }
-
-    public function createSocialAccount(ProviderUser $provUser){
-        $account = new SocialAccount([
-            "provider_user_id" => $provUser->getId(),
-            "provider" => "facebook"
-        ]);
-        $account->user()->associate($this);
-        $account->save();
-        return $account;
     }
 }

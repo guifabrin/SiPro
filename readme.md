@@ -17,8 +17,12 @@ Este projeto tem como objetivo principal prover um sistema de provas para profes
 ![watchers](https://img.shields.io/github/watchers/guifabrin/sipro.svg?style=social)
 ![followers](https://img.shields.io/github/followers/guifabrin.svg?style=social)
 
-## Clean Code
+## Others
 [![BCH compliance](https://bettercodehub.com/edge/badge/guifabrin/sipro?branch=master)](https://bettercodehub.com/)
+### Scrutinizer
+[![Scrutinizer](https://scrutinizer-ci.com/g/guifabrin/sipro/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/guifabrin/sipro/badges/quality-score.png?b=master)
+[![Build](https://scrutinizer-ci.com/g/guifabrin/sipro/badges/build.png?b=master)](https://scrutinizer-ci.com/g/guifabrin/sipro/badges/build.png?b=master)
+[![Code intelligence](https://scrutinizer-ci.com/g/guifabrin/sipro/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/g/guifabrin/sipro/badges/code-intelligence.svg?b=master)
 
 # Configuração básica do servidor e máquina de desenvolvimento
 

@@ -1,25 +1,19 @@
-@php
-	$action = _v("mines_gender_a");
-    $name = _v($type);
-@endphp
-
 @extends("layouts.app")
 
-@section("header")
-@endsection
+@section("title", __('lang.category.view.title', ['name' => __('lang.'.$type)]))
 
 @section("btn-left")
-    <a class="btn btn-primary" href="{{ url("/") }}">
-        <i class="fa fa-btn fa-arrow-circle-left"></i> {{ _v("back") }}
-    </a>
+<a class="{{config('constants.classes.buttons.back')}}" href="{{ url("/") }}">
+	<i class="{{config('constants.classes.icons.back')}}"></i> {{ __("lang.back") }}
+</a>
 @endsection
 
 @section("btn-right")
-    <a class="btn btn-success" href="{{ url("/".$type."Category/create/") }}">
-        <i class="fa fa-plus"></i> {{ _v("add") }}
-    </a>
+<a class="{{config('constants.classes.buttons.add')}}" href="{{ url("/".$type."Category/create/") }}">
+	<i class="{{config('constants.classes.icons.add')}}"></i> {{ __("lang.add") }}
+</a>
 @endsection
 
 @section("body")
-    @include("category.tree.view", ["type" => $type, "categories" => $categories])
+	@include("category.tree.view", ["type" => $type, "categories" => $categories])
 @endsection

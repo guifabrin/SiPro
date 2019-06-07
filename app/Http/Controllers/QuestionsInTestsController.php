@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Test;
 use App\Question;
 use App\QuestionCategory;
 use App\QuestionsInTests;
-use App\Test;
 
-class QuestionsInTestsController extends Controller
+class QuestionsInTestsController extends ApplicationController
 {
     /**
      * @param Test $test
@@ -22,9 +22,9 @@ class QuestionsInTestsController extends Controller
             $nonRemoved->withoutCategory())->get();
         return view("question_in_test.form", [
             "test" => $test,
+            "questions" => $questions,
             "questionCategory" => $questionCategory,
-            "questionCategories" => $questionCategories,
-            "questions" => $questions
+            "questionCategories" => $questionCategories
         ]);
     }
 

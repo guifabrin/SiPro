@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class Question extends BaseModel
+class Question extends ApplicationModel
 {
     /**
      * Indicates if the model should be timestamped.
@@ -70,7 +70,6 @@ class Question extends BaseModel
         } catch (\Exception $e) {
             return null;
         }
-
     }
 
     /**

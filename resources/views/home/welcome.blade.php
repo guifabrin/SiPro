@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('body')
-    <img class="welcome-logo" src="{{ asset('/images/logo.png') }}" alt="{{ _v('title') }}">
+    <img class="welcome-logo" src="{{ asset('/images/logo.png') }}" alt="{{ __('lang.welcome.title') }}">
     <hr>
-    {!! _v('message') !!}
+    {!! __('lang.welcome.message') !!}
     <hr>
-    {!! _v('description') !!}
+    {!! __('lang.welcome.description') !!}
     <hr>
-    {!! _v('thanks') !!}
+    {!! __('lang.welcome.thanks') !!}
     <a href="mailto:guilherme.fabrin@gmail.com">Guilherme Fabrin Franco</a>
 @endsection
