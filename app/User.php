@@ -64,8 +64,7 @@ class User extends ApplicationModel implements AuthenticatableContract, Authoriz
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function tests()
-    {
+    public function tests() {
         return $this->hasMany("App\Test", "user_id");
     }
 
