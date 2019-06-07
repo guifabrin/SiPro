@@ -22,9 +22,9 @@ class QuestionsInTestsController extends ApplicationController
             $nonRemoved->withoutCategory())->get();
         return view("question_in_test.form", [
             "test" => $test,
+            "questions" => $questions,
             "questionCategory" => $questionCategory,
-            "questionCategories" => $questionCategories,
-            "questions" => $questions
+            "questionCategories" => $questionCategories
         ]);
     }
 

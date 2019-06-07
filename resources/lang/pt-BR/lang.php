@@ -55,6 +55,7 @@ return [
 		]
 	],
 	"questions" => [
+		"name" => "Questões",
 		"confirm" => [
 			"title" => "Remover questão",
 			"message" => "Tem certeza que deseja remover a questão ",
@@ -94,7 +95,7 @@ return [
 		],
 		"confirm" => [
 			"title" => "Confirmação para remoção de teste",
-			"remove_test_message" => "Tem certeza que deseja remover o teste ",
+			"message" => "Tem certeza que deseja remover o teste ",
 		]
 	],
 	"developed_by" => "Desenvolvido por",

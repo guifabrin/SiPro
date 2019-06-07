@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Boostrap\Alert;
 use App\Http\Controllers\Services\TestStore;
 use App\Test;
 use App\TestCategory;
@@ -27,9 +26,6 @@ class TestController extends ApplicationController
     public static function _index($tests, TestCategory $testCategory = null)
     {
         $testCategories = Auth::user()->testCategories()->notRemoved()->withoutFather()->get();
-        if ($tests->count() == 0) {
-            Alert::build(_v("none_message"), "info");
-        }
         return view("test.view", [
             "tests" => $tests,
             "testCategory" => $testCategory,
@@ -72,7 +68,6 @@ class TestController extends ApplicationController
     {
         $testCategories = Auth::user()->testCategories()->notRemoved()->withoutFather()->get();
         return view("test.form", [
-            "titleKey" => "add",
             "test" => new Test(),
             "testCategory" => $testCategory,
             "testCategories" => $testCategories
@@ -95,7 +90,7 @@ class TestController extends ApplicationController
     public function store(Request $request)
     {
         $stored = TestStore::run($request);
-        $this->message("stored", $stored, true);
+        //$this->message("stored", $stored, true);
         return redirect()->to("test/" . $stored->id . "/edit");
     }
 
@@ -107,7 +102,6 @@ class TestController extends ApplicationController
     {
         $testCategories = Auth::user()->testCategories()->notRemoved()->withoutFather()->get();
         return view("test.form", [
-            "titleKey" => "edit",
             "testCategory" => null,
             "test" => $test,
             "testCategories" => $testCategories
@@ -123,7 +117,7 @@ class TestController extends ApplicationController
     public function update(Request $request, Test $test)
     {
         $stored = TestStore::run($request, $test);
-        $this->message("stored", $stored, true);
+        //$this->message("stored", $stored, true);
         return redirect()->to("test/" . $stored->id . "/edit");
     }
 
@@ -145,7 +139,7 @@ class TestController extends ApplicationController
     public function destroy(Test $test)
     {
         $testObj = $test->update(["soft_delete" => true]);
-        $this->message("removed", $testObj, true);
+        //$this->message("removed", $testObj, true);
         return redirect()->to("test");
     }
 

@@ -1,14 +1,15 @@
 @php
-	$action = _v($titleKey);
-	if (!isset($testCategory)) $testCategory = isset($test) ? $test->category()->first() : null;
-	if (isset($testCategory)) $name = _v('in').' [ '.$testCategory->description.' ]'
+	if (!isset($testCategory))
+		$testCategory = isset($test) ? $test->category()->first() : null;
 @endphp
 
 @extends('layouts.app')
 
+@section('title', ($test->id ? __('lang.edit') : __('lang.add'))." ".__('lang.test'). ($testCategory ? "[ ".$testCategory->description." ]" : "") )
+
 @section('btn-left')
-	<a class="btn   btn-primary" href="{{ url('test') }}">
-		<i class="fa fa-arrow-circle-left"></i> {{ _v('back') }}
+	<a class="{{config('constants.classes.buttons.back')}}" href="{{ url('test') }}">
+		<i class="{{config('constants.classes.icons.back')}}"></i> {{ __('lang.back') }}
 	</a>
 @endsection
 
@@ -18,9 +19,12 @@
 		@if (isset($test->id))
 			@method("PUT")
 		@endif
-		@php(Field::build('id', 'text', isset($test) ? $test->id : null, false, true))
 		<div class="form-group">
-			<label for="category_id">{{ _v('category_id') }}:</label>
+			<label for="idText">{{__('lang.id')}}</label>
+			<input type="text" name="id" id="idText" value="{{old('id', $test->id)}}" class="form-control" placeholder="{{__('lang.id_placeholder')}}" readonly="true">
+		</div>
+		<div class="form-group">
+			<label for="category_id">{{ __('lang.tests.form.category_id') }}:</label>
 			@include('category.tree.select', [
 				'father' => false,
 				'type'=> 'test',
@@ -29,10 +33,17 @@
 				'categories' => $testCategories
 			])
 		</div>
-		@php(Field::build('description', 'textarea', isset($test) ? $test->description : null))
-		@php(Submit::build('fa fa-save'))
+		<div class="form-group">
+			<label for="descriptionText">{{__('lang.description')}}</label>
+			<textarea name="description" id="descriptionText"
+				class="form-control" required="true">{{old('description', $test->description)}}</textarea>
+		</div>
+		<button class="{{config('constants.classes.buttons.submit')}}">
+			<i class="{{config('constants.classes.icons.submit')}}"></i>
+			{{__('lang.submit')}}
+		</button>
 	</form>
-	@if (isset($test->id))
+	@if ($test->id)
 		<iframe src="{{url('/tests/'.$test->id."/questions")}}" frameborder="0"></iframe>
 	@endif
 @endsection

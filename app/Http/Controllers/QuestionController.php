@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Boostrap\Alert;
 use App\Http\Controllers\Services\QuestionStore;
 use App\Question;
 use App\QuestionCategory;
@@ -30,9 +29,6 @@ class QuestionController extends ApplicationController
     private static function _index($questions, QuestionCategory $questionCategory = null)
     {
         $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
-        if ($questions->count() == 0) {
-            Alert::build(_v("none_message"), "info");
-        }
         return view("question.view", [
             "questions" => $questions,
             "questionCategory" => $questionCategory,
@@ -75,7 +71,6 @@ class QuestionController extends ApplicationController
     {
         $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         return view("question.form", [
-            "titleKey" => "add",
             "questionCategory" => $questionCategory,
             "question" => new Question(),
             "questionCategories" => $questionCategories
@@ -98,7 +93,7 @@ class QuestionController extends ApplicationController
     public function store(Request $request)
     {
         $stored = QuestionStore::run($request);
-        $this->message("stored", $stored, true);
+        //$this->message("stored", $stored, true);
         return redirect()->to("question");
     }
 
@@ -120,7 +115,7 @@ class QuestionController extends ApplicationController
     public function destroy(Question $question)
     {
         $questionObj = $question->update(["soft_delete" => true]);
-        $this->message("removed", $questionObj, true);
+        //$this->message("removed", $questionObj, true);
         return redirect()->to("question");
     }
 
@@ -129,7 +124,6 @@ class QuestionController extends ApplicationController
     {
         $questionCategories = Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         return view("question.form", [
-            "titleKey" => "edit",
             "questionCategory" => null,
             "question" => $question,
             "questionCategories" => $questionCategories
@@ -139,7 +133,7 @@ class QuestionController extends ApplicationController
     public function update(Request $request, Question $question)
     {
         $updated = QuestionStore::run($request, $question);
-        $this->message("updated", $updated, true);
+        //$this->message("updated", $updated, true);
         return redirect()->to("question");
     }
 }

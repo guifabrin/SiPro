@@ -1,7 +1,7 @@
 @extends('layouts.iframe')
 @section('content')
-    <h3>{{_v('questions')}}</h3>
-    <label for="category_id">{{ _v('category_id') }}:</label>
+    <h3>{{ __('lang.questions.name') }}</h3>
+    <label for="category_id">{{ __('lang.questions.form.category_id') }}:</label>
     @include('category.tree.select', [
         'father' => false,
         'type'=> 'question',
@@ -9,19 +9,15 @@
         'category' => isset($questionCategory) ? $questionCategory : null,
         'categories' => $questionCategories
     ])
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
+    <table class="{{config('constants.classes.table')}}">
+        <thead class="{{config('constants.classes.thead')}}">
         <tr>
-            <th style="width: 100pt;">{{ _v('image') }}</th>
-            <th>{{ _v('description') }}</th>
-            <th style="width: 100pt;">{{ _v('actions') }}</th>
+            <th>{{ __('lang.image') }}</th>
+            <th>{{ __('lang.description') }}</th>
+            <th>{{ __('lang.actions') }}</th>
         </tr>
         </thead>
         <tbody>
-        <?php
-        $buttonAddHtml = "<i class='fa fa-plus'></i>"._v('add');
-        $buttonRemoveHtml = "<i class='fa fa-close'></i>"._v('remove');
-        ?>
         @foreach ($questions as $question)
         <tr>
             <td>
@@ -33,10 +29,14 @@
             <td>{{ $question->description }}</td>
             <td>
                 @php($inTest = $question->inTest($test))
-                @php(\App\Helpers\Boostrap\LinkButton::build('remove',
-                url('/questions_in_tests/'.$test->id .'/'.$question->id .'/destroy'), 'fa fa-close', 'btn-danger testControl '.($inTest?'':'hide')) )
-                @php(\App\Helpers\Boostrap\LinkButton::build('add',
-                url('/questions_in_tests/'.$test->id .'/'.$question->id .'/store'), 'fa fa-plus', 'btn-success testControl '.($inTest?'hide':'')) )
+                <a class="{{config('constants.classes.buttons.add')}} testControl {{$inTest?'hide':''}}"
+                    href="{{ url('/questions_in_tests/'.$test->id .'/'.$question->id .'/store') }}">
+                    <i class='{{config('constants.classes.icons.add')}}'></i> {{ __('lang.add') }}
+                </a>
+                <a class="{{config('constants.classes.buttons.remove')}} testControl {{$inTest?'':'hide'}}"
+                    href="{{ url('/questions_in_tests/'.$test->id .'/'.$question->id .'/destroy') }}">
+                    <i class='{{config('constants.classes.icons.remove')}}'></i> {{ __('lang.remove') }}
+                </a>
             </td>
         </tr>
         @endforeach
@@ -45,5 +45,5 @@
     <script>
         var baseUrl = "{{url("/tests/".$test->id."/questions")}}/";
     </script>
-    <script type="text/javascript" src="{{ URL::asset('js/questions_in_tests/form.js') }}"></script>
+    <script type="text/javascript" src="{{ url('js/questions_in_tests/form.js') }}"></script>
 @endsection

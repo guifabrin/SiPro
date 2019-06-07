@@ -81,7 +81,11 @@
                 </tbody>
             </table>
         </div>
-        @php(Submit::build('fa fa-save'))
+        
+        <button class="{{config('constants.classes.buttons.submit')}}">
+            <i class="{{config('constants.classes.icons.submit')}}"></i>
+            {{__('lang.submit')}}
+        </button>
         <script type="text/javascript" src="{{ URL::asset('js/questions/form.js') }}"></script>
     </form>
 @endsection

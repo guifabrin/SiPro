@@ -30,7 +30,7 @@
 	])
 	<div class="form-group">
 		<label for="descriptionText">{{__('lang.description')}}</label>
-		<input type="text" name="description" id="descriptionText" value="{{old('id', $category->description)}}" class="form-control" required="true">
+		<input type="text" name="description" id="descriptionText" value="{{old('description', $category->description)}}" class="form-control" required="true">
 	</div>
 	<button class="{{config('constants.classes.buttons.submit')}}">
 		<i class="{{config('constants.classes.icons.submit')}}"></i>

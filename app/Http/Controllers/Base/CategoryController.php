@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Base;
 
-use App\Helpers\Boostrap\Alert;
 use App\Http\Controllers\ApplicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,10 +46,9 @@ class CategoryController extends ApplicationController
 
     public function store(Request $request)
     {
-        Alert::clear();
         $this->validate($request);
         $categoryObj = $this->save($request->input());
-        $this->message("created", $categoryObj);
+        //$this->message("created", $categoryObj);
         return redirect()->to($this->type() . "Category");
     }
 
@@ -77,9 +75,6 @@ class CategoryController extends ApplicationController
     public function index()
     {
         $categories = $this->getUserCategories();
-        if ($categories->count() == 0) {
-            Alert::build(_v("none_message"), "info");
-        }
         return view("category.view", [
             "type" => $this->type(),
             "categories" => $categories
@@ -97,16 +92,15 @@ class CategoryController extends ApplicationController
     public function destroy($category)
     {
         $categoryObj = $this->save(["soft_delete" => true], $category);
-        $this->message("removed", $categoryObj);
+        //$this->message("removed", $categoryObj);
         return redirect()->to($this->type() . "Category");
     }
 
     public function update(Request $request, $category)
     {
-        Alert::clear();
         $this->validate($request);
         $categoryObj = $this->save($request->input(), $category);
-        $this->message("updated", $categoryObj);
+        //$this->message("updated", $categoryObj);
         return redirect()->to($this->type() . "Category");
     }
 }
