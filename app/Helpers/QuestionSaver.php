@@ -135,7 +135,6 @@ class QuestionSaver
 
     private function createOption($parameters, $index)
     {
-        var_dump(get_item_from_array($parameters["description"], $index));
         Option::create([
             "question_id" => $this->question->id,
             "description" => get_item_from_array($parameters["description"], $index),
