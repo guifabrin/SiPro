@@ -63,17 +63,16 @@ class ItemCategoryController extends ApplicationController
 
     private function indexView($items, $category = null)
     {
-        return view($this->type.".view", [
+        return view($this->type . ".view", [
             "items" => $items,
             "category" => $category,
             "itemCategories" => $this->categoriesNotRemovedWithoutFather()
         ]);
     }
 	
-    private function creaveView($category = null)
-    {
+    private function creaveView($category = null) {
         $class = $this->class;
-        return view($this->type.".form", [
+        return view($this->type . ".form", [
             "item" => new $class(),
             "category" => $category,
             "itemCategories" => $this->categoriesNotRemovedWithoutFather()
@@ -88,7 +87,7 @@ class ItemCategoryController extends ApplicationController
 	
     public function show($item)
     {
-        return view($this->type.".confirm", [
+        return view($this->type . ".confirm", [
             "item" => $item,
         ]);
     }
@@ -101,16 +100,15 @@ class ItemCategoryController extends ApplicationController
 
     public function edit($item)
     {
-        return view($this->type.".form",[
+        return view($this->type . ".form", [
             "item" => $item,
             "category" => null,
             "itemCategories" => $this->categoriesNotRemovedWithoutFather()
         ]);
     }
 
-    public function update(Request $request, $item)
-    {
+    public function update(Request $request, $item) {
         $this->storer::run($request, $item);
-        return redirect(url($this->type))->with(['message' => __( 'lang.updated')]);
+        return redirect(url($this->type))->with(['message' => __('lang.updated')]);
     }
 }

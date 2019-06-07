@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 
-class QuestionSaver
-{
+class QuestionSaver {
 
     const DESCRIPTIVE = 0;
     const OPTIONS_KEYS = ["description", "image", "correct"];
@@ -21,13 +20,11 @@ class QuestionSaver
     private $question;
     private $descriptive;
 
-    public static function run(Request $request, Question $question = null)
-    {
+    public static function run(Request $request, Question $question = null) {
         return (new self($request, $question))->save();
     }
 
-    public function __construct(Request $request, Question $question = null)
-    {
+    public function __construct(Request $request, Question $question = null) {
         $this->request = $request;
         $this->input = $request->all();
         $this->descriptive = $this->input["type"] == self::DESCRIPTIVE;
@@ -35,8 +32,7 @@ class QuestionSaver
         $this->options = $question->options()->get();
     }
 
-    private function ruleOptions()
-    {
+    private function ruleOptions() {
         $rules = [];
         for ($i = 0; $i < 5; $i++) {
             $rules["option-description." . $i] = "required";
@@ -45,8 +41,7 @@ class QuestionSaver
         return $rules;
     }
 
-    public function validate()
-    {
+    public function validate() {
         $array = [
             "description" => "required",
             "image" => "image|mimes:jpeg,png,jpg,gif,svg|max:1024",
@@ -58,42 +53,36 @@ class QuestionSaver
         $this->request->validate($array);
     }
 
-    private function getLines()
-    {
+    private function getLines() {
         if ($this->descriptive)
             return $this->input["lines"];
         return -1;
     }
 
-    private function getQuestionCategoryId()
-    {
+    private function getQuestionCategoryId() {
         if (is_input_null($this->input["category_id"])) return null;
         $questionCategory = Auth::user()->questionCategories()->find($this->input["category_id"]);
         return $questionCategory ? $questionCategory->id : null;
     }
 
-    private function getUploadedImage(UploadedFile $uploadedImage)
-    {
+    private function getUploadedImage(UploadedFile $uploadedImage) {
         return Image::firstOrCreate([
             "imageb64" => ImageMaker::convertUploadedFile2Base64($uploadedImage),
             "imageb64_thumb" => ImageMaker::makeThumb($uploadedImage, 100)
         ]);
     }
 
-    private function getImageFromHidden($hiddenValue = null)
-    {
+    private function getImageFromHidden($hiddenValue = null) {
         return Image::where('imageb64_thumb', $hiddenValue)->first();
     }
 
-    private function getImageId(UploadedFile $uploadedImage = null, $hiddenValue = null)
-    {
+    private function getImageId(UploadedFile $uploadedImage = null, $hiddenValue = null) {
         if ($uploadedImage) return $this->getUploadedImage($uploadedImage)->id;
         if ($hiddenValue) return $this->getImageFromHidden($hiddenValue)->id;
         return null;
     }
 
-    private function parametersQuestion()
-    {
+    private function parametersQuestion() {
         return [
             "soft_delete" => false,
             "lines" => $this->getLines(),
@@ -108,23 +97,20 @@ class QuestionSaver
         ];
     }
 
-    private function saveQuestion()
-    {
+    private function saveQuestion() {
         $this->question->fill($this->parametersQuestion());
         $this->question->save();
         return $this->question;
     }
 
-    private function destroyOptions()
-    {
+    private function destroyOptions() {
         if (empty($this->options)) return;
         foreach ($this->options as $option) {
             if ($option) $option->forceDelete();
         }
     }
 
-    private function parametersOptions()
-    {
+    private function parametersOptions() {
         $options = [];
         foreach (self::OPTIONS_KEYS as $key) {
             if (empty($this->input["option-" . $key])) continue;
@@ -134,8 +120,7 @@ class QuestionSaver
         return $options;
     }
 
-    private function createOption($parameters, $index)
-    {
+    private function createOption($parameters, $index) {
         Option::create([
             "question_id" => $this->question->id,
             "description" => get_item_from_array($parameters["description"], $index),
@@ -147,8 +132,7 @@ class QuestionSaver
         ]);
     }
 
-    private function createOptions()
-    {
+    private function createOptions() {
         $parameters = $this->parametersOptions();
         for ($index = 0; $index < 5; $index++) {
             $this->createOption($parameters, $index);
@@ -157,15 +141,13 @@ class QuestionSaver
         return $this->options;
     }
 
-    private function destroy()
-    {
+    private function destroy() {
         $this->destroyOptions();
         if ($this->question)
             $this->question->forceDelete();
     }
 
-    private function saveOptions()
-    {
+    private function saveOptions() {
         $this->destroyOptions();
         foreach ($this->createOptions() as $option) {
             if ($option) continue;
@@ -175,8 +157,7 @@ class QuestionSaver
         return true;
     }
 
-    public function save()
-    {
+    public function save() {
         $this->validate();
         $question = $this->saveQuestion();
         $options = $this->descriptive ? true : $this->saveOptions();

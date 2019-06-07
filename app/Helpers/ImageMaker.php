@@ -4,8 +4,7 @@ namespace App\Http\Helpers;
 
 use Illuminate\Http\UploadedFile;
 
-class ImageMaker
-{
+class ImageMaker {
     private $uploadedFile;
     private $extension;
 
@@ -13,8 +12,7 @@ class ImageMaker
      * ImageMaker constructor.
      * @param UploadedFile $uploadedFile
      */
-    public function __construct(UploadedFile $uploadedFile)
-    {
+    public function __construct(UploadedFile $uploadedFile) {
         $this->uploadedFile = $uploadedFile;
     }
 
@@ -23,8 +21,7 @@ class ImageMaker
      * @param $maxWidth
      * @return string|false
      */
-    public static function makeThumb($uploadedFile, $maxWidth)
-    {
+    public static function makeThumb($uploadedFile, $maxWidth) {
         return (new self($uploadedFile))->thumb($maxWidth);
     }
 
@@ -32,8 +29,7 @@ class ImageMaker
      * @param $maxWidth
      * @return string|false
      */
-    public function thumb($maxWidth)
-    {
+    public function thumb($maxWidth) {
         $source = $this->getSource();
         if (!$source) return false;
         $virtualImage = $this->getVirtualImage($source, $maxWidth);
@@ -45,8 +41,7 @@ class ImageMaker
     /**
      * @return resource|false
      */
-    private function getSource()
-    {
+    private function getSource() {
         if ($this->isJPG()) {
             return imagecreatefromjpeg($this->uploadedFile);
         } elseif ($this->isPNG()) {
@@ -59,16 +54,14 @@ class ImageMaker
     /**
      * @return bool
      */
-    private function isJPG()
-    {
+    private function isJPG() {
         return in_array($this->getExtension(), ["jpg", "jpeg", "JPG", "JPEG"]);
     }
 
     /**
      * @return mixed
      */
-    private function getExtension()
-    {
+    private function getExtension() {
         if (!$this->extension) {
             $this->extension = pathinfo($this->uploadedFile->getClientOriginalName(), PATHINFO_EXTENSION);
         }
@@ -78,8 +71,7 @@ class ImageMaker
     /**
      * @return bool
      */
-    private function isPNG()
-    {
+    private function isPNG() {
         return in_array($this->getExtension(), ["png", "PNG"]);
     }
 
@@ -88,8 +80,7 @@ class ImageMaker
      * @param $maxWidth
      * @return resource|false
      */
-    private function getVirtualImage($source, $maxWidth)
-    {
+    private function getVirtualImage($source, $maxWidth) {
         $width = imagesx($source);
         $height = imagesy($source);
         $maxHeight = intval(floor($height * ($maxWidth / $width)));
@@ -102,8 +93,7 @@ class ImageMaker
      * @param $virtualImage
      * @return bool|string|null
      */
-    private function saveVirtualImage($virtualImage)
-    {
+    private function saveVirtualImage($virtualImage) {
         $destination = $this->getDestination();
         if (
             ($this->isJPG() && imagejpeg($virtualImage, $destination)) ||
@@ -117,8 +107,7 @@ class ImageMaker
     /**
      * @return string|false
      */
-    private function getDestination()
-    {
+    private function getDestination() {
         $destination = false;
         while (true) {
             $destination = sys_get_temp_dir() . "/" . uniqid() . "." . $this->getExtension();
@@ -131,8 +120,7 @@ class ImageMaker
      * @param $destination
      * @return string
      */
-    public function convertBase64($destination)
-    {
+    public function convertBase64($destination) {
         $data = base64_encode(file_get_contents($destination));
         return "data:image/" . $this->getExtension() . ";base64," . $data;
     }
@@ -141,8 +129,7 @@ class ImageMaker
      * @param $uploadedFile
      * @return string
      */
-    public static function convertUploadedFile2Base64($uploadedFile)
-    {
+    public static function convertUploadedFile2Base64($uploadedFile) {
         $data = base64_encode(file_get_contents($uploadedFile));
         $type = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_EXTENSION);
         return "data:image/" . $type . ";base64," . $data;

@@ -7,19 +7,16 @@ use App\Question;
 use App\QuestionCategory;
 use App\QuestionsInTests;
 
-class QuestionsInTestsController extends ApplicationController
-{
+class QuestionsInTestsController extends ApplicationController {
     /**
      * @param Test $test
      * @param QuestionCategory $questionCategory
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Test $test, QuestionCategory $questionCategory)
-    {
+    public function index(Test $test, QuestionCategory $questionCategory) {
         $questionCategories = \Auth::user()->questionCategories()->notRemoved()->withoutFather()->get();
         $nonRemoved = \Auth::user()->questions()->notRemoved();
-        $questions = (isset($questionCategory) ? $nonRemoved->fromCategory($questionCategory) :
-            $nonRemoved->withoutCategory())->get();
+        $questions = (isset($questionCategory) ? $nonRemoved->fromCategory($questionCategory) : $nonRemoved->withoutCategory())->get();
         return view("question_in_test.form", [
             "test" => $test,
             "questions" => $questions,
@@ -33,8 +30,7 @@ class QuestionsInTestsController extends ApplicationController
      * @param Question $question
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function store(Test $test, Question $question)
-    {
+    public function store(Test $test, Question $question) {
         $stored = QuestionsInTests::create([
             "question_id" => $question->id,
             "test_id" => $test->id
@@ -47,8 +43,7 @@ class QuestionsInTestsController extends ApplicationController
      * @param Question $question
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function destroy(Test $test, Question $question)
-    {
+    public function destroy(Test $test, Question $question) {
         $questionInTest = QuestionsInTests::where([
             "question_id" => $question->id,
             "test_id" => $test->id

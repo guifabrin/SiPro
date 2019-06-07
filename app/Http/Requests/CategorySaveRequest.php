@@ -5,15 +5,13 @@ namespace App\Http\Requests;
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategorySaveRequest extends FormRequest
-{
+class CategorySaveRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return Auth::check();
     }
 
@@ -22,8 +20,7 @@ class CategorySaveRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return[
             "description" => "required",
         ];

@@ -2,8 +2,7 @@
 
 namespace App;
 
-class QuestionsInTests extends ApplicationModel
-{
+class QuestionsInTests extends ApplicationModel {
     /**
      * Indicates if the model should be timestamped.
      *

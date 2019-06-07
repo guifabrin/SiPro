@@ -8,11 +8,11 @@ use Closure;
 
 class CheckWordpress
 {
-    private function userFindOrCreate($id, $email){
+    private function userFindOrCreate($id, $email) {
         $user = User::where('wp_user_id', $id)->first();
         if ($user) return $user;
         $user = User::where('email', $email)->first();
-        if ($user){
+        if ($user) {
             $user->update(['wp_user_id' => $id]);
             return $user;
         }
@@ -29,8 +29,7 @@ class CheckWordpress
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
+    public function handle($request, Closure $next) {
         $dotenv = \Dotenv\Dotenv::create(__DIR__ . "/../../../");
         $dotenv->load();
         $wpLoadFile = env('WORDPRESS_PATH') . 'wp-load.php';

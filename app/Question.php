@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class Question extends ApplicationModel
-{
+class Question extends ApplicationModel {
     /**
      * Indicates if the model should be timestamped.
      *
@@ -42,8 +41,7 @@ class Question extends ApplicationModel
      * @param QuestionCategory $questionCategory
      * @return Builder
      */
-    public function scopeFromCategory(Builder $query, QuestionCategory $questionCategory)
-    {
+    public function scopeFromCategory(Builder $query, QuestionCategory $questionCategory) {
         return $query->where("category_id", $questionCategory->id);
     }
 
@@ -53,8 +51,7 @@ class Question extends ApplicationModel
      * @param Builder $query
      * @return Builder
      */
-    public function scopeWithoutCategory(Builder $query)
-    {
+    public function scopeWithoutCategory(Builder $query) {
         return $query->where("category_id", null);
     }
 
@@ -63,8 +60,7 @@ class Question extends ApplicationModel
      *
      * @return string|null
      */
-    public function thumbImage()
-    {
+    public function thumbImage() {
         try {
             return $this->image()->first()->imageb64_thumb;
         } catch (\Exception $e) {
@@ -77,8 +73,7 @@ class Question extends ApplicationModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function image()
-    {
+    public function image() {
         return $this->hasOne("App\Image", "id", "image_id");
     }
 
@@ -88,8 +83,7 @@ class Question extends ApplicationModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function options()
-    {
+    public function options() {
         return $this->hasMany("App\Option");
     }
 
@@ -99,8 +93,7 @@ class Question extends ApplicationModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function category()
-    {
+    public function category() {
         return $this->hasOne("App\QuestionCategory", "id", "category_id");
     }
 
@@ -109,8 +102,7 @@ class Question extends ApplicationModel
      * @param Test $test
      * @return bool
      */
-    public function inTest(Test $test)
-    {
+    public function inTest(Test $test) {
         return QuestionsInTests::where("question_id", $this->id)->where("test_id", $test->id)->first() != null;
     }
 
