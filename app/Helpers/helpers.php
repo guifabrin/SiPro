@@ -33,3 +33,9 @@ if (!function_exists('random_uuid')) {
         return "ru_".md5(uniqid(rand(), true));
     }
 }
+if (!function_exists('get_item_from_array')){
+    function get_item_from_array($array, $key)
+    {
+        return (array_key_exists($key, $array)) ? $array[$key] : NULL;
+    }
+}
