@@ -19,6 +19,7 @@ class QuestionSaver
     private $options;
     private $request;
     private $question;
+    private $descriptive;
 
     public static function run(Request $request, Question $question = null)
     {
