@@ -59,8 +59,5 @@ Configurar as seguintes chaves:
 - Na pasta 'shared' após o primeiro deploy, criar o arquivo .env e adicionar a parte relacionada apenas ao Laravel.
 - Configurar apache para apontar para a pasta 'current' do deploy.
 
-# Sistema Online
-> Atualmente o sistema está dispível em [https://guifabrin.dev/sipro](https://guifabrin.dev/sipro) é gratuíto e você pode usar quando quiser.
-
 # Contribuições
 Toda contribuição é bem vinda.
