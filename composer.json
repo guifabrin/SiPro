@@ -23,7 +23,7 @@
     "sentry/sentry-laravel": "1.1.0"
   },
   "require-dev": {
-    "filp/whoops": "2.4.1",
+    "filp/whoops": "2.5.0",
     "fzaninotto/faker": "1.8.0",
     "mockery/mockery": "1.2.3",
     "phpunit/phpunit": "8.2.4"
