@@ -24,7 +24,7 @@
   },
   "require-dev": {
     "filp/whoops": "2.5.0",
-    "fzaninotto/faker": "1.8.0",
+    "fzaninotto/faker": "1.9.1",
     "mockery/mockery": "1.2.3",
     "phpunit/phpunit": "8.3.4"
   },
