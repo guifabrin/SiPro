@@ -20,7 +20,7 @@
     "fideloper/proxy": "4.2.0",
     "laravel/framework": "5.8.24.1",
     "laravel/tinker": "1.0.10",
-    "sentry/sentry-laravel": "1.1.1"
+    "sentry/sentry-laravel": "1.7.0"
   },
   "require-dev": {
     "filp/whoops": "2.5.0",
