@@ -14,13 +14,13 @@ class CreateQuestionTable extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('category_id')->nullable()->unsigned();
+            $table->id();
+            $table->biginteger('category_id')->nullable()->unsigned();
             $table->foreign('category_id')->references('id')->on('question_categories');
-            $table->integer('user_id')->unsigned();
+            $table->biginteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('description');
-            $table->integer('image_id')->nullable()->unsigned();
+            $table->biginteger('image_id')->nullable()->unsigned();
             $table->foreign('image_id')->references('id')->on('images');
             $table->integer('type');
             $table->integer('lines');

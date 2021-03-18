@@ -14,10 +14,10 @@ class CreateQuestionCategoryTable extends Migration
     public function up()
     {
         Schema::create('question_categories', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('father_id')->nullable()->unsigned();
+            $table->id();
+            $table->biginteger('father_id')->nullable()->unsigned();
             $table->foreign('father_id')->references('id')->on('question_categories');
-            $table->integer('user_id')->unsigned();
+            $table->biginteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('description');
             $table->boolean('soft_delete');

@@ -14,11 +14,11 @@ class CreateOptionsTable extends Migration
     public function up()
     {
         Schema::create('options', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('question_id')->unsigned();
+            $table->id();
+            $table->biginteger('question_id')->unsigned();
             $table->foreign('question_id')->references('id')->on('questions');
             $table->string('description');
-            $table->integer('image_id')->nullable()->unsigned();
+            $table->biginteger('image_id')->nullable()->unsigned();
             $table->foreign('image_id')->references('id')->on('images');
             $table->boolean('correct');
             $table->timestamps();

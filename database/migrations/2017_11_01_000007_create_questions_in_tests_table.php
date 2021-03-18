@@ -14,11 +14,11 @@ class CreateQuestionsInTestsTable extends Migration
     public function up()
     {
         Schema::create('questions_in_tests', function (Blueprint $table) {
-            $table->integer('test_id')->unsigned();
+            $table->biginteger('test_id')->unsigned();
             $table->foreign('test_id')->references('id')->on('tests');
-            $table->integer('question_id')->unsigned();
+            $table->biginteger('question_id')->unsigned();
             $table->foreign('question_id')->references('id')->on('questions');
-            $table->unique(['test_id', 'question_id']);
+            $table->unique(['test_id', 'question_id'], 'questions_in_tests_unique');
             $table->timestamps();
         });
     }
