@@ -1,12 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-if (isset($_SERVER['argv'][0]) && $_SERVER['argv'][0] == "artisan" &&
-    isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == "optimize" &&
-    isset($_SERVER['argv'][2]) && $_SERVER['argv'][2] == "--force") {
-    unset($_SERVER['argv'][2]);
-}
-
 define('LARAVEL_START', microtime(true));
 
 /*
@@ -21,9 +15,9 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
-$app = require_once __DIR__ . '/bootstrap/app.php';
+$app = require_once __DIR__.'/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
