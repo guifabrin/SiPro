@@ -35,8 +35,5 @@ Ubuntu:
 - Executar: php composer install
 - Executar: php artisan key:generate
 
-# Sistema Online
+# Sistema Offline
 > Atualmente o sistema está indisponível mas pode ser usado para consultas futuras.
-
-# Contribuições
-Toda contribuição é bem vinda.
