@@ -10742,7 +10742,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /workspace/sipro/resources/assets/js/questions_in_tests/form.js */"./resources/assets/js/questions_in_tests/form.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\sipro_laravel\resources\assets\js\questions_in_tests\form.js */"./resources/assets/js/questions_in_tests/form.js");
 
 
 /***/ })

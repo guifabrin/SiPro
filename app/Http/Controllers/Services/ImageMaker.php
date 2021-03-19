@@ -132,7 +132,7 @@ class ImageMaker
     public function convertBase64($destination)
     {
         $data = base64_encode(file_get_contents($destination));
-        return $base64 = "data:image/" . $this->getExtension() . ";base64," . $data;
+        return "data:image/" . $this->getExtension() . ";base64," . $data;
     }
 
     /**
@@ -143,7 +143,7 @@ class ImageMaker
     {
         $data = base64_encode(file_get_contents($uploadedFile));
         $type = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_EXTENSION);
-        return $base64 = "data:image/" . $type . ";base64," . $data;
+        return "data:image/" . $type . ";base64," . $data;
     }
 
 }

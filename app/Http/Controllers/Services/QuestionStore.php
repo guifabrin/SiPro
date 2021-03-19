@@ -68,8 +68,7 @@ class QuestionStore
     public function validate()
     {
         $array = [
-            "description" => "required",
-            "image" => "image|mimes:jpeg,png,jpg,gif,svg|max:1024",
+            "description" => "required"
         ];
         if ($this->input["type"] == QuestionController::DESCRIPTIVE) {
             $array["lines"] = "required";
